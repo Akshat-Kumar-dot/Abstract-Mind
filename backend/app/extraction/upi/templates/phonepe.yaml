@@ -1,0 +1,15 @@
+# Starting point for PhonePe receipts. Fit the labels to real (blurred) samples.
+app: PhonePe
+detect: ["phonepe"]
+fields:
+  utr:
+    labels: ["UTR No", "UTR", "UPI Ref No", "UPI Ref"]
+  app_txn_id:
+    labels: ["Transaction ID", "Transaction Id"]
+    pattern: '\bT[0-9A-Z]{14,}\b'
+  receiver:
+    labels: ["Paid to", "Sent to", "To"]
+  sender:
+    labels: ["Debited from", "Paid from", "From"]
+  note:
+    labels: ["Message", "Note"]

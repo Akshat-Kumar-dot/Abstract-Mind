@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>EasyChair-style form test</title>
+<link rel="stylesheet" href="tests.css">
+</head>
+<body>
+<h1>New submission (EasyChair-style layout)</h1>
+<p>Labels sit in the table cell before each field, names are numbered per author, and the keywords box asks for one per line.</p>
+<form id="f" onsubmit="return false">
+  <h2>Authors</h2>
+  <table>
+    <tr><th colspan="2">Author 1</th></tr>
+    <tr><td>First name<span>*</span>:</td><td><input name="first_name1"></td></tr>
+    <tr><td>Last name<span>*</span>:</td><td><input name="last_name1"></td></tr>
+    <tr><td>Email<span>*</span>:</td><td><input name="email1"></td></tr>
+    <tr><td>Country/region<span>*</span>:</td><td><select name="country1"><option value="">-- select --</option><option>China</option><option>India</option><option>Switzerland</option><option>United Kingdom</option><option>United States</option></select></td></tr>
+    <tr><td>Organization<span>*</span>:</td><td><input name="organization1"></td></tr>
+    <tr><td>Web page:</td><td><input name="url1"></td></tr>
+    <tr><td></td><td><label><input type="checkbox" name="corresponding1"> corresponding author</label></td></tr>
+    <tr><th colspan="2">Author 2</th></tr>
+    <tr><td>First name<span>*</span>:</td><td><input name="first_name2"></td></tr>
+    <tr><td>Last name<span>*</span>:</td><td><input name="last_name2"></td></tr>
+    <tr><td>Email<span>*</span>:</td><td><input name="email2"></td></tr>
+    <tr><td>Country/region<span>*</span>:</td><td><select name="country2"><option value="">-- select --</option><option>China</option><option>India</option><option>Switzerland</option><option>United Kingdom</option><option>United States</option></select></td></tr>
+    <tr><td>Organization<span>*</span>:</td><td><input name="organization2"></td></tr>
+    <tr><td>Web page:</td><td><input name="url2"></td></tr>
+    <tr><td></td><td><label><input type="checkbox" name="corresponding2"> corresponding author</label></td></tr>
+  </table>
+  <h2>Title and abstract</h2>
+  <table>
+    <tr><td>Title<span>*</span>:</td><td><input name="title" size="60"></td></tr>
+    <tr><td>Abstract<span>*</span>:</td><td><textarea name="abstract" rows="6" cols="60"></textarea></td></tr>
+    <tr><td>Keywords<span>*</span>:</td><td><textarea name="keywords" rows="4"></textarea><div class="help">Type a list of keywords, one per line.</div></td></tr>
+  </table>
+  <button type="submit">Submit</button>
+</form>
+<section id="results">Running…</section>
+<script src="../extension/shared.js"></script>
+<script src="../extension/fill.js"></script>
+<script src="harness.js"></script>
+<script>
+(async () => {
+  const T = FormTest;
+  const data = await T.load("sample-paper.json", (d) => {
+    d.fields.keywords = { value: ["glaciers", "radar", "machine learning"], status: "verified", label: "Keywords" };
+  });
+  let submitted = false;
+  document.getElementById("f").addEventListener("submit", () => (submitted = true));
+  const report = window.__abstractMind.fill(data, {});
+  T.expect("author 1 first name", T.value("[name=first_name1]"), "Asha");
+  T.expect("author 1 last name", T.value("[name=last_name1]"), "Raman");
+  T.expect("author 1 email", T.value("[name=email1]"), "a.raman@geo.uzh.ch");
+  T.expect("author 1 country (select)", T.value("[name=country1]"), "Switzerland");
+  T.expect("author 1 organization", T.value("[name=organization1]"), "University of Zurich");
+  T.expect("author 1 corresponding ticked", T.value("[name=corresponding1]"), true);
+  T.expect("author 2 first name", T.value("[name=first_name2]"), "Lukas");
+  T.expect("author 2 last name", T.value("[name=last_name2]"), "Brandt");
+  T.expect("author 2 email left empty (not in paper)", T.value("[name=email2]"), "");
+  T.expect("author 2 not corresponding", T.value("[name=corresponding2]"), false);
+  T.expect("web page untouched", T.value("[name=url1]"), "");
+  T.expect("title", T.value("[name=title]"), "Mapping glacier retreat with satellite radar and machine learning");
+  T.expect("abstract starts right", T.value("[name=abstract]").startsWith("Glaciers are retreating faster"), true);
+  T.expect("keywords one per line", T.value("[name=keywords]"), "glaciers\nradar\nmachine learning");
+  T.expect("warns about missing author blocks", report.warnings.some((w) => /2 author blocks; the paper has 4/.test(w)), true);
+  T.expect("web page listed as left for you", report.unmatched.includes("Web page:"), true);
+  T.expect("filled fields are outlined", document.querySelectorAll("[data-abstract-mind]").length, report.filled.length);
+  T.expect("never submitted", submitted, false);
+  // A second run keeps everything already typed.
+  document.querySelector("[name=title]").value = "My own title";
+  const again = window.__abstractMind.fill(data, {});
+  T.expect("second run keeps your edits", T.value("[name=title]"), "My own title");
+  T.expect("second run fills nothing new", again.filled.length, 0);
+  T.done(report);
+})();
+</script>
+</body>
+</html>

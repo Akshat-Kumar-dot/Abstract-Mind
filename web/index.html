@@ -1,0 +1,447 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Abstract Mind</title>
+  <meta name="description" content="Upload a research manuscript or a UPI receipt and get the details forms ask for: title, authors in order, affiliations, emails, declarations, counts, or UTR, amount and date. Saved extractions are encrypted in your browser, so only you can read them.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,400..600,50&family=Schibsted+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="assets/css/app.css">
+  <script type="module" src="assets/js/main.js"></script>
+</head>
+<body>
+  <!-- Line icons, drawn on a 24px grid with one stroke weight -->
+  <svg class="sprite" aria-hidden="true">
+    <defs>
+      <symbol id="i-mark" viewBox="0 0 32 32"><path d="M8 3.5h11l7 7V27a1.5 1.5 0 0 1-1.5 1.5h-16A1.5 1.5 0 0 1 7 27V5a1.5 1.5 0 0 1 1-1.5z" fill="currentColor" stroke="none"/><path d="M19 3.5v5.5a1.5 1.5 0 0 0 1.5 1.5H26" fill="var(--accent)" stroke="var(--accent)" stroke-width="1.5" stroke-linejoin="round"/><path d="M11.5 15h9M11.5 19h9M11.5 23h5.5" stroke="var(--bg)" stroke-width="1.6" stroke-linecap="round"/></symbol>
+      <symbol id="i-library" viewBox="0 0 24 24"><path d="M4 4v16M8 6v14M12 4v16M15.5 6.5 19.6 19.6"/></symbol>
+      <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+      <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 15V4M7.5 8.5 12 4l4.5 4.5"/><path d="M4 14.5V18a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3.5"/></symbol>
+      <symbol id="i-paper" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></symbol>
+      <symbol id="i-receipt" viewBox="0 0 24 24"><path d="M6 3h12v18l-2.5-1.6L13 21l-2.5-1.6L8 21l-2-1.3z"/><path d="M9 8h6M9 11.5h6M9 15h3"/></symbol>
+      <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.4-4.4"/></symbol>
+      <symbol id="i-star" viewBox="0 0 24 24"><path d="m12 3.5 2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></symbol>
+      <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M9.5 7V4.5h5V7M6.5 7l.9 12.2a1.5 1.5 0 0 0 1.5 1.3h6.2a1.5 1.5 0 0 0 1.5-1.3L17.5 7M10 11v6M14 11v6"/></symbol>
+      <symbol id="i-logout" viewBox="0 0 24 24"><path d="M9 20.5H5.5a1.5 1.5 0 0 1-1.5-1.5V5a1.5 1.5 0 0 1 1.5-1.5H9M15.5 16.5 20 12l-4.5-4.5M20 12H9"/></symbol>
+      <symbol id="i-back" viewBox="0 0 24 24"><path d="M19 12H5M11 18l-6-6 6-6"/></symbol>
+      <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8.5" y="8.5" width="12" height="12" rx="2"/><path d="M15.5 8.5V5a1.5 1.5 0 0 0-1.5-1.5H5A1.5 1.5 0 0 0 3.5 5v9A1.5 1.5 0 0 0 5 15.5h3.5"/></symbol>
+      <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v11M7.5 10.5 12 15l4.5-4.5M5 20h14"/></symbol>
+      <symbol id="i-bookmark" viewBox="0 0 24 24"><path d="M6.5 3.5h11v17L12 16.5l-5.5 4z"/></symbol>
+      <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6.5 6.5-6.5s6.5 2.9 6.5 6.5M16 4.6a3.5 3.5 0 0 1 0 6.8M21.5 20c0-2.8-1.6-5-4-6"/></symbol>
+      <symbol id="i-book" viewBox="0 0 24 24"><path d="M3 5h5.5A3.5 3.5 0 0 1 12 8.5V20a2.5 2.5 0 0 0-2.5-2.5H3zM21 5h-5.5A3.5 3.5 0 0 0 12 8.5V20a2.5 2.5 0 0 1 2.5-2.5H21z"/></symbol>
+      <symbol id="i-seal" viewBox="0 0 24 24"><path d="M15 3.5h3a1.5 1.5 0 0 1 1.5 1.5v15a1.5 1.5 0 0 1-1.5 1.5H6A1.5 1.5 0 0 1 4.5 20V5A1.5 1.5 0 0 1 6 3.5h3"/><rect x="9" y="2" width="6" height="3.5" rx="1"/><path d="m8.5 13.5 2.5 2.5 4.5-5"/></symbol>
+      <symbol id="i-hash" viewBox="0 0 24 24"><path d="M4.5 9h16M3.5 15h16M10.5 3.5 8.5 20.5M15.5 3.5l-2 17"/></symbol>
+      <symbol id="i-swap" viewBox="0 0 24 24"><path d="M7.5 3.5 3.5 7.5l4 4M3.5 7.5h14M16.5 20.5l4-4-4-4M20.5 16.5h-14"/></symbol>
+      <symbol id="i-pen" viewBox="0 0 24 24"><path d="M4 20h4L19 9a2.1 2.1 0 0 0-3-3L5 17z"/><path d="m14 8 3 3"/></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+      <symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5v5.5M12 16.5v.01"/></symbol>
+      <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 11v5.5M12 7.5v.01"/></symbol>
+      <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8.5 10.5V7.5a3.5 3.5 0 0 1 7 0v3"/></symbol>
+      <symbol id="i-layers" viewBox="0 0 24 24"><path d="m12 3.5 9 4.5-9 4.5L3 8z"/><path d="m3 12 9 4.5 9-4.5M3 16l9 4.5 9-4.5"/></symbol>
+      <symbol id="i-code" viewBox="0 0 24 24"><path d="m8.5 7-5 5 5 5M15.5 7l5 5-5 5"/></symbol>
+      <symbol id="i-external" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-8.5 8.5M18 14v4.5a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 4 18.5v-11A1.5 1.5 0 0 1 5.5 6H10"/></symbol>
+      <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+      <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></symbol>
+      <symbol id="i-tag" viewBox="0 0 24 24"><path d="M3.5 12.2V4.5a1 1 0 0 1 1-1h7.7l8.3 8.3a1.5 1.5 0 0 1 0 2.1l-6.2 6.2a1.5 1.5 0 0 1-2.1 0z"/><circle cx="8" cy="8" r="1.3"/></symbol>
+      <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+      <symbol id="i-building" viewBox="0 0 24 24"><path d="M4 20.5h16M6 20.5V8l6-4.5L18 8v12.5M9.5 20.5v-4h5v4M9.5 10.5h.01M14.5 10.5h.01M9.5 13.5h.01M14.5 13.5h.01"/></symbol>
+      <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4.5 20.5c0-4.1 3.4-7 7.5-7s7.5 2.9 7.5 7"/></symbol>
+      <symbol id="i-clipboard" viewBox="0 0 24 24"><rect x="6" y="4.5" width="12" height="16" rx="1.5"/><path d="M9.5 3h5v3h-5zM9 11h6M9 14.5h6M9 18h3.5"/></symbol>
+    </defs>
+  </svg>
+
+  <!-- signed out: landing page -->
+  <div id="view-welcome" hidden>
+    <header class="site">
+      <div class="wrap bar">
+        <a class="brand" href="#/"><svg class="mark"><use href="#i-mark"/></svg><span>Abstract Mind</span></a>
+        <nav class="site-nav" aria-label="Site">
+          <a href="#/" data-jump="top">Home</a>
+          <a href="#/" data-jump="how">How it works</a>
+          <a href="#/" data-jump="features">Features</a>
+          <a href="#/" data-jump="example">Example</a>
+        </nav>
+        <div class="site-auth">
+          <button type="button" class="link-btn" data-guest>Try as guest</button>
+          <a class="link-btn" href="#/login">Log in</a>
+          <a class="primary sm" href="#/signup">Sign up</a>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero wrap" id="top">
+        <div class="hero-copy">
+          <h1>Extract research metadata in seconds.</h1>
+          <p class="lede">Upload a research paper and get the details submission forms ask for: authors in their printed order, affiliations, emails, abstract, keywords, declarations and publication details. Every extraction is saved to your library, encrypted so only you can read it.</p>
+          <div class="hero-cta">
+            <a class="primary" href="#/signup">Upload a paper <svg class="ic"><use href="#i-arrow"/></svg></a>
+            <a class="ghost lg" href="#/" data-jump="example">See an example</a>
+          </div>
+          <p class="fine">PDF, Word, LaTeX, and UPI receipts as PDF or screenshot. No account? <button type="button" class="text-btn" data-guest>Try it as a guest</button></p>
+        </div>
+
+        <div class="hero-art" aria-hidden="true">
+          <div class="sheet back"></div>
+          <div class="sheet">
+            <span class="pdf-badge">PDF</span>
+            <span class="ln w80 hit h1"></span><span class="ln w55 hit h2"></span>
+            <span class="ln w40 hit h3 gap-s"></span>
+            <span class="ln w90 gap"></span><span class="ln w85 hit h4"></span><span class="ln w70"></span><span class="ln w90"></span><span class="ln w50"></span>
+            <span class="ln w90 gap"></span><span class="ln w75 hit h5"></span><span class="ln w85"></span><span class="ln w60 hit h6"></span>
+            <span class="scan"></span>
+          </div>
+          <ul class="meta-card">
+            <li><svg class="ic"><use href="#i-users"/></svg><span class="k">Authors<small>8 in printed order</small></span><svg class="ic tick"><use href="#i-check"/></svg></li>
+            <li><svg class="ic"><use href="#i-building"/></svg><span class="k">Affiliations<small>3 linked to authors</small></span><svg class="ic tick"><use href="#i-check"/></svg></li>
+            <li><svg class="ic"><use href="#i-paper"/></svg><span class="k">Abstract<small>162 words</small></span><svg class="ic tick"><use href="#i-check"/></svg></li>
+            <li><svg class="ic"><use href="#i-tag"/></svg><span class="k">Keywords<small>4 found</small></span><svg class="ic tick"><use href="#i-check"/></svg></li>
+            <li><svg class="ic"><use href="#i-seal"/></svg><span class="k">Declarations<small>Funding, conflicts</small></span><svg class="ic tick"><use href="#i-check"/></svg></li>
+            <li><svg class="ic"><use href="#i-book"/></svg><span class="k">Publication details<small>DOI and journal</small></span><svg class="ic tick"><use href="#i-check"/></svg></li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="wrap pillars" aria-label="Why Abstract Mind">
+        <div><span class="pi"><svg class="ic"><use href="#i-check"/></svg></span><h3>Accurate extraction</h3><p>Every value is checked against the text of the paper and shows the line it came from.</p></div>
+        <div><span class="pi"><svg class="ic"><use href="#i-lock"/></svg></span><h3>Private by design</h3><p>Your library is encrypted in your browser with your password. We store it, but we can’t read it.</p></div>
+        <div><span class="pi"><svg class="ic"><use href="#i-library"/></svg></span><h3>Always accessible</h3><p>Search, star and reopen anything you've extracted, on any device you log in from.</p></div>
+      </section>
+
+      <section class="band" id="how">
+        <div class="wrap">
+          <h2>How it works</h2>
+          <ol class="how">
+            <li><span class="num">1</span><h3>Upload your file</h3><p>Drop in a manuscript as PDF, Word or LaTeX. The file is read in memory, never stored and never logged.</p></li>
+            <li><span class="num">2</span><h3>We read the structure</h3><p>The header, abstract, declarations and references are found from the layout, so cited authors never appear as authors.</p></li>
+            <li><span class="num">3</span><h3>Check, copy, done</h3><p>Every field is marked verified or worth a look. Edit anything; it’s encrypted before it’s saved.</p></li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="wrap feat" id="features">
+        <h2>What you get from every paper</h2>
+        <ul>
+          <li><svg class="ic"><use href="#i-users"/></svg><div><b>Authors in order</b><span>First and last names, emails, ORCID iDs and the corresponding author.</span></div></li>
+          <li><svg class="ic"><use href="#i-building"/></svg><div><b>Affiliations</b><span>Department, institution, city and country, linked to each author by markers.</span></div></li>
+          <li><svg class="ic"><use href="#i-paper"/></svg><div><b>Title, abstract, keywords</b><span>Exactly as printed, ready to paste.</span></div></li>
+          <li><svg class="ic"><use href="#i-seal"/></svg><div><b>Declarations</b><span>Funding and grant numbers, conflicts of interest, data availability, ethics.</span></div></li>
+          <li><svg class="ic"><use href="#i-book"/></svg><div><b>Publication details</b><span>DOI, publisher, journal, volume and dates for published papers.</span></div></li>
+          <li><svg class="ic"><use href="#i-hash"/></svg><div><b>Counts</b><span>Pages, words, figures, tables and references.</span></div></li>
+        </ul>
+      </section>
+
+      <section class="band" id="example">
+        <div class="wrap example">
+          <div>
+            <h2>What an extraction looks like</h2>
+            <p class="lede">Each paper gets its own page with an overview, the abstract, every author, declarations and counts. Rows marked with a dot are worth a second look.</p>
+            <a class="primary" href="#/signup">Try it with your paper <svg class="ic"><use href="#i-arrow"/></svg></a>
+          </div>
+          <div class="sec boxed sample" aria-label="Sample extraction">
+            <header class="sec-head"><h2>Basic information</h2></header>
+            <dl class="rows">
+              <div class="row"><dt>Title</dt><dd><div class="val">Attention Is All You Need</div></dd></div>
+              <div class="row"><dt>Authors</dt><dd><div class="val">Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N. Gomez, Łukasz Kaiser, Illia Polosukhin</div></dd></div>
+              <div class="row"><dt>Year</dt><dd><div class="val">2017</div></dd></div>
+              <div class="row"><dt>Venue<span class="dot check"></span></dt><dd><div class="val">Advances in Neural Information Processing Systems (NeurIPS)</div></dd></div>
+              <div class="row"><dt>DOI</dt><dd><div class="val"><a href="https://doi.org/10.48550/arXiv.1706.03762" target="_blank" rel="noopener">10.48550/arXiv.1706.03762<svg class="ic"><use href="#i-external"/></svg></a></div></dd></div>
+            </dl>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="wrap site-foot">
+      <a class="brand" href="#/"><svg class="mark"><use href="#i-mark"/></svg><span>Abstract Mind</span></a>
+      <p>Check every field before you submit it.</p>
+    </footer>
+  </div>
+
+  <!-- signed out: log in / sign up -->
+  <div id="view-auth" class="auth-page" hidden>
+    <a class="brand" href="#/"><svg class="mark"><use href="#i-mark"/></svg><span>Abstract Mind</span></a>
+    <section class="auth" aria-labelledby="auth-title">
+      <h1 id="auth-title">Welcome to Abstract Mind</h1>
+      <p class="auth-sub" id="auth-sub">Sign in to save every paper you extract.</p>
+      <p id="signin-error" class="form-error signin-error" role="alert" hidden></p>
+
+      <a id="google-go" class="google-btn" href="/api/v1/auth/google/start">
+        <svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+        <span>Continue with Google</span>
+      </a>
+      <p id="google-off" class="google-off" hidden>Google sign-in isn't switched on for this server yet.</p>
+
+      <div id="guest-block">
+        <div class="or"><span>or</span></div>
+        <button type="button" class="ghost lg block" data-guest><svg class="ic"><use href="#i-user"/></svg>Continue as guest</button>
+        <p class="guest-note">No account needed. Your papers are kept in this browser until you log out, and you can continue with Google any time to keep them for good.</p>
+      </div>
+
+      <details id="email-block" class="email-block">
+        <summary>Log in with email</summary>
+        <form id="auth-form" novalidate>
+          <label class="ln"><span>Email</span><input id="auth-email" type="email" autocomplete="email" required placeholder="you@university.edu"></label>
+          <label class="ln"><span>Password</span><input id="auth-password" type="password" autocomplete="current-password" required placeholder="Your password"></label>
+          <p id="auth-error" class="form-error" role="alert" hidden></p>
+          <button id="auth-go" class="primary" type="submit">Log in</button>
+        </form>
+      </details>
+    </section>
+    <a class="back" href="#/"><svg class="ic"><use href="#i-back"/></svg>Back to home</a>
+  </div>
+
+  <!-- signed in with Google for the first time: set the password that locks the library -->
+  <div id="view-password" class="auth-page" hidden>
+    <a class="brand" href="#/"><svg class="mark"><use href="#i-mark"/></svg><span>Abstract Mind</span></a>
+    <section class="auth" aria-labelledby="password-title">
+      <h1 id="password-title">Set a password to continue</h1>
+      <p class="auth-sub" id="password-sub"></p>
+      <form id="password-form" novalidate>
+        <label class="ln"><span>Password</span><input id="new-password" type="password" autocomplete="new-password" required placeholder="At least 10 characters"></label>
+        <label class="ln"><span>Type it again</span><input id="new-password-2" type="password" autocomplete="new-password" required></label>
+        <p class="key-note"><svg class="ic"><use href="#i-lock"/></svg><span>This password locks your papers so only you can read them. You'll type it once on each new device. Nobody, including Abstract Mind, can reset it, so keep it somewhere safe.</span></p>
+        <p id="password-error" class="form-error" role="alert" hidden></p>
+        <button id="password-go" class="primary" type="submit">Continue</button>
+      </form>
+      <p class="auth-switch"><button type="button" class="text-btn" id="password-logout">Log out</button></p>
+    </section>
+  </div>
+
+  <!-- signed in, but this browser doesn't hold the key -->
+  <div id="view-unlock" class="auth-page" hidden>
+    <a class="brand" href="#/"><svg class="mark"><use href="#i-mark"/></svg><span>Abstract Mind</span></a>
+    <section class="auth" aria-labelledby="unlock-title">
+      <h1 id="unlock-title">Unlock your library</h1>
+      <p class="auth-sub" id="unlock-sub"></p>
+      <form id="unlock-form" novalidate>
+        <label class="ln"><span>Password</span><input id="unlock-password" type="password" autocomplete="current-password" required></label>
+        <p id="unlock-error" class="form-error" role="alert" hidden></p>
+        <button id="unlock-go" class="primary" type="submit">Unlock</button>
+      </form>
+      <p class="auth-switch"><button type="button" class="text-btn" id="unlock-logout">Log out</button></p>
+    </section>
+  </div>
+
+  <!-- signed in -->
+  <div id="view-app" hidden>
+    <header class="top">
+      <div class="bar app-bar">
+        <a class="brand" href="#/"><svg class="mark"><use href="#i-mark"/></svg><span>Abstract Mind</span></a>
+        <div class="who">
+          <span id="engine" class="engine" title="What reads your file"></span>
+          <a id="avatar" class="avatar" href="#/account" aria-label="Account settings"></a>
+        </div>
+      </div>
+    </header>
+
+    <!-- library / dashboard -->
+    <div id="page-library" class="shell" hidden>
+      <aside class="side" aria-label="Library">
+        <a class="primary block" href="#/new"><svg class="ic"><use href="#i-plus"/></svg>Upload paper</a>
+        <nav class="side-nav">
+          <a href="#/" data-nav="all"><svg class="ic"><use href="#i-paper"/></svg>My papers<span class="n" id="n-all"></span></a>
+          <a href="#/starred" data-nav="starred"><svg class="ic"><use href="#i-star"/></svg>Starred<span class="n" id="n-starred"></span></a>
+          <a href="#/receipts" data-nav="receipts"><svg class="ic"><use href="#i-receipt"/></svg>Receipts<span class="n" id="n-receipts"></span></a>
+        </nav>
+        <div class="side-foot">
+          <div class="guest-card" id="guest-card" hidden>
+            <b>You're using a guest account</b>
+            <span>Your papers are encrypted and kept in this browser until you log out.</span>
+            <a class="primary sm block" href="#/keep">Create account to keep them</a>
+          </div>
+          <div class="side-count">
+            <span>Extracted so far</span>
+            <strong id="side-total">0</strong>
+            <small id="side-week"></small>
+          </div>
+          <a href="#/account" class="side-link"><svg class="ic"><use href="#i-user"/></svg>Account</a>
+          <button type="button" id="logout" class="side-link"><svg class="ic"><use href="#i-logout"/></svg>Log out</button>
+        </div>
+      </aside>
+
+      <main class="lib">
+        <header class="lib-head">
+          <div>
+            <h1 id="lib-title">My papers</h1>
+            <p class="lib-line" id="tally-line"></p>
+            <p class="ledger" id="ledger"></p>
+          </div>
+          <div class="pile" aria-hidden="true">
+            <svg id="stack" viewBox="0 0 140 96"></svg>
+            <div class="pile-n"><strong id="big-n">0</strong><span id="big-n-label">documents</span></div>
+          </div>
+        </header>
+
+        <div class="shelf-tools">
+          <label class="search"><svg class="ic"><use href="#i-search"/></svg><input id="q" type="search" placeholder="Search papers by title, author, file…" aria-label="Search your papers"></label>
+          <label class="sort"><span class="sr">Sort</span>
+            <select id="sort">
+              <option value="new">Newest</option>
+              <option value="old">Oldest</option>
+              <option value="title">Title A–Z</option>
+              <option value="found">Most fields found</option>
+            </select>
+          </label>
+        </div>
+        <ol id="shelf" class="entries"></ol>
+        <div id="empty" class="empty" hidden>
+          <svg viewBox="0 0 120 90" class="empty-art" aria-hidden="true">
+            <path d="M28 18h44l14 14v46H28z" transform="rotate(-6 57 48)" />
+            <path d="M36 12h44l14 14v46H36z" />
+            <path d="M80 12v14h14M46 40h36M46 49h36M46 58h22" />
+          </svg>
+          <h3 id="empty-title">No papers yet</h3>
+          <p id="empty-text">Your first extraction will show up here, along with a running count.</p>
+          <a class="primary" href="#/new"><svg class="ic"><use href="#i-upload"/></svg>Upload a paper</a>
+        </div>
+        <p id="no-match" class="no-match" hidden>Nothing matches that search.</p>
+      </main>
+    </div>
+
+    <!-- new extraction -->
+    <main id="page-new" class="wrap page narrow" hidden>
+      <a class="back" href="#/"><svg class="ic"><use href="#i-back"/></svg>Back to my papers</a>
+      <h1>Add a document</h1>
+      <p class="lede">A research manuscript (PDF, Word or LaTeX) or a UPI payment receipt (PDF or screenshot). The details are encrypted in your browser and saved to your library; the file itself is never kept.</p>
+
+      <form id="form">
+        <label id="drop" class="drop" for="file">
+          <input id="file" name="file" type="file" accept=".pdf,.docx,.tex,.png,.jpg,.jpeg,.webp" required>
+          <svg class="drop-ic"><use href="#i-upload"/></svg>
+          <span class="drop-main">Drop a file here, or <u>choose one</u></span>
+          <span class="drop-sub">PDF, DOCX, TEX, PNG, JPG or WEBP · up to <span id="limit">20</span> MB</span>
+          <span id="chosen" class="chosen" hidden></span>
+        </label>
+
+        <fieldset class="kind">
+          <legend>What is it?</legend>
+          <div class="seg" role="radiogroup">
+            <label><input type="radio" name="kind" value="auto" checked><span>Let it detect</span></label>
+            <label><input type="radio" name="kind" value="paper"><span><svg class="ic"><use href="#i-paper"/></svg>Research paper</span></label>
+            <label><input type="radio" name="kind" value="upi"><span><svg class="ic"><use href="#i-receipt"/></svg>UPI receipt</span></label>
+          </div>
+        </fieldset>
+
+        <label class="ai-row" id="ai-row" hidden>
+          <input type="checkbox" id="allow-ai">
+          <span><b>Let AI help with hard-to-read headers</b>Only if the rules miss something, the page-1 header text (title, names, affiliations) is sent to <span id="ai-provider">the AI provider</span>. Off by default.</span>
+        </label>
+
+        <button id="go" class="primary" type="submit" disabled>Extract and save</button>
+      </form>
+
+      <section id="progress" class="progress" hidden aria-live="polite">
+        <div class="notice">
+          <strong>We're reading your <span id="progress-what">document</span>.</strong>
+          <span>This usually takes a few seconds. The details are encrypted in your browser before they’re saved.</span>
+        </div>
+        <ol class="steps" id="steps">
+          <li data-step="0">Uploading</li>
+          <li data-step="1">Reading the file</li>
+          <li data-step="2">Finding the details</li>
+          <li data-step="3">Encrypting and saving</li>
+        </ol>
+        <div class="working">
+          <span class="working-doc"><svg class="ic"><use href="#i-paper"/></svg></span>
+          <span class="working-bar"><span id="working-fill"></span></span>
+          <strong id="working-label">Uploading…</strong>
+          <p class="progress-note" id="progress-note"></p>
+        </div>
+      </section>
+
+      <section class="extracts" aria-labelledby="extracts-title">
+        <h2 id="extracts-title">What we extract</h2>
+        <ul>
+          <li><svg class="ic"><use href="#i-users"/></svg>Authors and affiliations</li>
+          <li><svg class="ic"><use href="#i-paper"/></svg>Title and abstract</li>
+          <li><svg class="ic"><use href="#i-tag"/></svg>Keywords</li>
+          <li><svg class="ic"><use href="#i-book"/></svg>Publication details</li>
+          <li><svg class="ic"><use href="#i-seal"/></svg>Funding and declarations</li>
+          <li><svg class="ic"><use href="#i-hash"/></svg>Word, figure and reference counts</li>
+          <li><svg class="ic"><use href="#i-receipt"/></svg>UPI amount, UTR and parties</li>
+          <li><svg class="ic"><use href="#i-pen"/></svg>Every value editable</li>
+        </ul>
+      </section>
+      <p id="status" class="status" role="status" aria-live="polite"></p>
+    </main>
+
+    <!-- one extraction -->
+    <main id="page-paper" class="wrap page" hidden>
+      <a class="back" href="#/"><svg class="ic"><use href="#i-back"/></svg>Back to my papers</a>
+      <div class="doc-head">
+        <div class="doc-title">
+          <p class="kicker" id="doc-kind"></p>
+          <h1 id="doc-title"></h1>
+          <p class="summary" id="summary"></p>
+        </div>
+        <div class="doc-actions">
+          <span id="save-state" class="save-state" aria-live="polite"></span>
+          <button type="button" id="star" class="icon-btn" aria-pressed="false" title="Star"><svg class="ic"><use href="#i-star"/></svg></button>
+          <button type="button" id="copy-all" class="ghost"><svg class="ic"><use href="#i-copy"/></svg><span>Copy all</span></button>
+          <button type="button" id="download" class="ghost"><svg class="ic"><use href="#i-download"/></svg><span>JSON</span></button>
+          <button type="button" id="remove" class="icon-btn danger" title="Delete from library" aria-label="Delete from library"><svg class="ic"><use href="#i-trash"/></svg></button>
+        </div>
+      </div>
+
+      <div class="doc-body">
+        <aside class="toc" aria-label="Sections"><ol id="toc"></ol></aside>
+        <div class="doc-main" id="results">
+          <div id="tally" class="tally"></div>
+          <ul id="warnings" class="warnings"></ul>
+          <div id="groups"></div>
+          <p class="legend"><span class="dot check"></span> probably right, worth a glance · <span class="dot needs_review"></span> needs your eye. Hover a row to copy or edit it, and check every value before you submit it.</p>
+        </div>
+      </div>
+    </main>
+    <!-- account settings -->
+    <main id="page-account" class="wrap page narrow" hidden>
+      <a class="back" href="#/"><svg class="ic"><use href="#i-back"/></svg>Back to my papers</a>
+      <h1>Account</h1>
+      <p class="lede" id="acct-line"></p>
+
+      <section class="sec boxed acct">
+        <header class="sec-head"><h2>Privacy</h2></header>
+        <ul class="privacy-list">
+          <li><svg class="ic"><use href="#i-lock"/></svg><div><b>Only you can read your library</b><span>Papers are encrypted in this browser with a key made from your password before they’re saved. The server stores scrambled text it can’t open, and so does anyone with access to it.</span></div></li>
+          <li><svg class="ic"><use href="#i-upload"/></svg><div><b>Files aren’t kept</b><span>An upload is read in memory to find the details, then dropped. It’s never written to disk or logged.</span></div></li>
+          <li><svg class="ic"><use href="#i-alert"/></svg><div><b>Your password can’t be reset</b><span>Nobody else has the key. If you forget your password, your saved papers can’t be recovered.</span></div></li>
+        </ul>
+      </section>
+
+      <section class="sec boxed acct" id="acct-guest" hidden>
+        <header class="sec-head"><h2>Keep your papers</h2></header>
+        <p class="acct-text">Guest papers live only in this browser. Add an email and password to keep them and open them anywhere.</p>
+        <a class="primary sm" href="#/keep">Create account</a>
+      </section>
+
+      <section class="sec boxed acct" id="acct-password">
+        <header class="sec-head"><h2>Change password</h2></header>
+        <form id="pw-form" class="acct-form" novalidate>
+          <label class="ln"><span>Current password</span><input id="pw-current" type="password" autocomplete="current-password" required></label>
+          <label class="ln"><span>New password</span><input id="pw-new" type="password" autocomplete="new-password" required placeholder="At least 10 characters"></label>
+          <label class="ln"><span>Repeat the new password</span><input id="pw-repeat" type="password" autocomplete="new-password" required></label>
+          <p id="pw-error" class="form-error" role="alert" hidden></p>
+          <p id="pw-done" class="form-ok" role="status" hidden></p>
+          <button id="pw-go" class="primary" type="submit">Change password</button>
+        </form>
+        <p class="fine">Your papers aren’t touched: the key that encrypts them is locked again with the new password. Other devices are signed out.</p>
+      </section>
+
+      <section class="sec boxed acct danger-zone">
+        <header class="sec-head"><h2>Delete account</h2></header>
+        <p class="acct-text">This deletes your account and every saved paper and receipt, for good.</p>
+        <form id="del-form" class="acct-form" novalidate>
+          <label class="ln" id="del-pw-row"><span>Password</span><input id="del-password" type="password" autocomplete="current-password"></label>
+          <label class="ln"><span>Type “delete my account” to confirm</span><input id="del-confirm" type="text" autocomplete="off" spellcheck="false"></label>
+          <p id="del-error" class="form-error" role="alert" hidden></p>
+          <button id="del-go" class="danger-btn" type="submit">Delete my account</button>
+        </form>
+      </section>
+    </main>
+  </div>
+
+</body>
+</html>

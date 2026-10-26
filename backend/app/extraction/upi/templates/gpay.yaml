@@ -1,0 +1,15 @@
+# Starting point for Google Pay receipts. Fit the labels to real (blurred) samples.
+app: Google Pay
+detect: ["google pay", "g pay", "gpay", "google transaction id"]
+fields:
+  utr:
+    labels: ["UPI transaction ID", "UPI Transaction ID", "UPI Ref No", "UTR"]
+  app_txn_id:
+    labels: ["Google transaction ID", "Google Transaction ID"]
+    pattern: '\b[A-Za-z0-9_\-]{10,}\b'
+  receiver:
+    labels: ["To", "Paid to"]
+  sender:
+    labels: ["From"]
+  note:
+    labels: ["Note", "Message"]

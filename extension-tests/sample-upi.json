@@ -1,0 +1,213 @@
+{
+ "kind": "upi",
+ "file_type": "pdf",
+ "pages": 1,
+ "groups": [
+  {
+   "id": "transaction",
+   "title": "Transaction",
+   "fields": [
+    {
+     "key": "amount",
+     "label": "Amount (₹)",
+     "value": "349.00",
+     "source": "rule",
+     "confidence": 0.85,
+     "status": "verified",
+     "evidence": {
+      "page": 1,
+      "text": "Rs. 349.00"
+     },
+     "note": null,
+     "long": false
+    },
+    {
+     "key": "status",
+     "label": "Status",
+     "value": "Successful",
+     "source": "rule",
+     "confidence": 0.85,
+     "status": "verified",
+     "evidence": {
+      "page": 1,
+      "text": "Paid Successfully"
+     },
+     "note": null,
+     "long": false
+    },
+    {
+     "key": "datetime",
+     "label": "Date and time (IST)",
+     "value": "2025-10-14T20:05:00+05:30",
+     "source": "rule",
+     "confidence": 0.85,
+     "status": "verified",
+     "evidence": {
+      "page": 1,
+      "text": "14 Oct 2025, 08:05 PM"
+     },
+     "note": null,
+     "long": false
+    },
+    {
+     "key": "utr",
+     "label": "UTR / UPI reference",
+     "value": "529912340001",
+     "source": "template",
+     "confidence": 0.95,
+     "status": "verified",
+     "evidence": {
+      "page": 1,
+      "text": "UPI Ref No: 529912340001"
+     },
+     "note": null,
+     "long": false
+    },
+    {
+     "key": "app_txn_id",
+     "label": "App transaction ID",
+     "value": "20251009111213141516",
+     "source": "template",
+     "confidence": 0.95,
+     "status": "verified",
+     "evidence": {
+      "page": 1,
+      "text": "Order ID: 20251009111213141516"
+     },
+     "note": null,
+     "long": false
+    },
+    {
+     "key": "app",
+     "label": "Payment app",
+     "value": "Paytm",
+     "source": "template",
+     "confidence": 0.9,
+     "status": "verified",
+     "evidence": null,
+     "note": null,
+     "long": false
+    }
+   ]
+  },
+  {
+   "id": "parties",
+   "title": "Parties",
+   "fields": [
+    {
+     "key": "receiver_name",
+     "label": "Paid to",
+     "value": "Swiggy",
+     "source": "template",
+     "confidence": 0.95,
+     "status": "verified",
+     "evidence": {
+      "page": 1,
+      "text": "To: Swiggy"
+     },
+     "note": null,
+     "long": false
+    },
+    {
+     "key": "receiver_upi",
+     "label": "Receiver UPI ID",
+     "value": "swiggy@paytm",
+     "source": "template",
+     "confidence": 0.95,
+     "status": "verified",
+     "evidence": {
+      "page": 1,
+      "text": "UPI ID: swiggy@paytm"
+     },
+     "note": null,
+     "long": false
+    },
+    {
+     "key": "sender_name",
+     "label": "Paid from",
+     "value": "Neel Shah",
+     "source": "template",
+     "confidence": 0.95,
+     "status": "verified",
+     "evidence": {
+      "page": 1,
+      "text": "From: Neel Shah, ICICI Bank - 9012"
+     },
+     "note": null,
+     "long": false
+    },
+    {
+     "key": "sender_upi",
+     "label": "Sender UPI ID",
+     "value": null,
+     "source": "none",
+     "confidence": 0.0,
+     "status": "missing",
+     "evidence": null,
+     "note": null,
+     "long": false
+    },
+    {
+     "key": "bank",
+     "label": "Bank",
+     "value": "ICICI Bank",
+     "source": "rule",
+     "confidence": 0.85,
+     "status": "verified",
+     "evidence": {
+      "page": 1,
+      "text": "From: Neel Shah, ICICI Bank - 9012"
+     },
+     "note": null,
+     "long": false
+    },
+    {
+     "key": "account_last4",
+     "label": "Account (last 4 digits)",
+     "value": "9012",
+     "source": "rule",
+     "confidence": 0.88,
+     "status": "verified",
+     "evidence": {
+      "page": 1,
+      "text": "From: Neel Shah, ICICI Bank - 9012"
+     },
+     "note": null,
+     "long": false
+    }
+   ]
+  },
+  {
+   "id": "other",
+   "title": "Other",
+   "fields": [
+    {
+     "key": "note",
+     "label": "Note / message",
+     "value": "dinner",
+     "source": "template",
+     "confidence": 0.8,
+     "status": "check",
+     "evidence": {
+      "page": 1,
+      "text": "Note: dinner"
+     },
+     "note": null,
+     "long": false
+    }
+   ]
+  }
+ ],
+ "authors": [],
+ "warnings": [
+  "Extracted, not verified: a receipt or screenshot can be edited. Match the UTR and amount against your bank statement or payment gateway before treating this as proof of payment."
+ ],
+ "notes": [],
+ "llm": {
+  "provider": null,
+  "used": false,
+  "reason": null
+ },
+ "filename": "paytm.pdf",
+ "kind_chosen_by": "auto-detect"
+}

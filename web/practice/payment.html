@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Registration fee · ICDS 2027 (practice)</title>
+<link rel="stylesheet" href="practice.css">
+</head>
+<body>
+<div class="top"><strong>ICDS 2027</strong><span>Registration · payment details</span><a href="./">All practice forms</a></div>
+<div class="practice">Practice form for trying the Abstract Mind extension with a UPI receipt. Nothing you submit is sent anywhere.</div>
+<main>
+<div class="sheet">
+<h1>Registration fee: payment details</h1>
+<p class="lead">Pay the registration fee by UPI to <strong>icds2027@sbi</strong>, then enter the payment details below.</p>
+<form id="pay" data-practice>
+  <h2>Participant</h2>
+  <div class="grid2">
+    <div class="field"><label for="pname">Participant name <span class="req">*</span></label><input type="text" id="pname" name="participant_name" data-required="1"></div>
+    <div class="field"><label for="pid">Paper ID (if presenting)</label><input type="text" id="pid" name="paper_id"></div>
+  </div>
+  <h2>Payment</h2>
+  <div class="grid2">
+    <div class="field"><label for="mode">Mode of payment <span class="req">*</span></label><select id="mode" name="mode" data-required="1"><option value="">Select</option><option>UPI</option><option>Card</option><option>Net banking</option><option>Bank transfer (NEFT/RTGS)</option></select></div>
+    <div class="field"><label for="utr">UTR / Transaction reference number <span class="req">*</span></label><input type="text" id="utr" name="utr" data-required="1"></div>
+    <div class="field"><label for="amt">Amount paid (₹) <span class="req">*</span></label><input type="number" id="amt" name="amount" step="0.01" data-required="1"></div>
+    <div class="field"><label for="date">Date of payment <span class="req">*</span></label><input type="date" id="date" name="payment_date" data-required="1"></div>
+    <div class="field"><label for="time">Time of payment</label><input type="time" id="time" name="payment_time"></div>
+    <div class="field"><label for="payer">Name of payer (as on the bank account)</label><input type="text" id="payer" name="payer_name"></div>
+    <div class="field"><label for="bank">Bank name</label><input type="text" id="bank" name="bank"></div>
+    <div class="field"><label for="upi">Your UPI ID</label><input type="text" id="upi" name="upi_id"></div>
+    <div class="field"><label for="mob">Mobile number <span class="req">*</span></label><input type="text" id="mob" name="mobile" data-required="1"></div>
+  </div>
+  <div class="actions">
+    <button type="submit" class="submit">Submit payment details</button>
+    <button type="reset">Reset form</button>
+  </div>
+</form>
+</div>
+</main>
+<script src="practice.js"></script>
+</body>
+</html>

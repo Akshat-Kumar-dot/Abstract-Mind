@@ -1,0 +1,11 @@
+body { font: 14px/1.5 system-ui, sans-serif; max-width: 860px; margin: 24px auto; padding-inline: 16px; color: #151B2B; background: #fff; }
+h1 { font-size: 20px; } h2 { font-size: 16px; margin-top: 20px; }
+td { padding: 3px 8px 3px 0; vertical-align: top; }
+.field { display: grid; gap: 3px; margin: 8px 0; }
+input, textarea, select { font: inherit; padding: 4px 6px; border: 1px solid #CFD4DC; border-radius: 5px; }
+.rich { min-height: 60px; border: 1px solid #CFD4DC; border-radius: 5px; padding: 6px; }
+.help { color: #6B7383; font-size: 12px; }
+fieldset { border: 1px solid #E7E9EE; border-radius: 8px; margin: 12px 0; }
+#results { margin-top: 28px; border-top: 2px solid #151B2B; padding-top: 8px; }
+#results tr.ok td:first-child { color: #2E7A4E; } #results tr.bad td { color: #B4362B; }
+#results pre { background: #F6F7F9; padding: 8px; font-size: 11px; max-height: 300px; overflow: auto; }

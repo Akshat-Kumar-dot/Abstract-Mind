@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Modern form test</title>
+<link rel="stylesheet" href="tests.css">
+</head>
+<body>
+<h1>Submit manuscript (modern layout)</h1>
+<p>Labels use <code>for</code>, the abstract is a rich-text box, one field is controlled by page script the way React does it, and there is a salutation menu, a search box and a field you already filled.</p>
+<form id="f" onsubmit="return false">
+  <div class="field"><label for="title">Paper title</label><input id="title" name="paperTitle"></div>
+  <div class="field"><label for="running">Running title</label><input id="running"></div>
+  <div class="field"><label for="abs">Abstract</label><div id="abs" contenteditable="true" class="rich"></div></div>
+  <div class="field"><label for="kw">Keywords (comma separated)</label><input id="kw"></div>
+  <fieldset>
+    <legend>Corresponding author</legend>
+    <div class="field"><label for="sal">Title</label><select id="sal"><option>Dr</option><option>Prof</option><option>Mr</option><option>Ms</option></select></div>
+    <div class="field"><label for="given">Given name</label><input id="given"></div>
+    <div class="field"><label for="family">Family name</label><input id="family"></div>
+    <div class="field"><label for="aff">Affiliation</label><input id="aff"></div>
+    <div class="field"><label for="orcid">ORCID iD</label><input id="orcid"></div>
+    <div class="field"><label for="cemail">Corresponding author e-mail</label><input id="cemail" type="email"></div>
+  </fieldset>
+  <div class="field"><label for="fund">Funding statement</label><textarea id="fund"></textarea></div>
+  <div class="field"><label for="coi">Competing interests</label><textarea id="coi">None declared.</textarea></div>
+  <div class="field"><label for="pages">Number of pages</label><input id="pages" type="number"></div>
+  <div class="field"><label for="wc">Abstract word count</label><input id="wc"></div>
+  <div class="field"><label for="q">Search</label><input id="q"></div>
+  <div class="field"><label for="hidden-one">Hidden title</label><input id="hidden-one" style="display:none"></div>
+  <button type="submit">Submit</button>
+</form>
+<section id="results">Running…</section>
+<script>
+  // A "controlled" input: the page keeps its own copy of the value and only
+  // learns about changes from input events, as React does.
+  window.pageState = { wc: "" };
+  document.getElementById("wc").addEventListener("input", (e) => (window.pageState.wc = e.target.value));
+</script>
+<script src="../extension/shared.js"></script>
+<script src="../extension/fill.js"></script>
+<script src="harness.js"></script>
+<script>
+(async () => {
+  const T = FormTest;
+  const data = await T.load("sample-paper.json", (d) => {
+    d.fields.keywords = { value: ["glaciers", "radar", "machine learning"], status: "verified", label: "Keywords" };
+  });
+  const report = window.__abstractMind.fill(data, {});
+  T.expect("title", T.value("#title"), "Mapping glacier retreat with satellite radar and machine learning");
+  T.expect("running title left empty (not in paper)", T.value("#running"), "");
+  T.expect("abstract typed into rich-text box", T.value("#abs").startsWith("Glaciers are retreating faster"), true);
+  T.expect("keywords comma separated", T.value("#kw"), "glaciers, radar, machine learning");
+  T.expect("salutation menu untouched", T.value("#sal"), "Dr");
+  T.expect("given name", T.value("#given"), "Asha");
+  T.expect("family name", T.value("#family"), "Raman");
+  T.expect("affiliation (full text)", T.value("#aff"), "Department of Geography, University of Zurich, Zurich, Switzerland");
+  T.expect("corresponding author e-mail", T.value("#cemail"), "a.raman@geo.uzh.ch");
+  T.expect("funding statement", T.value("#fund").startsWith("This work was funded by the Swiss National Science Foundation"), true);
+  T.expect("your competing-interests text kept", T.value("#coi"), "None declared.");
+  T.expect("number of pages", T.value("#pages"), "3");
+  T.expect("word count reached page script", window.pageState.wc, T.value("#wc"));
+  T.expect("word count is a number, not the abstract", /^\d+$/.test(T.value("#wc")), true);
+  T.expect("search box untouched", T.value("#q"), "");
+  T.expect("hidden field untouched", T.value("#hidden-one"), "");
+  T.expect("warns about missing author blocks", report.warnings.some((w) => /1 author block; the paper has 4/.test(w)), true);
+  T.expect("running title listed as left for you", report.unmatched.includes("Running title"), true);
+  const amber = [...document.querySelectorAll("[data-abstract-mind=check]")].length;
+  T.expect("less certain values outlined amber", amber > 0, true);
+  // Replace mode overwrites your text.
+  const again = window.__abstractMind.fill(data, { overwrite: true });
+  T.expect("replace mode overwrites competing interests", T.value("#coi"), "The authors declare no competing interests.");
+  T.expect("clear removes outlines", window.__abstractMind.clear() && document.querySelectorAll("[data-abstract-mind]").length, 0);
+  T.done(report);
+})();
+</script>
+</body>
+</html>

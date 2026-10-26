@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>New submission · ICDS 2027 (practice)</title>
+<link rel="stylesheet" href="practice.css">
+</head>
+<body>
+<div class="top"><strong>PracticeChair</strong><span>ICDS 2027 · International Conference on Data Systems</span><a href="./">All practice forms</a></div>
+<div class="practice">Practice form for trying the Abstract Mind extension. It works like an EasyChair submission page, but nothing you submit is sent anywhere.</div>
+<main>
+<div class="sheet">
+<h1>New Submission for ICDS 2027</h1>
+<p class="lead">Follow the instructions, step by step, and then use the "Submit" button at the bottom of the form. Required fields are marked by <span class="req">*</span>.</p>
+
+<form id="sub" data-practice>
+  <h2>Author Information</h2>
+  <p class="lead">For each author, please fill out the form below. Some items on the form are explained here: Email address will only be used for communication with the authors. Mark the corresponding author(s) by checking the box.</p>
+  <table class="form" id="authors" data-start-authors="3" data-author-block="tbody.author-block">
+    <tbody class="author-block">
+      <tr><th colspan="2">Author <span data-n>1</span></th></tr>
+      <tr><td>First name <span class="req">*</span>:</td><td><input type="text" name="first_name1" data-required="1"></td></tr>
+      <tr><td>Last name <span class="req">*</span>:</td><td><input type="text" name="last_name1" data-required="1"></td></tr>
+      <tr><td>Email <span class="req">*</span>:</td><td><input type="text" name="email1" data-required="1"></td></tr>
+      <tr><td>Country/region <span class="req">*</span>:</td><td><select name="country1" data-countries data-required="1"><option value="">-- select country/region --</option></select></td></tr>
+      <tr><td>Organization <span class="req">*</span>:</td><td><input type="text" name="organization1" data-required="1"></td></tr>
+      <tr><td>Web page:</td><td><input type="text" name="url1"></td></tr>
+      <tr><td></td><td><label><input type="checkbox" name="corresponding1"> corresponding author</label></td></tr>
+    </tbody>
+  </table>
+  <button type="button" class="addmore" data-add-author="authors">Click here to add more authors</button>
+
+  <h2>Title and Abstract</h2>
+  <p class="lead">The title and the abstract should be entered as plain text, they should not contain HTML elements.</p>
+  <table class="form">
+    <tr><td>Title <span class="req">*</span>:</td><td><input type="text" name="title" data-required="1"></td></tr>
+    <tr><td>Abstract <span class="req">*</span>:</td><td><textarea name="abstract" rows="8" data-required="1"></textarea><div class="help">The abstract should not exceed 300 words.</div></td></tr>
+  </table>
+
+  <h2>Keywords</h2>
+  <table class="form">
+    <tr><td>Keywords <span class="req">*</span>:</td><td><textarea name="keywords" rows="5" data-required="1"></textarea><div class="help">Type a list of keywords (also known as key phrases or key terms), one per line to characterize your submission. You should specify at least three keywords.</div></td></tr>
+  </table>
+
+  <h2>Topics</h2>
+  <p class="lead">Please select topics relevant to your submission from the following list.</p>
+  <div class="topics">
+    <label><input type="checkbox" name="topic_ml"> Machine learning</label>
+    <label><input type="checkbox" name="topic_db"> Databases</label>
+    <label><input type="checkbox" name="topic_rs"> Remote sensing</label>
+    <label><input type="checkbox" name="topic_hci"> Human-computer interaction</label>
+    <label><input type="checkbox" name="topic_sys"> Distributed systems</label>
+    <label><input type="checkbox" name="topic_other"> Other</label>
+  </div>
+
+  <h2>Other Information and Files</h2>
+  <table class="form">
+    <tr><td>Number of pages <span class="req">*</span>:</td><td><input type="number" name="num_pages" min="1" data-required="1"></td></tr>
+    <tr><td>Paper <span class="req">*</span>:</td><td><input type="file" name="paper_file" accept=".pdf"><div class="help">PDF only, at most 10 MB.</div></td></tr>
+  </table>
+
+  <div class="actions">
+    <button type="submit" class="submit">Submit</button>
+    <button type="reset">Reset form</button>
+  </div>
+</form>
+</div>
+</main>
+<script src="practice.js"></script>
+</body>
+</html>

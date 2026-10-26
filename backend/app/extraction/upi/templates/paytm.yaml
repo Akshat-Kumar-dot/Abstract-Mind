@@ -1,0 +1,15 @@
+# Starting point for Paytm receipts. Fit the labels to real (blurred) samples.
+app: Paytm
+detect: ["paytm"]
+fields:
+  utr:
+    labels: ["UPI Ref No", "UPI Reference No", "UPI Ref", "UTR"]
+  app_txn_id:
+    labels: ["Order ID", "Transaction ID", "Paytm Txn ID"]
+    pattern: '\b[A-Za-z0-9]{8,}\b'
+  receiver:
+    labels: ["To", "Paid to", "Sent to"]
+  sender:
+    labels: ["From"]
+  note:
+    labels: ["Note", "Message", "Remarks"]

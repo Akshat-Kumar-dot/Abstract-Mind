@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Submit a manuscript · Journal of Applied Earth Data (practice)</title>
+<link rel="stylesheet" href="practice.css">
+</head>
+<body>
+<div class="top"><strong>Journal of Applied Earth Data</strong><span>Manuscript submission</span><a href="./">All practice forms</a></div>
+<div class="practice">Practice form for trying the Abstract Mind extension, laid out like a journal system (labelled fields, a rich-text abstract, declarations). Nothing you submit is sent anywhere.</div>
+<main>
+<div class="sheet">
+<h1>Submit a manuscript</h1>
+<p class="lead">Fields marked <span class="req">*</span> are required.</p>
+
+<form id="sub" data-practice>
+  <h2>1. Manuscript</h2>
+  <div class="field"><label for="type">Article type <span class="req">*</span></label>
+    <select id="type" name="article_type" data-required="1"><option value="">Choose…</option><option>Original research</option><option>Review</option><option>Letter</option></select></div>
+  <div class="field"><label for="ms-title">Full title <span class="req">*</span></label><input type="text" id="ms-title" name="manuscript_title" data-required="1"></div>
+  <div class="field"><label for="running">Running title</label><input type="text" id="running" name="running_title"><div class="help">At most 60 characters.</div></div>
+  <div class="field"><span class="label-like" id="abs-label"><strong>Abstract</strong> <span class="req">*</span></span>
+    <div class="rich" id="abstract" contenteditable="true" aria-labelledby="abs-label" data-required="1"></div></div>
+  <div class="field"><label for="kw">Keywords <span class="req">*</span></label><input type="text" id="kw" name="keywords" placeholder="Separate keywords with commas" data-required="1"></div>
+
+  <h2>2. Authors</h2>
+  <p class="lead">List the authors in the order they appear on the paper, and choose one corresponding author.</p>
+  <div id="authors" data-start-authors="2" data-author-block="fieldset.author">
+    <fieldset class="author">
+      <legend>Author <span data-n>1</span></legend>
+      <div class="grid2">
+        <div class="field"><label for="given-1">Given name <span class="req">*</span></label><input type="text" id="given-1" name="author_given_1" data-required="1"></div>
+        <div class="field"><label for="family-1">Family name <span class="req">*</span></label><input type="text" id="family-1" name="author_family_1" data-required="1"></div>
+        <div class="field"><label for="email-1">Email</label><input type="email" id="email-1" name="author_email_1"></div>
+        <div class="field"><label for="orcid-1">ORCID iD</label><input type="text" id="orcid-1" name="author_orcid_1" placeholder="0000-0000-0000-0000"></div>
+        <div class="field"><label for="aff-1">Affiliation <span class="req">*</span></label><input type="text" id="aff-1" name="author_affiliation_1" data-required="1"></div>
+        <div class="field"><label for="country-1">Country <span class="req">*</span></label><select id="country-1" name="author_country_1" data-countries data-required="1"><option value="">Choose…</option></select></div>
+      </div>
+      <label><input type="radio" id="corr-1" name="corresponding" value="1"> Corresponding author</label>
+    </fieldset>
+  </div>
+  <button type="button" class="addmore flush" data-add-author="authors">+ Add another author</button>
+
+  <h2>3. Declarations</h2>
+  <div class="field"><label for="funding">Funding statement <span class="req">*</span></label><textarea id="funding" name="funding" data-required="1"></textarea></div>
+  <div class="field"><label for="coi">Competing interests <span class="req">*</span></label><textarea id="coi" name="competing_interests" data-required="1"></textarea></div>
+  <div class="field"><label for="data">Data availability statement <span class="req">*</span></label><textarea id="data" name="data_availability" data-required="1"></textarea></div>
+  <div class="field"><label for="credit">Author contributions (CRediT)</label><textarea id="credit" name="author_contributions"></textarea></div>
+  <div class="field"><label for="ack">Acknowledgements</label><textarea id="ack" name="acknowledgements"></textarea></div>
+
+  <h2>4. Manuscript details</h2>
+  <div class="grid2">
+    <div class="field"><label for="pages">Number of pages</label><input type="number" id="pages" name="pages"></div>
+    <div class="field"><label for="words">Word count (main text)</label><input type="number" id="words" name="word_count"></div>
+    <div class="field"><label for="figs">Number of figures</label><input type="number" id="figs" name="figures"></div>
+    <div class="field"><label for="tabs">Number of tables</label><input type="number" id="tabs" name="tables"></div>
+  </div>
+  <div class="field"><label for="cover">Cover letter</label><textarea id="cover" name="cover_letter"></textarea></div>
+
+  <div class="actions">
+    <button type="submit" class="submit">Submit manuscript</button>
+    <button type="reset">Reset form</button>
+  </div>
+</form>
+</div>
+</main>
+<script src="practice.js"></script>
+</body>
+</html>

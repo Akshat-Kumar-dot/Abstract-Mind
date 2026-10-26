@@ -1,0 +1,18 @@
+# Runtime dependencies (versions tested together)
+fastapi==0.143.0
+uvicorn==0.54.0
+python-multipart==0.0.32
+pymupdf==1.28.2
+python-docx==1.2.0
+pylatexenc==2.11
+rapidfuzz==3.14.5
+pycountry==26.2.16
+python-dateutil==2.9.0.post0
+PyYAML==6.0.3
+httpx==0.28.1
+rapidocr-onnxruntime==1.4.4
+onnxruntime==1.23.2
+pillow==12.3.0
+numpy==2.2.6
+psycopg[binary]==3.3.6
+psycopg-pool==3.3.3

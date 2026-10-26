@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Abstract Mind</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header class="bar">
+    <span class="mark" aria-hidden="true">PM</span>
+    <div class="brand">
+      <p class="name">Abstract Mind</p>
+      <p class="sub">Form filler</p>
+    </div>
+    <span id="server-state" class="dot" title="Checking the server"></span>
+  </header>
+
+  <main>
+    <section id="loaded" class="card" hidden>
+      <p class="kicker" id="loaded-kind"></p>
+      <p class="loaded-title" id="loaded-title"></p>
+      <p class="meta" id="loaded-meta"></p>
+      <button type="button" class="link" id="change">Use another document</button>
+    </section>
+
+    <section id="choose" hidden>
+      <div class="tabs" role="tablist" aria-label="Where the details come from">
+        <button type="button" role="tab" id="tab-upload" aria-selected="true" aria-controls="pane-upload">Upload a file</button>
+        <button type="button" role="tab" id="tab-library" aria-selected="false" aria-controls="pane-library">Your library</button>
+      </div>
+      <div id="pane-upload" role="tabpanel" aria-labelledby="tab-upload">
+        <label class="drop" for="file">
+          <input type="file" id="file" accept=".pdf,.docx,.tex,.png,.jpg,.jpeg,.webp">
+          <span id="file-label">Choose a paper (PDF, Word, LaTeX) or a UPI receipt</span>
+        </label>
+        <div class="row">
+          <select id="kind" aria-label="Document type">
+            <option value="auto">Detect type</option>
+            <option value="paper">Research paper</option>
+            <option value="upi">UPI receipt</option>
+          </select>
+          <button type="button" class="primary" id="extract" disabled>Read it</button>
+        </div>
+        <p class="fine" id="tab-hint">Popup closes when you pick a file? <a href="#" id="open-tab">Open this in a tab</a>.</p>
+      </div>
+      <div id="pane-library" role="tabpanel" aria-labelledby="tab-library" hidden>
+        <ul id="library" class="list"></ul>
+        <p id="library-note" class="fine"></p>
+      </div>
+    </section>
+
+    <section id="fill-section" hidden>
+      <label class="check"><input type="checkbox" id="overwrite"> Replace text already in the form</label>
+      <div class="row">
+        <button type="button" class="primary grow" id="fill">Fill this page</button>
+        <button type="button" class="ghost" id="clear" title="Remove the outlines Abstract Mind drew">Clear outlines</button>
+      </div>
+      <div id="report" class="report" hidden></div>
+    </section>
+
+    <p id="tab-done" class="note" hidden>Saved. Go to your form, click the Abstract Mind button in the toolbar, then <strong>Fill this page</strong>.</p>
+
+    <p id="status" class="status" role="status" aria-live="polite"></p>
+
+    <details id="all" class="fold" hidden>
+      <summary>All details, to copy by hand</summary>
+      <div id="all-list"></div>
+    </details>
+
+    <details class="fold">
+      <summary>Server</summary>
+      <label for="server" class="small-label">Abstract Mind address</label>
+      <div class="row">
+        <input id="server" type="url" placeholder="http://localhost:8765" spellcheck="false">
+        <button type="button" class="ghost" id="save-server">Save</button>
+      </div>
+      <p class="fine">http://localhost:8765 when you run it yourself, or your Render address.</p>
+    </details>
+  </main>
+
+  <script src="shared.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

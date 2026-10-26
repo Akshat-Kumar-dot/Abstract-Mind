@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Payment form test</title>
+<link rel="stylesheet" href="tests.css">
+</head>
+<body>
+<h1>Registration fee: payment details</h1>
+<p>A typical conference or college fee form asking for the UPI payment you made.</p>
+<form id="f" onsubmit="return false">
+  <div class="field"><label for="utr">UTR / Transaction reference number</label><input id="utr"></div>
+  <div class="field"><label for="amt">Amount paid (₹)</label><input id="amt" type="number" step="0.01"></div>
+  <div class="field"><label for="d1">Date of payment</label><input id="d1" type="date"></div>
+  <div class="field"><label for="d2">Payment date</label><input id="d2" placeholder="DD/MM/YYYY"></div>
+  <div class="field"><label for="t">Time of payment</label><input id="t" type="time"></div>
+  <div class="field"><label for="mode">Mode of payment</label><select id="mode"><option value="">Select</option><option>Card</option><option>UPI</option><option>Net banking</option></select></div>
+  <div class="field"><label for="payer">Name of payer</label><input id="payer"></div>
+  <div class="field"><label for="bank">Bank name</label><input id="bank"></div>
+  <div class="field"><label for="mob">Mobile number</label><input id="mob"></div>
+  <button type="submit">Submit</button>
+</form>
+<section id="results">Running…</section>
+<script src="../extension/shared.js"></script>
+<script src="../extension/fill.js"></script>
+<script src="harness.js"></script>
+<script>
+(async () => {
+  const T = FormTest;
+  const data = await T.load("sample-upi.json");
+  const report = window.__abstractMind.fill(data, {});
+  T.expect("UTR", T.value("#utr"), "529912340001");
+  T.expect("amount (number box)", T.value("#amt"), "349.00");
+  T.expect("date box gets yyyy-mm-dd", T.value("#d1"), "2025-10-14");
+  T.expect("text date follows DD/MM/YYYY", T.value("#d2"), "14/10/2025");
+  T.expect("time box", T.value("#t"), "20:05");
+  T.expect("mode of payment menu", T.value("#mode"), "UPI");
+  T.expect("payer", T.value("#payer"), "Neel Shah");
+  T.expect("bank", T.value("#bank"), "ICICI Bank");
+  T.expect("mobile number untouched", T.value("#mob"), "");
+  T.done(report);
+})();
+</script>
+</body>
+</html>

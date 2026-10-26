@@ -1,0 +1,15 @@
+# Starting point for BHIM receipts. Fit the labels to real (blurred) samples.
+app: BHIM
+detect: ["bhim"]
+fields:
+  utr:
+    labels: ["UPI Transaction ID", "UPI Ref No", "UTR", "RRN"]
+  app_txn_id:
+    labels: ["Ref ID", "Reference ID", "Transaction ID"]
+    pattern: '\b[A-Za-z0-9]{8,}\b'
+  receiver:
+    labels: ["Paid to", "To", "Payee"]
+  sender:
+    labels: ["From", "Payer"]
+  note:
+    labels: ["Remarks", "Note"]

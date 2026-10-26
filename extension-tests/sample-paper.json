@@ -1,0 +1,919 @@
+{
+ "kind": "paper",
+ "file_type": "pdf",
+ "pages": 3,
+ "groups": [
+  {
+   "id": "paper",
+   "title": "Paper",
+   "fields": [
+    {
+     "key": "title",
+     "label": "Title",
+     "value": "Mapping glacier retreat with satellite radar and machine learning",
+     "source": "rule",
+     "confidence": 0.85,
+     "status": "verified",
+     "evidence": {
+      "page": 1,
+      "text": "Mapping glacier retreat with satellite radar and machine learning"
+     },
+     "note": null,
+     "long": false
+    },
+    {
+     "key": "abstract",
+     "label": "Abstract",
+     "value": "Glaciers are retreating faster than at any time in the observational record, yet most of the world's glaciers are not monitored in the field. Here we show that radar images from satellites can be turned into monthly maps of glacier fronts with an accuracy close to that of field surveys. We trained a network on eleven thousand hand-drawn fronts and applied it to every glacier in the Himalaya, finding that the rate of retreat has doubled since the year two thousand and that small glaciers are the most at risk over the coming decades.",
+     "source": "rule",
+     "confidence": 0.72,
+     "status": "check",
+     "evidence": {
+      "page": 1,
+      "text": "Glaciers are retreating faster than at any time in the observational record, yet most of"
+     },
+     "note": "94 words; no 'Abstract' heading, so the opening paragraph was taken",
+     "long": true
+    },
+    {
+     "key": "keywords",
+     "label": "Keywords",
+     "value": [],
+     "source": "none",
+     "confidence": 0.0,
+     "status": "missing",
+     "evidence": null,
+     "note": null,
+     "long": false
+    }
+   ]
+  },
+  {
+   "id": "publication",
+   "title": "Publication",
+   "fields": [
+    {
+     "key": "doi",
+     "label": "DOI",
+     "value": "10.1038/s41586-023-01234-5",
+     "source": "rule",
+     "confidence": 0.95,
+     "status": "verified",
+     "evidence": {
+      "page": 1,
+      "text": "https://doi.org/10.1038/s41586-023-01234-5"
+     },
+     "note": null,
+     "long": false
+    },
+    {
+     "key": "publisher",
+     "label": "Publisher",
+     "value": "Springer Nature (Nature Portfolio)",
+     "source": "rule",
+     "confidence": 0.9,
+     "status": "verified",
+     "evidence": null,
+     "note": "From the DOI prefix",
+     "long": false
+    },
+    {
+     "key": "journal",
+     "label": "Journal / venue",
+     "value": "Nature",
+     "source": "rule",
+     "confidence": 0.75,
+     "status": "check",
+     "evidence": {
+      "page": 1,
+      "text": "Nature | Vol 620 | 3 August 2023 | 101"
+     },
+     "note": "From the running footer: Nature | Vol 620 | 3 August 2023 | 101",
+     "long": false
+    },
+    {
+     "key": "volume",
+     "label": "Volume",
+     "value": "620",
+     "source": "rule",
+     "confidence": 0.85,
+     "status": "verified",
+     "evidence": {
+      "page": 1,
+      "text": "Nature | Vol 620 | 3 August 2023 | 101"
+     },
+     "note": null,
+     "long": false
+    },
+    {
+     "key": "received",
+     "label": "Received",
+     "value": "2 January 2023",
+     "source": "rule",
+     "confidence": 0.9,
+     "status": "verified",
+     "evidence": {
+      "page": 1,
+      "text": "Received: 2 January 2023"
+     },
+     "note": null,
+     "long": false
+    },
+    {
+     "key": "accepted",
+     "label": "Accepted",
+     "value": "9 May 2023",
+     "source": "rule",
+     "confidence": 0.9,
+     "status": "verified",
+     "evidence": {
+      "page": 1,
+      "text": "Accepted: 9 May 2023"
+     },
+     "note": null,
+     "long": false
+    },
+    {
+     "key": "published",
+     "label": "Published",
+     "value": "26 July 2023",
+     "source": "rule",
+     "confidence": 0.9,
+     "status": "verified",
+     "evidence": {
+      "page": 1,
+      "text": "Published online: 26 July 2023"
+     },
+     "note": null,
+     "long": false
+    }
+   ]
+  },
+  {
+   "id": "declarations",
+   "title": "Declarations",
+   "fields": [
+    {
+     "key": "funding",
+     "label": "Funding statement",
+     "value": "This work was funded by the Swiss National Science Foundation under grant 200021-182345.",
+     "source": "rule",
+     "confidence": 0.85,
+     "status": "verified",
+     "evidence": {
+      "page": 3,
+      "text": "Funding This work was funded by the Swiss National Science Foundation under grant 200021-182345."
+     },
+     "note": null,
+     "long": true
+    },
+    {
+     "key": "grant_ids",
+     "label": "Grant numbers",
+     "value": [
+      "200021-182345"
+     ],
+     "source": "rule",
+     "confidence": 0.8,
+     "status": "check",
+     "evidence": {
+      "page": 3,
+      "text": "Funding This work was funded by the Swiss National Science Foundation under grant 200021-182345."
+     },
+     "note": null,
+     "long": false
+    },
+    {
+     "key": "conflicts",
+     "label": "Conflicts of interest",
+     "value": "The authors declare no competing interests.",
+     "source": "rule",
+     "confidence": 0.85,
+     "status": "verified",
+     "evidence": {
+      "page": 3,
+      "text": "Competing interests The authors declare no competing interests."
+     },
+     "note": null,
+     "long": true
+    },
+    {
+     "key": "data",
+     "label": "Data availability",
+     "value": null,
+     "source": "none",
+     "confidence": 0.0,
+     "status": "missing",
+     "evidence": null,
+     "note": null,
+     "long": true
+    },
+    {
+     "key": "data_urls",
+     "label": "Data / code links",
+     "value": [],
+     "source": "none",
+     "confidence": 0.0,
+     "status": "missing",
+     "evidence": null,
+     "note": null,
+     "long": false
+    },
+    {
+     "key": "contributions",
+     "label": "Author contributions",
+     "value": null,
+     "source": "none",
+     "confidence": 0.0,
+     "status": "missing",
+     "evidence": null,
+     "note": null,
+     "long": true
+    },
+    {
+     "key": "ethics",
+     "label": "Ethics statement",
+     "value": null,
+     "source": "none",
+     "confidence": 0.0,
+     "status": "missing",
+     "evidence": null,
+     "note": null,
+     "long": true
+    },
+    {
+     "key": "acknowledgments",
+     "label": "Acknowledgments",
+     "value": "We thank the Swiss Polar Institute for field support.",
+     "source": "rule",
+     "confidence": 0.85,
+     "status": "verified",
+     "evidence": {
+      "page": 3,
+      "text": "Acknowledgements We thank the Swiss Polar Institute for field support."
+     },
+     "note": null,
+     "long": true
+    }
+   ]
+  },
+  {
+   "id": "stats",
+   "title": "Counts",
+   "fields": [
+    {
+     "key": "pages",
+     "label": "Pages",
+     "value": 3,
+     "source": "count",
+     "confidence": 0.95,
+     "status": "verified",
+     "evidence": null,
+     "note": null,
+     "long": false
+    },
+    {
+     "key": "words_main",
+     "label": "Words (abstract + main text)",
+     "value": 588,
+     "source": "count",
+     "confidence": 0.9,
+     "status": "verified",
+     "evidence": null,
+     "note": "Excludes title, author block and references",
+     "long": false
+    },
+    {
+     "key": "words_with_refs",
+     "label": "Words (including references)",
+     "value": 868,
+     "source": "count",
+     "confidence": 0.9,
+     "status": "verified",
+     "evidence": null,
+     "note": null,
+     "long": false
+    },
+    {
+     "key": "figures",
+     "label": "Figures",
+     "value": 1,
+     "source": "count",
+     "confidence": 0.88,
+     "status": "verified",
+     "evidence": null,
+     "note": "Unique figure caption numbers",
+     "long": false
+    },
+    {
+     "key": "tables",
+     "label": "Tables",
+     "value": 0,
+     "source": "count",
+     "confidence": 0.88,
+     "status": "verified",
+     "evidence": null,
+     "note": "Unique table caption numbers",
+     "long": false
+    },
+    {
+     "key": "references",
+     "label": "References",
+     "value": 20,
+     "source": "count",
+     "confidence": 0.95,
+     "status": "verified",
+     "evidence": null,
+     "note": "numbered entries",
+     "long": false
+    }
+   ]
+  }
+ ],
+ "authors": [
+  {
+   "position": 1,
+   "name": "Asha Raman",
+   "corresponding": true,
+   "score": 5,
+   "fields": [
+    {
+     "key": "name",
+     "label": "Full name",
+     "value": "Asha Raman",
+     "source": "rule",
+     "confidence": 0.85,
+     "status": "verified",
+     "evidence": {
+      "page": 1,
+      "text": "Asha Raman ✉, Lukas Brandt, Wei Zhang & Fatima Okoye"
+     },
+     "note": null,
+     "long": false
+    },
+    {
+     "key": "first_name",
+     "label": "First name",
+     "value": "Asha",
+     "source": "rule",
+     "confidence": 0.9,
+     "status": "verified",
+     "evidence": null,
+     "note": null,
+     "long": false
+    },
+    {
+     "key": "last_name",
+     "label": "Last name",
+     "value": "Raman",
+     "source": "rule",
+     "confidence": 0.9,
+     "status": "verified",
+     "evidence": null,
+     "note": null,
+     "long": false
+    },
+    {
+     "key": "email",
+     "label": "Email",
+     "value": "a.raman@geo.uzh.ch",
+     "source": "rule",
+     "confidence": 0.85,
+     "status": "verified",
+     "evidence": {
+      "page": 1,
+      "text": "✉e-mail: a.raman@geo.uzh.ch"
+     },
+     "note": "Linked by name match",
+     "long": false
+    },
+    {
+     "key": "orcid",
+     "label": "ORCID iD",
+     "value": null,
+     "source": "none",
+     "confidence": 0.0,
+     "status": "missing",
+     "evidence": null,
+     "note": null,
+     "long": false
+    },
+    {
+     "key": "affiliations",
+     "label": "Affiliation(s)",
+     "value": [
+      "Department of Geography, University of Zurich, Zurich, Switzerland"
+     ],
+     "source": "rule",
+     "confidence": 0.92,
+     "status": "verified",
+     "evidence": {
+      "page": 1,
+      "text": "Department of Geography, University of Zurich, Zurich, Switzerland."
+     },
+     "note": null,
+     "long": false
+    },
+    {
+     "key": "department",
+     "label": "Department",
+     "value": "Department of Geography",
+     "source": "rule",
+     "confidence": 0.74,
+     "status": "check",
+     "evidence": null,
+     "note": null,
+     "long": false
+    },
+    {
+     "key": "institution",
+     "label": "Institution",
+     "value": "University of Zurich",
+     "source": "rule",
+     "confidence": 0.74,
+     "status": "check",
+     "evidence": null,
+     "note": null,
+     "long": false
+    },
+    {
+     "key": "city",
+     "label": "City",
+     "value": "Zurich",
+     "source": "rule",
+     "confidence": 0.74,
+     "status": "check",
+     "evidence": null,
+     "note": null,
+     "long": false
+    },
+    {
+     "key": "country",
+     "label": "Country",
+     "value": "Switzerland",
+     "source": "rule",
+     "confidence": 0.86,
+     "status": "verified",
+     "evidence": null,
+     "note": null,
+     "long": false
+    },
+    {
+     "key": "corresponding",
+     "label": "Corresponding author",
+     "value": true,
+     "source": "rule",
+     "confidence": 0.95,
+     "status": "verified",
+     "evidence": null,
+     "note": "marked ✉",
+     "long": false
+    },
+    {
+     "key": "equal",
+     "label": "Equal contribution",
+     "value": true,
+     "source": "rule",
+     "confidence": 0.9,
+     "status": "verified",
+     "evidence": null,
+     "note": null,
+     "long": false
+    }
+   ]
+  },
+  {
+   "position": 2,
+   "name": "Lukas Brandt",
+   "corresponding": false,
+   "score": 3,
+   "fields": [
+    {
+     "key": "name",
+     "label": "Full name",
+     "value": "Lukas Brandt",
+     "source": "rule",
+     "confidence": 0.85,
+     "status": "verified",
+     "evidence": {
+      "page": 1,
+      "text": "Asha Raman ✉, Lukas Brandt, Wei Zhang & Fatima Okoye"
+     },
+     "note": null,
+     "long": false
+    },
+    {
+     "key": "first_name",
+     "label": "First name",
+     "value": "Lukas",
+     "source": "rule",
+     "confidence": 0.9,
+     "status": "verified",
+     "evidence": null,
+     "note": null,
+     "long": false
+    },
+    {
+     "key": "last_name",
+     "label": "Last name",
+     "value": "Brandt",
+     "source": "rule",
+     "confidence": 0.9,
+     "status": "verified",
+     "evidence": null,
+     "note": null,
+     "long": false
+    },
+    {
+     "key": "email",
+     "label": "Email",
+     "value": null,
+     "source": "none",
+     "confidence": 0.0,
+     "status": "missing",
+     "evidence": null,
+     "note": null,
+     "long": false
+    },
+    {
+     "key": "orcid",
+     "label": "ORCID iD",
+     "value": null,
+     "source": "none",
+     "confidence": 0.0,
+     "status": "missing",
+     "evidence": null,
+     "note": null,
+     "long": false
+    },
+    {
+     "key": "affiliations",
+     "label": "Affiliation(s)",
+     "value": [
+      "Department of Geography, University of Zurich, Zurich, Switzerland"
+     ],
+     "source": "rule",
+     "confidence": 0.92,
+     "status": "verified",
+     "evidence": {
+      "page": 1,
+      "text": "Department of Geography, University of Zurich, Zurich, Switzerland."
+     },
+     "note": null,
+     "long": false
+    },
+    {
+     "key": "department",
+     "label": "Department",
+     "value": "Department of Geography",
+     "source": "rule",
+     "confidence": 0.74,
+     "status": "check",
+     "evidence": null,
+     "note": null,
+     "long": false
+    },
+    {
+     "key": "institution",
+     "label": "Institution",
+     "value": "University of Zurich",
+     "source": "rule",
+     "confidence": 0.74,
+     "status": "check",
+     "evidence": null,
+     "note": null,
+     "long": false
+    },
+    {
+     "key": "city",
+     "label": "City",
+     "value": "Zurich",
+     "source": "rule",
+     "confidence": 0.74,
+     "status": "check",
+     "evidence": null,
+     "note": null,
+     "long": false
+    },
+    {
+     "key": "country",
+     "label": "Country",
+     "value": "Switzerland",
+     "source": "rule",
+     "confidence": 0.86,
+     "status": "verified",
+     "evidence": null,
+     "note": null,
+     "long": false
+    },
+    {
+     "key": "corresponding",
+     "label": "Corresponding author",
+     "value": false,
+     "source": "rule",
+     "confidence": 0.9,
+     "status": "verified",
+     "evidence": null,
+     "note": null,
+     "long": false
+    },
+    {
+     "key": "equal",
+     "label": "Equal contribution",
+     "value": true,
+     "source": "rule",
+     "confidence": 0.9,
+     "status": "verified",
+     "evidence": null,
+     "note": null,
+     "long": false
+    }
+   ]
+  },
+  {
+   "position": 3,
+   "name": "Wei Zhang",
+   "corresponding": false,
+   "score": 3,
+   "fields": [
+    {
+     "key": "name",
+     "label": "Full name",
+     "value": "Wei Zhang",
+     "source": "rule",
+     "confidence": 0.85,
+     "status": "verified",
+     "evidence": {
+      "page": 1,
+      "text": "Asha Raman ✉, Lukas Brandt, Wei Zhang & Fatima Okoye"
+     },
+     "note": null,
+     "long": false
+    },
+    {
+     "key": "first_name",
+     "label": "First name",
+     "value": "Wei",
+     "source": "rule",
+     "confidence": 0.9,
+     "status": "verified",
+     "evidence": null,
+     "note": null,
+     "long": false
+    },
+    {
+     "key": "last_name",
+     "label": "Last name",
+     "value": "Zhang",
+     "source": "rule",
+     "confidence": 0.9,
+     "status": "verified",
+     "evidence": null,
+     "note": null,
+     "long": false
+    },
+    {
+     "key": "email",
+     "label": "Email",
+     "value": null,
+     "source": "none",
+     "confidence": 0.0,
+     "status": "missing",
+     "evidence": null,
+     "note": null,
+     "long": false
+    },
+    {
+     "key": "orcid",
+     "label": "ORCID iD",
+     "value": null,
+     "source": "none",
+     "confidence": 0.0,
+     "status": "missing",
+     "evidence": null,
+     "note": null,
+     "long": false
+    },
+    {
+     "key": "affiliations",
+     "label": "Affiliation(s)",
+     "value": [
+      "Institute of Tibetan Plateau Research, Beijing, China"
+     ],
+     "source": "rule",
+     "confidence": 0.92,
+     "status": "verified",
+     "evidence": {
+      "page": 1,
+      "text": "Institute of Tibetan Plateau Research, Beijing, China."
+     },
+     "note": null,
+     "long": false
+    },
+    {
+     "key": "department",
+     "label": "Department",
+     "value": null,
+     "source": "none",
+     "confidence": 0.0,
+     "status": "missing",
+     "evidence": null,
+     "note": null,
+     "long": false
+    },
+    {
+     "key": "institution",
+     "label": "Institution",
+     "value": "Institute of Tibetan Plateau Research",
+     "source": "rule",
+     "confidence": 0.74,
+     "status": "check",
+     "evidence": null,
+     "note": null,
+     "long": false
+    },
+    {
+     "key": "city",
+     "label": "City",
+     "value": "Beijing",
+     "source": "rule",
+     "confidence": 0.74,
+     "status": "check",
+     "evidence": null,
+     "note": null,
+     "long": false
+    },
+    {
+     "key": "country",
+     "label": "Country",
+     "value": "China",
+     "source": "rule",
+     "confidence": 0.86,
+     "status": "verified",
+     "evidence": null,
+     "note": null,
+     "long": false
+    },
+    {
+     "key": "corresponding",
+     "label": "Corresponding author",
+     "value": false,
+     "source": "rule",
+     "confidence": 0.9,
+     "status": "verified",
+     "evidence": null,
+     "note": null,
+     "long": false
+    }
+   ]
+  },
+  {
+   "position": 4,
+   "name": "Fatima Okoye",
+   "corresponding": false,
+   "score": 3,
+   "fields": [
+    {
+     "key": "name",
+     "label": "Full name",
+     "value": "Fatima Okoye",
+     "source": "rule",
+     "confidence": 0.85,
+     "status": "verified",
+     "evidence": {
+      "page": 1,
+      "text": "Asha Raman ✉, Lukas Brandt, Wei Zhang & Fatima Okoye"
+     },
+     "note": null,
+     "long": false
+    },
+    {
+     "key": "first_name",
+     "label": "First name",
+     "value": "Fatima",
+     "source": "rule",
+     "confidence": 0.9,
+     "status": "verified",
+     "evidence": null,
+     "note": null,
+     "long": false
+    },
+    {
+     "key": "last_name",
+     "label": "Last name",
+     "value": "Okoye",
+     "source": "rule",
+     "confidence": 0.9,
+     "status": "verified",
+     "evidence": null,
+     "note": null,
+     "long": false
+    },
+    {
+     "key": "email",
+     "label": "Email",
+     "value": null,
+     "source": "none",
+     "confidence": 0.0,
+     "status": "missing",
+     "evidence": null,
+     "note": null,
+     "long": false
+    },
+    {
+     "key": "orcid",
+     "label": "ORCID iD",
+     "value": null,
+     "source": "none",
+     "confidence": 0.0,
+     "status": "missing",
+     "evidence": null,
+     "note": null,
+     "long": false
+    },
+    {
+     "key": "affiliations",
+     "label": "Affiliation(s)",
+     "value": [
+      "Department of Geography, University of Zurich, Zurich, Switzerland"
+     ],
+     "source": "rule",
+     "confidence": 0.92,
+     "status": "verified",
+     "evidence": {
+      "page": 1,
+      "text": "Department of Geography, University of Zurich, Zurich, Switzerland."
+     },
+     "note": null,
+     "long": false
+    },
+    {
+     "key": "department",
+     "label": "Department",
+     "value": "Department of Geography",
+     "source": "rule",
+     "confidence": 0.74,
+     "status": "check",
+     "evidence": null,
+     "note": null,
+     "long": false
+    },
+    {
+     "key": "institution",
+     "label": "Institution",
+     "value": "University of Zurich",
+     "source": "rule",
+     "confidence": 0.74,
+     "status": "check",
+     "evidence": null,
+     "note": null,
+     "long": false
+    },
+    {
+     "key": "city",
+     "label": "City",
+     "value": "Zurich",
+     "source": "rule",
+     "confidence": 0.74,
+     "status": "check",
+     "evidence": null,
+     "note": null,
+     "long": false
+    },
+    {
+     "key": "country",
+     "label": "Country",
+     "value": "Switzerland",
+     "source": "rule",
+     "confidence": 0.86,
+     "status": "verified",
+     "evidence": null,
+     "note": null,
+     "long": false
+    },
+    {
+     "key": "corresponding",
+     "label": "Corresponding author",
+     "value": false,
+     "source": "rule",
+     "confidence": 0.9,
+     "status": "verified",
+     "evidence": null,
+     "note": null,
+     "long": false
+    }
+   ]
+  }
+ ],
+ "warnings": [],
+ "notes": [
+  "This paper has no Abstract or Introduction heading; the header was taken as everything above the first paragraph."
+ ],
+ "llm": {
+  "provider": null,
+  "used": false,
+  "reason": null
+ },
+ "filename": "nature.pdf",
+ "kind_chosen_by": "auto-detect"
+}

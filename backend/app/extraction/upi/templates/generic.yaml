@@ -1,0 +1,15 @@
+# Used for unknown apps and bank apps, and to fill gaps left by an app template.
+app: Unknown app
+detect: []
+fields:
+  utr:
+    labels: ["UPI transaction ID", "UPI Transaction ID", "UPI Ref No", "UPI Reference No", "UPI Ref", "UTR No", "UTR", "RRN", "Reference No", "Ref No"]
+  app_txn_id:
+    labels: ["Transaction ID", "Txn ID", "Order ID", "Reference ID"]
+    pattern: '\b[A-Za-z0-9]{8,}\b'
+  receiver:
+    labels: ["Paid to", "Sent to", "Payee", "Beneficiary", "To"]
+  sender:
+    labels: ["Debited from", "Paid from", "Paid by", "Payer", "From"]
+  note:
+    labels: ["Message", "Remarks", "Note", "Notes", "Description"]
