@@ -19,6 +19,8 @@ COPY web web
 RUN useradd --create-home app && chown -R app /srv
 USER app
 
-# Render sets PORT; 10000 is its default
+# Render sets PORT; 10000 is its default. Requests only reach the app through
+# Render's proxy, so its X-Forwarded-For is trusted: rate limits then count
+# each visitor's real address instead of the proxy's.
 EXPOSE 10000
-CMD ["sh", "-c", "uvicorn app.main:app --app-dir backend --host 0.0.0.0 --port ${PORT:-10000} --proxy-headers"]
+CMD ["sh", "-c", "uvicorn app.main:app --app-dir backend --host 0.0.0.0 --port ${PORT:-10000} --proxy-headers --forwarded-allow-ips '*'"]

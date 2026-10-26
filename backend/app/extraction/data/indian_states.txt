@@ -1,0 +1,34 @@
+# States and union territories, so "Bengaluru, Karnataka 560012, India" gives the city
+andhra pradesh
+arunachal pradesh
+assam
+bihar
+chhattisgarh
+goa
+gujarat
+haryana
+himachal pradesh
+jharkhand
+karnataka
+kerala
+madhya pradesh
+maharashtra
+manipur
+meghalaya
+mizoram
+nagaland
+odisha
+punjab
+rajasthan
+sikkim
+tamil nadu
+telangana
+tripura
+uttar pradesh
+uttarakhand
+west bengal
+delhi
+jammu and kashmir
+ladakh
+puducherry
+chandigarh

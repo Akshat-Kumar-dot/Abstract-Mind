@@ -1,0 +1,26 @@
+# Lower-case name particles that belong to the last name
+van
+von
+de
+da
+del
+della
+dei
+di
+dos
+das
+du
+der
+den
+ten
+ter
+la
+le
+bin
+binti
+bint
+ibn
+al
+el
+abu
+st

@@ -1,0 +1,46 @@
+# Extra spellings of countries seen in affiliations (pycountry covers official names)
+usa
+u.s.a
+u.s.a.
+us
+u.s.
+united states
+united states of america
+the united states
+uk
+u.k.
+united kingdom
+england
+scotland
+wales
+northern ireland
+p.r. china
+pr china
+p. r. china
+prc
+china
+hong kong
+macau
+macao
+taiwan
+south korea
+korea
+republic of korea
+russia
+iran
+vietnam
+viet nam
+czech republic
+czechia
+turkey
+türkiye
+uae
+the netherlands
+holland
+palestine
+syria
+tanzania
+bolivia
+venezuela
+laos
+moldova

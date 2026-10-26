@@ -1,0 +1,35 @@
+# Banks and payment banks seen on UPI receipts
+State Bank of India
+SBI
+HDFC Bank
+HDFC
+ICICI Bank
+ICICI
+Axis Bank
+Kotak Mahindra Bank
+Kotak
+Punjab National Bank
+PNB
+Bank of Baroda
+Canara Bank
+Union Bank of India
+Bank of India
+Indian Bank
+Central Bank of India
+Indian Overseas Bank
+UCO Bank
+IDFC FIRST Bank
+IDFC
+Yes Bank
+IndusInd Bank
+Federal Bank
+South Indian Bank
+Karnataka Bank
+RBL Bank
+Bandhan Bank
+AU Small Finance Bank
+Paytm Payments Bank
+Airtel Payments Bank
+India Post Payments Bank
+Fino Payments Bank
+Jio Payments Bank
