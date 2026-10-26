@@ -107,10 +107,7 @@ async function boot() {
   try {
     health = await (await fetch("/api/v1/health")).json();
     $("limit").textContent = health.max_upload_mb;
-    $("engine").textContent = `rules${health.ocr ? " · OCR" : ""}${health.ai_provider ? " · AI on request" : ""}`;
-  } catch (_) {
-    $("engine").textContent = "server not reachable";
-  }
+  } catch (_) { /* the upload page keeps its default limit */ }
 
   authPage.init(navigate, health);
   passwordPage.init(navigate);

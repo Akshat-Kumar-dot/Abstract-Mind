@@ -78,9 +78,8 @@ button, input, textarea, select { font: inherit; color: inherit; }
 .top { border-bottom: 1px solid var(--rule); background: #fff; position: sticky; top: 0; z-index: 10; }
 .app-bar { padding-inline: 24px; }
 .who { margin-left: auto; display: flex; align-items: center; gap: 12px; }
-.engine { font-family: var(--f-mono); font-size: 11.5px; color: var(--muted); }
 .avatar { width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; background: var(--soft); border: 1px solid var(--rule); color: var(--ink-2); font-weight: 600; font-size: 14px; }
-@media (max-width: 760px) { .engine { display: none; } .app-bar { padding-inline: 16px; } }
+@media (max-width: 760px) { .app-bar { padding-inline: 16px; } }
 
 .page { padding-block: 32px 64px; }
 .narrow { max-width: 720px; }
@@ -258,17 +257,11 @@ button, input, textarea, select { font: inherit; color: inherit; }
 .lib-line { margin: 10px 0 0; color: var(--ink-2); font-size: 15.5px; }
 .ledger { margin: 14px 0 0; font-size: 12.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); white-space: pre-wrap; }
 .pile { display: flex; align-items: flex-end; gap: 16px; }
-.pile svg { width: 140px; height: 96px; overflow: visible; }
-.pile rect { fill: #fff; stroke: var(--ink-2); stroke-width: 1.1; }
-.pile rect:last-of-type { stroke: var(--ink); }
-.pile .lines { stroke: var(--rule-strong); stroke-width: 2; stroke-linecap: round; }
-.pile .ghost-sheet { stroke: var(--rule-strong); stroke-dasharray: 4 3; }
 .pile-n { display: grid; line-height: 1; padding-bottom: 6px; }
 .pile-n strong { font-family: var(--f-display); font-weight: 400; font-size: 64px; letter-spacing: -.03em; }
 .pile-n span { font-size: 12.5px; color: var(--muted); margin-top: 6px; max-width: 9ch; line-height: 1.3; }
 @media (max-width: 680px) {
   .lib-head { grid-template-columns: 1fr; gap: 20px; }
-  .pile svg { width: 110px; height: 76px; }
   .pile-n strong { font-size: 48px; }
 }
 
@@ -573,5 +566,5 @@ a.side-link:hover { color: var(--accent); }
 .email-block summary::-webkit-details-marker { display: none; }
 .email-block summary:hover { color: var(--accent); }
 .email-block[open] summary { margin-bottom: 14px; }
-#password-form { display: grid; gap: 16px; }
-#password-go { justify-self: stretch; padding-block: 12px; }
+#password-form, #unlock-form { display: grid; gap: 16px; }
+#password-go, #unlock-go { justify-self: stretch; padding-block: 12px; }

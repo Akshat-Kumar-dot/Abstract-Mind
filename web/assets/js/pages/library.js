@@ -56,28 +56,8 @@ function renderStats(s) {
   $("ledger").textContent = bits.join("  ·  ");
   $("big-n").textContent = s.total;
   $("big-n-label").textContent = s.total === 1 ? "document extracted" : "documents extracted";
-  drawStack(s.total);
   $("side-total").textContent = plural(s.total, "document");
   $("side-week").textContent = s.this_week ? `${s.this_week} this week` : "none this week";
-}
-
-// one sheet per document (up to 14), each a little askew, like a real pile
-function drawStack(n) {
-  const shown = Math.min(n, 14);
-  let out = "";
-  for (let i = 0; i < shown; i++) {
-    const y = 78 - i * 4.4;
-    const tilt = (((i * 37) % 9) - 4) * 0.8;
-    const dx = ((i * 53) % 11) - 5;
-    out += `<rect x="${26 + dx}" y="${(y - 11).toFixed(1)}" width="88" height="22" rx="2" transform="rotate(${tilt} ${70 + dx} ${y})"/>`;
-  }
-  if (shown) {
-    const top = 78 - (shown - 1) * 4.4;
-    out += `<path class="lines" d="M46 ${(top - 3).toFixed(1)}h40M46 ${(top + 3).toFixed(1)}h26"/>`;
-  } else {
-    out = `<rect class="ghost-sheet" x="26" y="67" width="88" height="22" rx="2"/>`;
-  }
-  $("stack").innerHTML = out;
 }
 
 function dateGroup(ts) {

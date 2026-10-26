@@ -217,6 +217,8 @@
       <h1 id="unlock-title">Unlock your library</h1>
       <p class="auth-sub" id="unlock-sub"></p>
       <form id="unlock-form" novalidate>
+        <!-- lets password managers file the password under the account's email -->
+        <input id="unlock-email" type="email" autocomplete="username" hidden readonly>
         <label class="ln"><span>Password</span><input id="unlock-password" type="password" autocomplete="current-password" required></label>
         <p id="unlock-error" class="form-error" role="alert" hidden></p>
         <button id="unlock-go" class="primary" type="submit">Unlock</button>
@@ -231,7 +233,6 @@
       <div class="bar app-bar">
         <a class="brand" href="#/"><svg class="mark"><use href="#i-mark"/></svg><span>Abstract Mind</span></a>
         <div class="who">
-          <span id="engine" class="engine" title="What reads your file"></span>
           <a id="avatar" class="avatar" href="#/account" aria-label="Account settings"></a>
         </div>
       </div>
@@ -270,7 +271,6 @@
             <p class="ledger" id="ledger"></p>
           </div>
           <div class="pile" aria-hidden="true">
-            <svg id="stack" viewBox="0 0 140 96"></svg>
             <div class="pile-n"><strong id="big-n">0</strong><span id="big-n-label">documents</span></div>
           </div>
         </header>

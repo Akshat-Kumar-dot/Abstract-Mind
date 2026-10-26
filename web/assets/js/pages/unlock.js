@@ -28,6 +28,7 @@ export function init(navigate) {
 }
 
 export function show() {
+  $("unlock-email").value = account.session.me.user.email || "";
   const guest = account.isGuest();
   $("unlock-sub").textContent = guest
     ? "This guest library was started in another browser, or this browser's data was cleared. Its key was only ever in that browser, so its papers can't be opened here."
