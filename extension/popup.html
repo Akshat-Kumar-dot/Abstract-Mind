@@ -7,7 +7,7 @@
 </head>
 <body>
   <header class="bar">
-    <span class="mark" aria-hidden="true">PM</span>
+    <span class="mark" aria-hidden="true">AM</span>
     <div class="brand">
       <p class="name">Abstract Mind</p>
       <p class="sub">Form filler</p>
@@ -44,8 +44,18 @@
         <p class="fine" id="tab-hint">Popup closes when you pick a file? <a href="#" id="open-tab">Open this in a tab</a>.</p>
       </div>
       <div id="pane-library" role="tabpanel" aria-labelledby="tab-library" hidden>
+        <form id="unlock" class="unlock" hidden>
+          <p class="fine" id="unlock-note"></p>
+          <!-- lets password managers file the password under the account's email -->
+          <input id="unlock-email" type="email" autocomplete="username" hidden readonly>
+          <div class="row">
+            <input id="unlock-password" type="password" autocomplete="current-password" placeholder="Your Abstract Mind password" aria-label="Password">
+            <button type="submit" class="primary" id="unlock-go">Unlock</button>
+          </div>
+        </form>
         <ul id="library" class="list"></ul>
         <p id="library-note" class="fine"></p>
+        <button type="button" class="link" id="lock" hidden>Lock the library in this extension</button>
       </div>
     </section>
 
@@ -79,6 +89,6 @@
   </main>
 
   <script src="shared.js"></script>
-  <script src="popup.js"></script>
+  <script type="module" src="popup.js"></script>
 </body>
 </html>

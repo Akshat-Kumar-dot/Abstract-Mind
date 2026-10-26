@@ -1,6 +1,11 @@
 // The popup: pick the details (upload a file to Abstract Mind, or open one from
 // your library), then fill the page you are on. The chosen details are kept in
-// the extension's storage, because the popup closes whenever you click the page.
+// the extension's session storage, because the popup closes whenever you click
+// the page; Chrome clears that storage when the browser closes.
+import { summarize } from "./lib/fields.js";
+import * as keystore from "./lib/keystore.js";
+import * as vault from "./lib/vault.js";
+
 (() => {
   "use strict";
 
@@ -13,10 +18,14 @@
   let current = null;   // the details in use, from AbstractMindData.toFillData
 
   // ------------------------------------------------------------ server
-  async function api(path, init = {}) {
+  async function api(path, { json, headers = {}, ...init } = {}) {
+    if (json !== undefined) {
+      headers = { ...headers, "Content-Type": "application/json" };
+      init.body = JSON.stringify(json);
+    }
     let r;
     try {
-      r = await fetch(server + path, { credentials: "include", ...init });
+      r = await fetch(server + path, { credentials: "include", ...init, headers });
     } catch (_) {
       throw new Error(`Can't reach Abstract Mind at ${server}. Is it running?`);
     }
@@ -32,7 +41,7 @@
   async function ping() {
     const dot = $("server-state");
     try {
-      await api("/api/health");
+      await api("/api/v1/health");
       dot.className = "dot on";
       dot.title = `Connected to ${server}`;
     } catch (_) {
@@ -49,7 +58,7 @@
 
   async function useResult(result, source) {
     current = { ...AbstractMindData.toFillData(result), source };
-    await chrome.storage.local.set({ current });
+    await chrome.storage.session.set({ current });
     $("report").hidden = true;
     render();
   }
@@ -137,15 +146,24 @@
   $("extract").addEventListener("click", async () => {
     const f = $("file").files[0];
     if (!f) return;
-    const body = new FormData();
-    body.append("file", f);
-    body.append("kind", $("kind").value);
     $("extract").disabled = true;
     setStatus(`Reading ${f.name}…`);
     try {
-      const result = await api("/api/extract", { method: "POST", body });
+      // The server reads the raw file in memory; nothing is stored there.
+      const result = await api(`/api/v1/extract?${new URLSearchParams({ kind: $("kind").value })}`, {
+        method: "POST", body: f,
+        headers: { "Content-Type": "application/octet-stream", "X-File-Name": encodeURIComponent(f.name) },
+      });
       await useResult(result, "upload");
-      setStatus(result.saved_id ? "Read and saved to your library." : "Read.");
+      let saved = false;
+      try {
+        const k = await libraryKey();
+        if (k) {
+          await api("/api/v1/documents", { method: "POST", json: await seal(k, result) });
+          saved = true;
+        }
+      } catch (_) { /* reading worked; saving is a bonus */ }
+      setStatus(saved ? "Read and saved to your library." : "Read. Unlock Your library to keep a copy there too.");
     } catch (e) {
       setStatus(e.message, true);
     } finally {
@@ -153,35 +171,57 @@
     }
   });
 
+  // ------------------------------------------------------------ library
+  // Saved papers are encrypted with the account's data key. The site keeps
+  // that key in its own storage, which the extension can't read, so the
+  // extension unlocks it once with the password (worked out here; the password
+  // is never sent) and keeps it like the site does: a non-extractable key in
+  // the extension's IndexedDB, tagged with the server and account.
+  let account = null;   // /api/v1/auth/me
+  let dataKey = null;
+
+  const owner = () => `${server} ${account.user.email}`;
+
+  async function libraryKey() {
+    if (dataKey) return dataKey;
+    if (!account) {
+      try { account = await api("/api/v1/auth/me"); } catch (_) { return null; }
+    }
+    if (account.user.guest || !account.key) return null;
+    dataKey = await keystore.load(owner());
+    return dataKey;
+  }
+
+  async function seal(k, result) {
+    return { meta: await vault.sealJSON(k, summarize(result), "meta"), body: await vault.sealJSON(k, result, "body") };
+  }
+
+  async function forgetKey() {
+    dataKey = null;
+    await keystore.clear();
+  }
+
+  function showUnlock(message) {
+    $("unlock").hidden = false;
+    $("unlock-email").value = account.user.email || "";
+    $("unlock-note").textContent = message ||
+      `Enter the password for ${account.user.email} to open your library here. It's checked inside the extension and never sent.`;
+    $("library-note").textContent = "";
+    setTimeout(() => $("unlock-password").focus(), 0);
+  }
+
   async function loadLibrary() {
     const list = $("library");
     const note = $("library-note");
     list.innerHTML = "";
+    $("unlock").hidden = true;
+    $("lock").hidden = true;
     note.textContent = "Loading your library…";
     try {
-      const data = await api("/api/papers");
-      const rows = data.papers || [];
-      note.textContent = rows.length ? "Your edits on the site are included." : "Your library is empty. Upload a file on the site or here.";
-      rows.slice(0, 40).forEach((p) => {
-        const li = document.createElement("li");
-        const b = document.createElement("button");
-        b.type = "button";
-        b.innerHTML = `<span class="t"></span><span class="b"></span>`;
-        b.querySelector(".t").textContent = p.title || p.filename;
-        b.querySelector(".b").textContent = [p.kind === "upi" ? "UPI receipt" : "Paper", p.byline].filter(Boolean).join(" · ");
-        b.addEventListener("click", async () => {
-          setStatus("Opening…");
-          try {
-            await useResult(await api(`/api/papers/${p.id}`), "library");
-            setStatus("");
-          } catch (e) {
-            setStatus(e.message, true);
-          }
-        });
-        li.appendChild(b);
-        list.appendChild(li);
-      });
+      account = await api("/api/v1/auth/me");
     } catch (e) {
+      account = null;
+      await forgetKey();
       if (e.status === 401) {
         note.innerHTML = 'Sign in to Abstract Mind in this browser to use your library. <a href="#" id="open-site">Open Abstract Mind</a>';
         $("open-site").addEventListener("click", (ev) => {
@@ -191,12 +231,89 @@
       } else {
         note.textContent = e.message;
       }
+      return;
     }
+    if (account.user.guest) {
+      note.textContent = "You're signed in to the site as a guest. A guest library's key never leaves the site's tab, so it can't be opened here. Continue with Google on the site to keep your papers, then unlock them here.";
+      return;
+    }
+    if (account.user.needs_password || !account.key) {
+      note.textContent = "Finish setting up your account on the site (choose a password), then come back here.";
+      return;
+    }
+    const k = await libraryKey();
+    if (!k) return showUnlock();
+
+    let docs;
+    try {
+      docs = (await api("/api/v1/documents")).documents || [];
+    } catch (e) {
+      note.textContent = e.message;
+      return;
+    }
+    const rows = await Promise.all(docs.map(async (d) => {
+      try { return { id: d.id, ...(await vault.openJSON(k, d.meta, "meta")) }; } catch (_) { return null; }
+    }));
+    if (docs.length && rows.every((r) => r === null)) {
+      // The key no longer opens anything: the password was changed on the site.
+      await forgetKey();
+      return showUnlock("Your password was changed on the site. Enter the new one to open your library here.");
+    }
+    $("lock").hidden = false;
+    const readable = rows.filter(Boolean);
+    note.textContent = readable.length ? "Your edits on the site are included." : "Your library is empty. Upload a file on the site or here.";
+    readable.slice(0, 40).forEach((p) => {
+      const li = document.createElement("li");
+      const b = document.createElement("button");
+      b.type = "button";
+      b.innerHTML = `<span class="t"></span><span class="b"></span>`;
+      b.querySelector(".t").textContent = p.title || p.filename;
+      b.querySelector(".b").textContent = [p.kind === "upi" ? "UPI receipt" : "Paper", p.byline].filter(Boolean).join(" · ");
+      b.addEventListener("click", async () => {
+        setStatus("Opening…");
+        try {
+          const d = await api(`/api/v1/documents/${encodeURIComponent(p.id)}`);
+          await useResult(await vault.openJSON(k, d.body, "body"), "library");
+          setStatus("");
+        } catch (e) {
+          setStatus(e.message || "This document can't be opened with your key.", true);
+        }
+      });
+      li.appendChild(b);
+      list.appendChild(li);
+    });
   }
+
+  $("unlock").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const password = $("unlock-password").value;
+    if (!password || !account) return;
+    $("unlock-go").disabled = true;
+    setStatus("Unlocking…");
+    try {
+      const { dataKey: k } = await vault.unlock(password, account.key);
+      if (!k) throw new Error("no key");
+      dataKey = k;
+      await keystore.save(owner(), k);
+      $("unlock-password").value = "";
+      setStatus("");
+      await loadLibrary();
+    } catch (_) {
+      setStatus("That password doesn't open your library.", true);
+    } finally {
+      $("unlock-go").disabled = false;
+    }
+  });
+
+  $("lock").addEventListener("click", async () => {
+    await forgetKey();
+    setStatus("Locked. The extension will ask for your password next time.");
+    loadLibrary();
+  });
 
   $("change").addEventListener("click", async () => {
     current = null;
-    await chrome.storage.local.remove("current");
+    await chrome.storage.session.remove("current");
     setStatus("");
     $("report").hidden = true;
     render();
@@ -294,6 +411,8 @@
       }
     }
     server = origin;
+    account = null;
+    dataKey = null;
     $("server").value = server;
     await chrome.storage.local.set({ server });
     setStatus(`Using ${server}.`);
@@ -302,10 +421,11 @@
 
   // ------------------------------------------------------------ start
   (async () => {
-    const saved = await chrome.storage.local.get(["server", "current"]);
+    const saved = await chrome.storage.local.get(["server"]);
+    await chrome.storage.local.remove("current");     // older versions kept it here, on disk
     server = saved.server || DEFAULT_SERVER;
     $("server").value = server;
-    current = saved.current || null;
+    current = (await chrome.storage.session.get("current")).current || null;
     render();
     ping();
   })();

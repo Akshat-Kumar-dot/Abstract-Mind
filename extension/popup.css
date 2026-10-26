@@ -52,7 +52,7 @@ main { padding: 14px 16px 16px; display: grid; gap: 12px; }
 .drop input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
 .row { display: flex; gap: 8px; align-items: center; }
 .grow { flex: 1; }
-select, input[type=url] { flex: 1; min-width: 0; border: 1px solid var(--rule-strong); border-radius: 7px; padding: 6px 8px; background: #fff; }
+select, input[type=url], input[type=password] { flex: 1; min-width: 0; border: 1px solid var(--rule-strong); border-radius: 7px; padding: 6px 8px; background: #fff; }
 .primary { background: var(--ink); color: var(--accent-ink); border: 0; border-radius: 7px; padding: 8px 14px; font-weight: 600; cursor: pointer; }
 .primary:hover { background: var(--accent); }
 .primary:disabled { opacity: .4; cursor: not-allowed; }
@@ -94,3 +94,8 @@ select, input[type=url] { flex: 1; min-width: 0; border: 1px solid var(--rule-st
 .all-row small { display: block; color: var(--muted); font-size: 11px; }
 .all-row button { background: none; border: 1px solid var(--rule); border-radius: 6px; padding: 2px 8px; font-size: 12px; cursor: pointer; color: var(--muted); }
 .all-row button:hover { color: var(--accent); border-color: var(--accent); }
+
+/* library unlock */
+.unlock { display: grid; gap: 8px; margin-bottom: 8px; }
+.unlock .fine { margin: 0; }
+#lock { margin-top: 8px; }

@@ -68,8 +68,10 @@ test("passwords are normalised, so the same password typed differently still wor
   assert.deepEqual(composed.authKey, decomposed.authKey);
 });
 
-test("the extension carries an identical copy of the vault", () => {
-  const web = readFileSync(new URL("../../web/assets/js/lib/vault.js", import.meta.url), "utf8");
-  const ext = readFileSync(new URL("../../extension/lib/vault.js", import.meta.url), "utf8");
-  assert.equal(ext, web, "run: python scripts/sync_extension.py");
+test("the extension carries identical copies of the shared modules", () => {
+  for (const name of ["vault.js", "fields.js", "keystore.js"]) {
+    const web = readFileSync(new URL(`../../web/assets/js/lib/${name}`, import.meta.url), "utf8");
+    const ext = readFileSync(new URL(`../../extension/lib/${name}`, import.meta.url), "utf8");
+    assert.equal(ext, web, `extension/lib/${name} is out of date; run: python scripts/sync_extension.py`);
+  }
 });

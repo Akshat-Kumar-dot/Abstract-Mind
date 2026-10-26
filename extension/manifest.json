@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Abstract Mind Form Filler",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Types the details Abstract Mind read from your manuscript or UPI receipt into the form you have open. You review and submit.",
   "action": {
     "default_popup": "popup.html",

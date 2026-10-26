@@ -72,8 +72,12 @@ No Postgres installed? `pip install pgserver` runs one from a folder, without Do
 **Use**:
 
 1. Open the form's page.
-2. Click the Abstract Mind button. Upload the paper or receipt, or pick it from **Your library**. The library includes the corrections you made on the site; you must be signed in to Abstract Mind in the same browser.
+2. Click the Abstract Mind button. Upload the paper or receipt, or pick it from **Your library**. The library includes the corrections you made on the site.
 3. Click **Fill this page**, review what it typed, and submit the form yourself.
+
+**Your library in the extension**: sign in to Abstract Mind in the same Chrome profile, open **Your library**, and enter your Abstract Mind password once. Saved papers are encrypted, and the site's key lives in the site's own storage, which an extension can't read; so the extension opens the key itself from your password. The password is checked inside the extension and never sent. The opened key is kept like the site keeps it (in the extension's storage, usable but not readable), until you click **Lock the library in this extension**. If you change your password on the site, the extension asks for the new one. Guest libraries can't be opened in the extension: their key exists only in the site's tab. When the library is unlocked, a file you upload from the extension is also saved to it, encrypted.
+
+The paper you're filling from is kept in Chrome's session storage, so it survives the popup closing but is cleared when Chrome closes.
 
 How it behaves:
 
@@ -83,7 +87,9 @@ How it behaves:
 - If the form shows fewer author blocks than the paper has authors, it tells you how many to add. Press Fill again after adding them; filled fields are kept.
 - Fields it can't match are listed under **Left for you**, and **All details** has a Copy button for each value.
 
-The extension talks to `http://localhost:8765` by default. Change it under **Server** to your Render address; Chrome asks permission once for any other address.
+The extension talks to `http://localhost:8765` by default. Under **Server**, enter your deployed address (e.g. `https://abstract-mind.onrender.com`); `*.onrender.com` is allowed out of the box, and Chrome asks permission once for any other address, such as a custom domain. After updating the extension's files, press **Reload** on it in `chrome://extensions`.
+
+The extension carries exact copies of three of the site's modules: `vault.js` (encryption), `fields.js` and `keystore.js`. After changing any of them in `web/assets/js/lib/`, run `python scripts/sync_extension.py`; `node --test tests/web/vault.test.mjs` fails while a copy is out of date.
 
 **Tests**: serve the project folder (`python -m http.server 8790 --bind 127.0.0.1`), then open `extension-tests/easychair.html`, `modern.html` and `upi.html`. Each fills a form copied from a real layout and shows PASS or FAIL for every field. Refresh `extension-tests/sample-*.json` after changing the extractor.
 
