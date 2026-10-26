@@ -81,10 +81,10 @@ class Result:
     authors: list[dict] = field(default_factory=list)
     warnings: list[str] = field(default_factory=list)
     notes: list[str] = field(default_factory=list)      # informational, not problems
-    llm: dict[str, Any] = field(default_factory=dict)
+    links: Optional[dict] = None                         # header_reader output: ids, links, checks
 
     def to_dict(self) -> dict:
-        return {
+        out = {
             "kind": self.kind,
             "file_type": self.file_type,
             "pages": self.pages,
@@ -92,8 +92,10 @@ class Result:
             "authors": self.authors,
             "warnings": self.warnings,
             "notes": self.notes,
-            "llm": self.llm,
         }
+        if self.links is not None:
+            out["links"] = self.links
+        return out
 
 
 def group(gid: str, title: str, fields: list[Field]) -> dict:

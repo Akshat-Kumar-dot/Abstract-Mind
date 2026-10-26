@@ -57,3 +57,41 @@ def test_unconfirmed_amount_without_rupee_sign_is_flagged():
 def test_phone_number_is_not_a_utr():
     rows = rows_of(("Call 9876543210 for help", 20), ("Paid to Asha", 20))
     assert matcher.utr(rows, [], "generic") is None
+
+
+# Dates as real receipts and screenshots write them, including what text
+# recognition does to them (lost spaces, the O of "Oct" read as a zero).
+@pytest.mark.parametrize("lines, expected", [
+    (("Paid on 12-Oct-2025 08:45 PM",), "2025-10-12T20:45"),
+    (("Date: 12-Oct-25", "Time: 20:45"), "2025-10-12T20:45"),
+    (("12 Oct,2025 | 8:45 pm",), "2025-10-12T20:45"),
+    (("12Oct2025 20:45",), "2025-10-12T20:45"),
+    (("12 0ct 2025, 08:45 pm",), "2025-10-12T20:45"),
+    (("Transaction date 12.10.2025 20:45",), "2025-10-12T20:45"),
+    (("October 12, 2025 at 8:45 PM",), "2025-10-12T20:45"),
+    (("Sunday, 12th October 2025",), "2025-10-12T00:00"),
+    (("08:45 pm on 12 Oct 2025",), "2025-10-12T20:45"),
+    (("12/10/2025, 20:45:10",), "2025-10-12T20:45"),
+])
+def test_receipt_dates(lines, expected):
+    hit = matcher.date_time(rows_of(*[(t, 20) for t in lines]))
+    assert hit is not None, lines
+    assert hit.value.isoformat().startswith(expected), (lines, hit.value)
+
+
+def test_a_date_without_a_year_gets_the_latest_matching_year_and_is_flagged():
+    from datetime import datetime
+    hit = matcher.date_time(rows_of(("Paid to Asha", 20), ("12 Oct, 8:45 pm", 20)))
+    assert hit is not None and hit.value.month == 10 and hit.value.day == 12 and hit.value.hour == 20
+    assert hit.value.date() <= datetime.now().date()            # never a date in the future
+    assert hit.failed == 1 and "year" in hit.note.lower()
+
+
+def test_numbers_that_are_not_dates_are_ignored():
+    rows = rows_of(("UPI ref 412398765432", 20), ("Amount 1,250.00", 20), ("Version 2.10.3", 20))
+    assert matcher.date_time(rows) is None
+
+
+def test_time_under_its_own_label_two_rows_below_the_date():
+    rows = rows_of(("Transaction Date", 20), ("12-Oct-2025", 20), ("Time", 20), ("08:45 PM", 20))
+    assert matcher.date_time(rows).value.isoformat().startswith("2025-10-12T20:45")

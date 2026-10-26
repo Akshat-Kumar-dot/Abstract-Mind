@@ -16,7 +16,8 @@ from fastapi.staticfiles import StaticFiles
 
 from .api import errors
 from .api.routes import account, auth, documents, extract, google, health
-from .security.middleware import BodyLimitMiddleware, SameOriginMiddleware, SecurityHeadersMiddleware
+from .security.middleware import (BodyLimitMiddleware, ReaderCorsMiddleware, SameOriginMiddleware,
+                                  SecurityHeadersMiddleware)
 from .settings import WEB_DIR, get_settings
 
 API_PREFIX = "/api/v1"
@@ -54,6 +55,7 @@ def create_app() -> FastAPI:
     app.add_middleware(SecurityHeadersMiddleware)
     app.add_middleware(SameOriginMiddleware)
     app.add_middleware(BodyLimitMiddleware, limit_for=_body_limit)
+    app.add_middleware(ReaderCorsMiddleware)     # outermost: answers preflights first
     return app
 
 

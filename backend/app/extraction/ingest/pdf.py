@@ -18,7 +18,8 @@ OCR_DPI = 200
 MAX_RENDER_PIXELS = 25_000_000      # a page declared enormous must not exhaust memory
 
 
-def load_pdf(data: bytes, max_pages: int = 120, max_ocr_pages: int = 20) -> Document:
+def load_pdf(data: bytes, max_pages: int = 120, max_ocr_pages: int = 20, only_pages=None) -> Document:
+    """only_pages: a function page_count -> set of 1-based pages to read (the rest are skipped)."""
     try:
         pdf = fitz.open(stream=data, filetype="pdf")
     except Exception:
@@ -29,8 +30,11 @@ def load_pdf(data: bytes, max_pages: int = 120, max_ocr_pages: int = 20) -> Docu
         raise UnsupportedFile(f"This PDF has {pdf.page_count} pages; the limit is {max_pages}. Upload the manuscript without supplements.")
     doc = Document(source="pdf", blocks=[], pages=pdf.page_count)
     scanned = skipped = 0
+    wanted = only_pages(pdf.page_count) if only_pages else None
     for pno, page in enumerate(pdf, start=1):
         doc.page_sizes[pno] = (page.rect.width, page.rect.height)
+        if wanted is not None and pno not in wanted:
+            continue
         page_blocks: list[Block] = []
         info = page.get_text("dict")
         for b in info["blocks"]:

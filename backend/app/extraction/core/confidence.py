@@ -13,18 +13,15 @@ BASE = {
     "rule": 0.85,
     "layout": 0.85,
     "generic": 0.80,
-    "llm": 0.75,
     "suggested": 0.50,
 }
 VERIFIED = 0.85
 CHECK = 0.60
 
 
-def score(source: str, failed: int = 0, agreed: bool = False, base: Optional[float] = None) -> float:
+def score(source: str, failed: int = 0, base: Optional[float] = None) -> float:
     c = BASE.get(source, 0.7) if base is None else base
     c *= 0.3 ** failed
-    if agreed:
-        c = min(1.0, c + 0.1)
     return round(c, 2)
 
 
@@ -49,13 +46,12 @@ def make(
     source: str = "rule",
     *,
     failed: int = 0,
-    agreed: bool = False,
     base: Optional[float] = None,
     evidence: Optional[Evidence] = None,
     note: Optional[str] = None,
     long: bool = False,
 ) -> Field:
-    conf = 0.0 if is_empty(value) else score(source, failed, agreed, base)
+    conf = 0.0 if is_empty(value) else score(source, failed, base)
     return Field(
         key=key,
         label=label,

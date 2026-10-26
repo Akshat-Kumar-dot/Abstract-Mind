@@ -56,7 +56,6 @@ class Author:
     score: int = 0
     source: str = "rule"
     note: Optional[str] = None
-    agreed: bool = False          # the LLM read the same name
     failed: int = 0               # checks this author failed
 
 

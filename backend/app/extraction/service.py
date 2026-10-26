@@ -45,13 +45,13 @@ def load(data: bytes, filename: str, limits: Limits = Limits()) -> Document:
     raise UnsupportedFile("Upload a PDF, Word (.docx), LaTeX (.tex) or image (PNG, JPG, WEBP) file.")
 
 
-def run(data: bytes, filename: str = "", kind: str = "auto", allow_ai: bool = False, limits: Limits = Limits()) -> dict:
-    """`allow_ai` is the person's own choice for this upload; without it no
-    text from the file is ever sent to an LLM provider."""
+def run(data: bytes, filename: str = "", kind: str = "auto", limits: Limits = Limits()) -> dict:
+    """Reads the file in memory, on this machine only: no file content is ever
+    sent to another service."""
     doc = load(data, filename, limits)
     chosen = kind if kind in ("paper", "upi") else detect.guess_kind(doc)
     guessed = detect.guess_kind(doc) if kind in ("paper", "upi") else chosen
-    result = paper_pipeline.run(doc, allow_ai=allow_ai) if chosen == "paper" else upi_pipeline.run(doc)
+    result = paper_pipeline.run(doc) if chosen == "paper" else upi_pipeline.run(doc)
     out = result.to_dict()
     out["filename"] = filename
     out["kind_chosen_by"] = "you" if kind in ("paper", "upi") else "auto-detect"

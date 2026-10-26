@@ -29,16 +29,15 @@ TEST_DATABASE_URL = os.getenv("TEST_DATABASE_URL", "").strip()
 
 @pytest.fixture(autouse=True)
 def isolated(monkeypatch, tmp_path):
-    """Every test gets an empty database, fresh rate limits, development
-    settings and no real LLM."""
+    """Every test gets an empty database, fresh rate limits and development
+    settings."""
     from app.db import database
     from app.security.ratelimit import limiter
 
     for key in ("APP_ENV", "APP_SECRET", "PUBLIC_ORIGIN", "MAX_UPLOAD_MB", "MAX_DOCUMENTS_PER_USER", "MAX_DOCUMENT_KB",
                 "MAX_PDF_PAGES", "MAX_TEX_KB", "GEMINI_API_KEY", "GROQ_API_KEY", "GOOGLE_CLIENT_ID",
-                "GOOGLE_CLIENT_SECRET", "DATABASE_URL"):
+                "GOOGLE_CLIENT_SECRET", "DATABASE_URL", "READER_ALLOWED_ORIGINS"):
         monkeypatch.delenv(key, raising=False)
-    monkeypatch.setenv("LLM_PROVIDER", "none")
     monkeypatch.setenv("DB_PATH", str(tmp_path / "test.db"))
     if TEST_DATABASE_URL:
         monkeypatch.setenv("DATABASE_URL", TEST_DATABASE_URL)

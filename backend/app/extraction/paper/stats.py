@@ -1,4 +1,4 @@
-"""Counts are computed in code, never by the LLM."""
+"""Counts are computed in code from the document itself."""
 from __future__ import annotations
 
 import re

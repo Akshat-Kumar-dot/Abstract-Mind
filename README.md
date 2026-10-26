@@ -14,12 +14,13 @@ Sign in with Google, or try it as a guest, to keep a library. Each extraction is
 Every input is turned into the same list of text blocks (with font size and position when the format has them), then:
 
 1. **Zones**: the paper is split into header, abstract, body, declarations and references using headings that every template has. Authors are only read from the header, so cited authors never appear as authors. Journals with no headings at all (Nature, Science, Cell) are handled too: the header ends at the first run of prose, the opening paragraph is taken as the abstract, and the numbered small-type list is taken as the references.
-2. **Header**: title by font size; every other line is classified as author, affiliation, email or note.
-3. **Linking**: authors to affiliations by superscript markers, side-by-side IEEE blocks, "X is with ..." footnotes, or a single shared affiliation; emails by name similarity. Nothing is linked by guessing from order.
-4. **LLM (optional)**: only when the rules leave a required field missing, and only with the header text. Any value the LLM returns that is not in the paper is dropped.
-5. **UPI**: OCR for screenshots, app templates (`backend/app/extraction/upi/templates/*.yaml`), then generic rules; checks on the UTR, amount and date. A receipt is never treated as proof of payment.
+2. **Header** (`extraction/header_reader/`): title, authors, affiliations, emails and the corresponding author, as linked records: authors `A1, A2…` point at affiliations `F1, F2…` and emails `E1, E2…`, and each email says how it was linked. One file per step: `layout` (lines in reading order) → `header` (title, authors) → `affiliations` → `emails` → `checks`, run in order by `reader.py`.
+3. **Linking**: affiliations by superscript markers (numbers, letters or † ‡), author blocks (IEEE, ACM, JMLR), "X is with …" notes (IEEE journals), "Authors' addresses" notes (ACM journals), address blocks at the end (AMS) or one shared affiliation. Emails by the strongest evidence first: in the author's block, in an "is with" note, a name in brackets after it, printed next to the name, the same symbol as the author, the address spelling the name. Nothing is linked by guessing from order.
+4. **Checks**: every author has an affiliation, every affiliation and email belongs to someone, every marker is explained, and every value read is in the paper word for word. A failed check is shown as a warning, so a doubtful value is never passed off as certain. The result's `links` field holds the records, the checks and a one-line trace per step.
+5. **Nothing leaves the server**: every step runs on this machine's CPU, including OCR. No file content is sent to any other service; `test_extraction_never_touches_the_network` reads every test file with the network blocked.
+6. **UPI**: OCR for screenshots, app templates (`backend/app/extraction/upi/templates/*.yaml`), then generic rules; checks on the UTR, amount and date. A receipt is never treated as proof of payment.
 
-LaTeX files skip steps 1–4: authors, affiliations and emails come straight from the `\author` commands of IEEEtran, acmart, llncs, elsarticle, svjour3, revtex, authblk and plain article.
+LaTeX files skip steps 1–5: authors, affiliations and emails come straight from the `\author` commands of IEEEtran, acmart, llncs, elsarticle, svjour3, revtex, authblk and plain article.
 
 ## Run it locally
 
@@ -39,8 +40,6 @@ python -m venv .venv
 
 Open http://localhost:8765. (On macOS/Linux use `.venv/bin/python`.)
 
-Optional LLM: copy `.env.example` to `.env` and set `GEMINI_API_KEY` or `GROQ_API_KEY`. Without a key the site runs on rules only.
-
 Locally everything is stored in a SQLite file, so no database server is needed. "Continue with Google" stays hidden until `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` are set (see [Deploy on Render](#deploy-on-render)); guest accounts work without it.
 
 ## Tests
@@ -58,6 +57,45 @@ cd backend && TEST_DATABASE_URL=postgresql://postgres:@127.0.0.1:5432/am_test ..
 No Postgres installed? `pip install pgserver` runs one from a folder, without Docker or an installer.
 
 `backend/tests/make_fixtures.py` builds synthetic samples with known answers (two-column IEEE-style PDF, LNCS-style PDF, a Word manuscript with a title page, three LaTeX classes, PhonePe/Google Pay screenshots, a Paytm PDF). Add real papers and receipts to `backend/tests/fixtures/` with expected values as you collect them.
+
+## Benchmark: how well papers are read
+
+`benchmark/` measures the header reader on 219 papers in 41 styles: real open-access papers from 27 journals (BMC, PLOS, Nature, Frontiers, MDPI, Elsevier, Wiley, JMIR, Cureus, PNAS, …) and synthetic papers built from 14 LaTeX templates (IEEE, ACM, Springer LNCS, Elsevier, APS, MNRAS, ACS, AMS, JMLR, arXiv). The right answers come from each journal's own JATS XML, or from the generator for synthetic papers. The papers themselves are not in git (`benchmark/data/` is ignored); these commands rebuild them:
+
+```bash
+.venv/Scripts/python benchmark/fetch.py --pick
+```
+
+```bash
+.venv/Scripts/python benchmark/fetch.py
+```
+
+```bash
+.venv/Scripts/python benchmark/synth/build.py
+```
+
+The synthetic build needs [Tectonic](https://tectonic-typesetting.github.io/) (a single-file LaTeX engine). Then score header_reader against the old parser, field by field (exits with 1 if the new one is worse anywhere):
+
+```bash
+.venv/Scripts/python benchmark/score.py --compare
+```
+
+And to see why a paper went wrong (true vs read values, the trace, failed checks):
+
+```bash
+.venv/Scripts/python benchmark/look.py --worst
+```
+
+Latest scores (share of true values read correctly; in brackets, values read *wrongly* rather than missed):
+
+| field | old reader | header_reader |
+|---|---|---|
+| title | 84.5% | **94.1%** |
+| authors | 82.8% (211) | **92.1%** (6) |
+| author order | 65.3% | **84.9%** |
+| emails | 41.4% (13) | **75.6%** (1) |
+| affiliations | 48.5% (168) | **76.4%** (91) |
+| corresponding | 51.5% (20) | **79.5%** (13) |
 
 ## Chrome extension: fill forms for you
 
@@ -95,6 +133,27 @@ The extension carries exact copies of three of the site's modules: `vault.js` (e
 
 **Try the popup without Chrome**: with the app running locally, open http://localhost:8765/_dev/extension/. It's the real popup, served by the local server, so uploading, unlocking and the library work against your local account; `extension-tests/chrome-stub.js` stands in for Chrome's extension APIs, so **Fill this page** does nothing there. This page exists only in development: it isn't served when `APP_ENV=production`, and the Docker image doesn't include the extension.
 
+## TrustNet'26 registration form (separate site)
+
+`sites/trustnet/` is a standalone static page: the TrustNet'26 registration form. People drop in their paper and their UPI receipt, and it fills in the title, all authors and their institutes (in order), the presenter's name, affiliation and email, a suggested nationality, the amount, the transaction ID (UTR), the payment date and the proof of payment. Paper ID, mobile number and the WhatsApp tick are typed by hand. **Review registration** shows every answer to copy or download; nothing is submitted anywhere.
+
+Nothing is stored. The page sends each file to `POST /api/v1/extract` on the Abstract Mind server, which reads it in memory and returns the details; it never calls the save step (`/documents`), uses no cookies, and keeps nothing in the browser. `backend/tests/api/test_reader_cors.py` checks that the database stays empty and that the form's address can't reach accounts or libraries.
+
+**Try it locally**: run the app (port 8765), then serve the form on another port and open http://localhost:8790:
+
+```bash
+.venv/Scripts/python -m http.server 8790 --bind 127.0.0.1 --directory sites/trustnet
+```
+
+**Host it on Cloudflare Pages**:
+
+1. Cloudflare dashboard → **Workers & Pages → Create → Pages → Connect to Git**, pick this repository.
+2. Build settings: framework **None**, build command **empty**, build output directory **`sites/trustnet`**. Deploy. You get an address like `https://trustnet-form.pages.dev`.
+3. On Render → your service → **Environment**, set `READER_ALLOWED_ORIGINS` to that address (no `/` at the end). Until then the server refuses the form's requests.
+4. If your Render address isn't `https://abstract-mind.onrender.com`, change it in `sites/trustnet/config.js` and in `sites/trustnet/_headers` (`connect-src`).
+
+The first file after a quiet spell can take up to a minute while the free Render server wakes up; the page says so and pings the server as soon as it opens.
+
 ## Deploy on Render
 
 Render's free web service has no disk that survives a restart, so production keeps its data in Postgres.
@@ -104,7 +163,6 @@ Render's free web service has no disk that survives a restart, so production kee
 3. **Service**: in Render, **New → Blueprint**, pick the repository. `render.yaml` creates a Docker web service with a health check on `/api/v1/health`, switches on production mode and generates `APP_SECRET`. When asked, fill in:
    - `DATABASE_URL`: the URL from step 1
    - `PUBLIC_ORIGIN`: the service's address, e.g. `https://abstract-mind.onrender.com`
-   - `GEMINI_API_KEY` or `GROQ_API_KEY`, if you want the LLM step
 4. **Google sign-in**: in Google Cloud Console, **APIs & Services → Credentials → Create credentials → OAuth client ID → Web application**. Add the authorized redirect URI `https://<your address>/api/v1/auth/google/callback` (and `http://localhost:8765/api/v1/auth/google/callback` for local use). Put the client ID and secret in `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET`.
 5. **Check**: open `/api/v1/health`. It should say `"database": "postgres"` and `"google": true`.
 
@@ -213,11 +271,6 @@ Keep `?sslmode=require` on hosted URLs. `DB_POOL_SIZE` (default 5) sets how many
 
 | Variable | Default | Meaning |
 |---|---|---|
-| `LLM_PROVIDER` | `auto` | `auto`, `gemini`, `groq` or `none` |
-| `GEMINI_API_KEY` | | Google AI Studio key. Use a paid key for unpublished papers: Google may use free-tier prompts to improve its products. |
-| `GEMINI_MODEL` | `gemini-2.5-flash` | Check Google's current model list if calls fail |
-| `GROQ_API_KEY` | | console.groq.com key |
-| `GROQ_MODEL` | `llama-3.3-70b-versatile` | Check Groq's current model list if calls fail |
 | `MAX_UPLOAD_MB` | `20` | Upload size limit |
 | `DATABASE_URL` | | Postgres connection URL. Set it in production; when empty, a SQLite file is used |
 | `DB_PATH` | `data/abstract_mind.db` | The SQLite file, when `DATABASE_URL` isn't set |
@@ -228,6 +281,7 @@ Keep `?sslmode=require` on hosted URLs. `DB_POOL_SIZE` (default 5) sets how many
 | `GOOGLE_CLIENT_ID` | | OAuth client ID for "Continue with Google" |
 | `GOOGLE_CLIENT_SECRET` | | Its secret. The Google button is hidden until both are set |
 | `SESSION_DAYS` | `30` | How long a sign-in lasts |
+| `READER_ALLOWED_ORIGINS` | | Other websites that may use the reader from the browser, comma-separated (e.g. the TrustNet form). Only `/extract` and `/health`, never with cookies; nothing is stored |
 
 ## Layout
 
@@ -243,18 +297,33 @@ backend/app/
   extraction/        service.py (file type -> loader -> paper or UPI pipeline)
     core/            Block/Document/Field, confidence, grounding, file sniffing
     ingest/          pdf, ocr, docx, latex, layout (columns, headers, line numbers)
-    paper/           zones, header, linking, authors, names, affiliations,
-                     declarations, stats, llm_fill, pipeline
+    header_reader/   title, authors, affiliations, emails, corresponding author as
+                     linked records with checks: layout, header, names, affiliations,
+                     emails, checks, model, reader
+    paper/           zones, declarations, stats, publication, pipeline (and the older
+                     header parser, kept for Word files and ORCID iDs)
     upi/             rows, apps + templates/, matcher, validators, pipeline
-    llm/             Gemini and Groq clients behind one interface
     data/            word lists: affiliation words, countries, particles, banks
 web/                 index.html, assets/css, assets/js (main.js, pages/, services/,
                      lib/ with vault.js for encryption); no build step
 web/practice/        practice forms for the extension
+sites/trustnet/      TrustNet'26 registration form: a separate static site (Cloudflare Pages)
 extension/           Chrome extension that fills submission and payment forms
 extension-tests/     browser tests for the extension
 tests/web/           Node tests for the encryption (vault.js)
+benchmark/           paper test set: fetch.py, synth/ (LaTeX templates), score.py, look.py
 ```
+
+## Proposed upgrade: GROBID (when we have our own server)
+
+Today papers are read by our own rules, inside the Render app (512 MB, CPU only). The proposed upgrade, for when we can run a second, private service with about **2 GB of memory**, is [GROBID](https://github.com/kermitt2/grobid): free, open-source, CPU-only, and the standard tool for reading paper headers (used, for example, to build Semantic Scholar's paper corpus). It returns authors, affiliations and emails already linked to each other, which would replace most of our header code.
+
+How it would fit:
+
+1. Run the official GROBID Docker image (the CRF-only variant is the lightest) as a private service next to the app: our own server, a paid Render instance (2 GB, about $25/month), or a free VM such as Oracle Cloud's free tier.
+2. The app sends the PDF to that service (never to anyone else), maps GROBID's TEI XML into our linked model (authors → affiliations → emails) and runs the same checks as today (every value must appear in the paper, every author has an affiliation, every email belongs to one author).
+3. Our own rules stay as the fallback when GROBID is asleep or down, and for Word and LaTeX files, which GROBID doesn't read.
+4. It replaces our rules only if it scores higher on the test set (`benchmark/`), field by field.
 
 ## Known limits
 

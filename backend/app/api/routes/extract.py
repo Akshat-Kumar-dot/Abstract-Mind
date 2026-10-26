@@ -52,7 +52,6 @@ async def read_limited(request: Request, limit: int) -> bytes:
 @router.post("/extract")
 async def extract(request: Request,
                   kind: str = Query("auto", pattern="^(auto|paper|upi)$"),
-                  allow_ai: bool = Query(False),
                   x_file_name: str = Header("", max_length=1024),
                   s: Settings = Depends(settings)) -> dict:
     enforce(f"extract:{client_ip(request)}", 40, 600, "uploads")
@@ -67,7 +66,7 @@ async def extract(request: Request,
         if not slot.acquire(timeout=WAIT_FOR_SLOT):
             raise HTTPException(503, "Abstract Mind is busy reading other files. Try again in a minute.")
         try:
-            return run(data, name, kind, allow_ai=allow_ai and s.llm_provider is not None, limits=limits)
+            return run(data, name, kind, limits=limits)
         finally:
             slot.release()
 

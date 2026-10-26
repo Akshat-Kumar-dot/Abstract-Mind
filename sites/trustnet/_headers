@@ -1,0 +1,9 @@
+# Cloudflare Pages response headers for every page of the TrustNet form.
+# connect-src lists the only server this page talks to (the Abstract Mind reader);
+# if your Render address changes, change it here and in config.js.
+/*
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://abstract-mind.onrender.com; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: no-referrer
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()
+  Cross-Origin-Opener-Policy: same-origin

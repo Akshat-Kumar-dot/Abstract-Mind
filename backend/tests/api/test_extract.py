@@ -1,6 +1,7 @@
-"""Uploads: raw body, hard limits, nothing stored, nothing sent to an LLM
-without permission, hostile files refused quickly."""
+"""Uploads: raw body, hard limits, nothing stored, nothing sent anywhere,
+hostile files refused quickly."""
 import io
+import socket
 import struct
 import time
 import zlib
@@ -8,7 +9,7 @@ import zlib
 import fitz
 
 from app.db import database
-from app.extraction.llm import client as llm_client
+from app.extraction.service import run
 
 from .helpers import API, client, signup
 
@@ -50,15 +51,21 @@ def test_filename_is_sanitised(fixtures):
     assert r.json()["filename"] == "passbwd.pdf"
 
 
-def test_ai_is_never_used_without_permission(fixtures, monkeypatch):
-    def refuse(*a, **k):
-        raise AssertionError("sent to the LLM without permission")
+def test_extraction_never_touches_the_network(fixtures, monkeypatch):
+    """No file content can leave the machine: every outgoing connection and
+    DNS lookup fails the test, then every kind of file is read (PDF, Word,
+    LaTeX, screenshots through OCR, receipts)."""
+    def blocked(*a, **k):
+        raise AssertionError(f"extraction tried to use the network: {a[:2]}")
 
-    monkeypatch.setenv("LLM_PROVIDER", "gemini")
-    monkeypatch.setenv("GEMINI_API_KEY", "test-key")
-    monkeypatch.setattr(llm_client, "extract_json", refuse)
-    r = upload(client(), (fixtures / "nature.pdf").read_bytes(), "nature.pdf")
-    assert r.status_code == 200 and r.json()["llm"]["used"] is False
+    monkeypatch.setattr(socket.socket, "connect", blocked)
+    monkeypatch.setattr(socket.socket, "connect_ex", blocked)
+    monkeypatch.setattr(socket, "create_connection", blocked)
+    monkeypatch.setattr(socket, "getaddrinfo", blocked)
+    for f in sorted(fixtures.iterdir()):
+        if f.suffix.lower() in (".pdf", ".docx", ".tex", ".png", ".jpg", ".jpeg", ".webp"):
+            result = run(f.read_bytes(), f.name)
+            assert result["kind"] in ("paper", "upi"), f.name
 
 
 def test_password_protected_pdf_is_refused():

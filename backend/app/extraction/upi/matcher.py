@@ -21,12 +21,22 @@ MASK_RE = re.compile(r"[xX•*·●∙.]{2,}\s*(\d{4})\b")
 BANK_DASH_RE = re.compile(r"bank\s*[-–]\s*(\d{4})\b", re.I)
 AMOUNT_PREFIX = re.compile(r"(?:₹|rs\.?|inr|¥|￥)\s*([\d,]+(?:\.\d{1,2})?)", re.I)
 MONTHS = r"jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec"
+# Dates as receipts write them: "12 Oct 2025", "12-Oct-25", "12Oct2025" (spaces
+# lost in text recognition), "October 12, 2025", "12.10.2025", "2025-10-12".
 DATE_RES = [
-    re.compile(r"\b\d{1,2}(?:st|nd|rd|th)?\s+(?:" + MONTHS + r")[a-z]*\.?,?\s+\d{2,4}\b", re.I),
-    re.compile(r"\b(?:" + MONTHS + r")[a-z]*\.?\s+\d{1,2},?\s+\d{4}\b", re.I),
-    re.compile(r"\b\d{1,2}[/-]\d{1,2}[/-]\d{2,4}\b"),
+    re.compile(r"(?<![\d.])\d{1,2}(?:st|nd|rd|th)?[\s\-/.]*(?:" + MONTHS + r")[a-z]*\.?[\s\-/.,']*\d{4}(?!\d)", re.I),
+    re.compile(r"(?<![\d.])\d{1,2}(?:st|nd|rd|th)?[\s\-/.]*(?:" + MONTHS + r")[a-z]*\.?[\s\-/.,']*\d{2}(?![\d:])", re.I),
+    re.compile(r"\b(?:" + MONTHS + r")[a-z]*\.?\s*\d{1,2}(?:st|nd|rd|th)?,?\s*\d{4}(?!\d)", re.I),
+    re.compile(r"(?<![\d.])\d{1,2}[/\-.]\d{1,2}[/\-.](?:\d{4}|\d{2})(?![\d.])"),
     re.compile(r"\b\d{4}-\d{2}-\d{2}\b"),
 ]
+# Only used when no full date is found: "12 Oct, 8:45 pm" (some apps leave out the year).
+NO_YEAR_RES = [
+    re.compile(r"(?<![\d.])\d{1,2}(?:st|nd|rd|th)?\s*(?:" + MONTHS + r")[a-z]*\b(?!\s*\d{2})", re.I),
+    re.compile(r"\b(?:" + MONTHS + r")[a-z]*\.?\s*\d{1,2}(?:st|nd|rd|th)?\b(?!\s*,?\s*\d{4})", re.I),
+]
+# Text recognition often reads the O of "Oct"/"Nov" as a zero.
+OCR_MONTHS = [(re.compile(r"(?<![A-Za-z])0ct", re.I), "Oct"), (re.compile(r"(?<![A-Za-z])N0v", re.I), "Nov")]
 TIME_RE = re.compile(r"\b\d{1,2}:\d{2}(?::\d{2})?\s*(?:[ap]\.?\s?m\.?)?", re.I)
 STATUS = [
     ("Failed", re.compile(r"\bfailed\b|\bdeclined\b|\bunsuccessful\b", re.I)),
@@ -206,29 +216,74 @@ def amount(rows: list[Row]) -> Optional[Hit]:
     return Hit(v, row, "format")
 
 
+def _fix_ocr(text: str) -> str:
+    for rx, repl in OCR_MONTHS:
+        text = rx.sub(repl, text)
+    return text
+
+
+def _readable(date_s: str) -> str:
+    """'12-Oct-25' / '12Oct2025' / '12 Oct,2025' -> '12 Oct 25' for the parser."""
+    s = re.sub(r"(?<=\d)(?=[A-Za-z])|(?<=[A-Za-z])(?=\d)", " ", date_s)
+    if re.search(r"[A-Za-z]", s):
+        s = re.sub(r"[\-/.,']", " ", s)
+    else:
+        s = s.replace(".", "/")
+    return re.sub(r"\s+", " ", s).strip()
+
+
+def _time_near(rows: list[Row], i: int, text: str) -> str:
+    """The time on the date's row, else the nearest within two rows ("Time" is
+    often a label on its own row, with the value under it)."""
+    t = TIME_RE.search(text)
+    for j in (i + 1, i - 1, i + 2, i - 2):
+        if t is None and 0 <= j < len(rows):
+            t = TIME_RE.search(rows[j].text)
+    return t.group(0) if t else ""
+
+
 def date_time(rows: list[Row]) -> Optional[Hit]:
-    for i, r in enumerate(rows):
+    texts = [_fix_ocr(r.text) for r in rows]
+    for i, text in enumerate(texts):
         for rx in DATE_RES:
-            m = rx.search(r.text)
+            m = rx.search(text)
             if not m:
                 continue
             date_s = m.group(0)
-            t = TIME_RE.search(r.text)
-            for j in (i - 1, i + 1):
-                if t is None and 0 <= j < len(rows):
-                    t = TIME_RE.search(rows[j].text)
-            time_s = t.group(0) if t else ""
+            time_s = _time_near(rows, i, text.replace(date_s, " "))
             try:
-                dt = dateparser.parse(f"{date_s} {time_s}".replace(",", " "), dayfirst=True)
+                dt = dateparser.parse(f"{_readable(date_s)} {time_s}", dayfirst=True)
             except (ValueError, OverflowError):
                 continue
+            if not 2000 <= dt.year <= datetime.now().year + 1:
+                continue
             note = None
-            nums = re.fullmatch(r"(\d{1,2})[/-](\d{1,2})[/-]\d{2,4}", date_s)
+            nums = re.fullmatch(r"(\d{1,2})[/\-.](\d{1,2})[/\-.]\d{2,4}", date_s)
             if nums and int(nums.group(1)) <= 12 and int(nums.group(2)) <= 12 and nums.group(1) != nums.group(2):
                 note = "Read as day/month (Indian format)"
             if not time_s:
                 note = (note + "; " if note else "") + "No time found"
             return Hit(dt.replace(tzinfo=IST), i, "format", note=note)
+    return _date_without_year(rows, texts)
+
+
+def _date_without_year(rows: list[Row], texts: list[str]) -> Optional[Hit]:
+    """'12 Oct, 8:45 pm': the latest such date that isn't in the future. Flagged."""
+    now = datetime.now()
+    for i, text in enumerate(texts):
+        for rx in NO_YEAR_RES:
+            m = rx.search(text)
+            if not m:
+                continue
+            time_s = _time_near(rows, i, text.replace(m.group(0), " "))
+            try:
+                dt = dateparser.parse(f"{_readable(m.group(0))} {now.year} {time_s}", dayfirst=True)
+            except (ValueError, OverflowError):
+                continue
+            if dt.date() > now.date():
+                dt = dt.replace(year=dt.year - 1)
+            return Hit(dt.replace(tzinfo=IST), i, "format", failed=1,
+                       note=f"The receipt doesn't show the year; {dt.year} assumed")
     return None
 
 

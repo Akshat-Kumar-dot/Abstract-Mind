@@ -16,7 +16,6 @@ NOT_PROOF = ("Extracted, not verified: a receipt or screenshot can be edited. Ma
 
 def run(doc: Document) -> Result:
     res = Result(kind="upi", file_type=doc.source, pages=doc.pages, warnings=list(doc.warnings))
-    res.llm = {"provider": None, "used": False, "reason": None}   # receipts have fixed formats; no LLM
     rows = build_rows(doc.blocks)
     text = "\n".join(r.text for r in rows)
     key, tpl = apps.detect(text)

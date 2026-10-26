@@ -1,7 +1,7 @@
 // Add a document: upload → the server reads it in memory and returns the
 // details → they are encrypted here and saved to the library. The file itself
-// is never stored, and nothing goes to an AI provider unless "Let AI help" is
-// ticked for this upload.
+// is never stored, and it is read only on the server's CPU, never sent to
+// another service.
 
 import { uploadFile } from "../lib/api.js";
 import { $, formatSize, reduceMotion } from "../lib/dom.js";
@@ -21,11 +21,6 @@ export function init(navigate, health) {
     if (e.dataTransfer && e.dataTransfer.files.length) { fileInput.files = e.dataTransfer.files; showChosen(); }
   });
   form.addEventListener("submit", submit);
-  if (health && health.ai_provider) {
-    const name = health.ai_provider === "gemini" ? "Google Gemini" : "Groq";
-    $("ai-row").hidden = false;
-    $("ai-provider").textContent = name;
-  }
 }
 
 export function show() {
@@ -66,7 +61,6 @@ async function submit(e) {
   const f = chosen();
   if (!f) return;
   const kind = $("form").querySelector("input[name=kind]:checked").value;
-  const allowAi = !$("ai-row").hidden && $("allow-ai").checked;
   $("go").disabled = true;
   setStatus("");
   $("progress").hidden = false;
@@ -75,7 +69,7 @@ async function submit(e) {
   setStep(0, `Sending ${f.name}…`);
   let reading;
   try {
-    const result = await uploadFile(f, { kind, allow_ai: allowAi ? "true" : "false" }, (p) => {
+    const result = await uploadFile(f, { kind }, (p) => {
       if (p < 1) { setStep(0, `Sending ${f.name}… ${Math.round(p * 100)}%`, 4 + p * 26); return; }
       if (reading) return;
       setStep(1, "Laying out pages, columns and fonts.");

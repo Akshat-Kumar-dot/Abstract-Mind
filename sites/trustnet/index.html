@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>TrustNet'26 Registration · Abstract Mind</title>
+  <meta name="description" content="TrustNet'26 registration, filled in from your paper and payment receipt.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,400..600,50&family=Schibsted+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="trustnet.css">
+</head>
+<body>
+  <svg class="sprite" aria-hidden="true">
+    <defs>
+      <symbol id="i-paper" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></symbol>
+      <symbol id="i-receipt" viewBox="0 0 24 24"><path d="M6 3h12v18l-2.5-1.6L13 21l-2.5-1.6L8 21l-2-1.3z"/><path d="M9 8h6M9 11.5h6M9 15h3"/></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+      <symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5v5.5M12 16.5v.01"/></symbol>
+      <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8.5 10.5V7.5a3.5 3.5 0 0 1 7 0v3"/></symbol>
+      <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 15V4M7.5 8.5 12 4l4.5 4.5"/><path d="M4 14.5V18a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3.5"/></symbol>
+      <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+      <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15.5" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/></symbol>
+      <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></symbol>
+      <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8.5" y="8.5" width="12" height="12" rx="2"/><path d="M15.5 8.5V5a1.5 1.5 0 0 0-1.5-1.5H5A1.5 1.5 0 0 0 3.5 5v9A1.5 1.5 0 0 0 5 15.5h3.5"/></symbol>
+      <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v11M7.5 10.5 12 15l4.5-4.5M5 20h14"/></symbol>
+      <symbol id="i-spark" viewBox="0 0 24 24"><path d="M4 12h3M17 12h3M12 4v3M12 17v3"/><circle cx="12" cy="12" r="3"/></symbol>
+    </defs>
+  </svg>
+
+  <header class="masthead">
+    <div class="wrap mast-row">
+      <a class="brand" href="https://abstract-mind.onrender.com" target="_blank" rel="noopener" title="Autofill by Abstract Mind"><span class="brand-mark">AM</span><span>Autofill by Abstract Mind</span></a>
+      <span class="mast-note"><svg class="ic"><use href="#i-lock"/></svg>Nothing on this page is stored</span>
+    </div>
+  </header>
+
+  <main class="wrap layout">
+    <!-- the conference -->
+    <section class="intro">
+      <p class="kicker">Registration form</p>
+      <h1>TrustNet<span class="apos">’</span>26</h1>
+      <p class="conf-name">International Conference on Trusted Networks and Intelligent Systems</p>
+      <ul class="conf-meta">
+        <li><svg class="ic"><use href="#i-calendar"/></svg>February 16–17, 2026</li>
+        <li><svg class="ic"><use href="#i-pin"/></svg>Manipal University Jaipur, Jaipur, Rajasthan, India</li>
+      </ul>
+      <p class="conf-note"><strong>Note:</strong> in case of any discrepancy, the paper will be discarded without any refund of the registration fee.</p>
+    </section>
+
+    <!-- autofill -->
+    <aside class="autofill" aria-labelledby="autofill-title">
+      <div class="autofill-card">
+        <h2 id="autofill-title">Fill it from your files</h2>
+        <p class="muted">Drop in your paper and your payment receipt. The details are read and typed into the form for you to check. The files aren't kept.</p>
+
+        <label class="drop" id="drop-paper" for="paper-file">
+          <input id="paper-file" type="file" accept=".pdf,.docx,.tex">
+          <span class="drop-ic"><svg class="ic"><use href="#i-paper"/></svg></span>
+          <span class="drop-text"><strong>Your paper</strong><small>PDF, Word or LaTeX</small></span>
+          <span class="drop-state" id="paper-state">Choose</span>
+        </label>
+        <p class="drop-note" id="paper-note" hidden></p>
+
+        <label class="drop" id="drop-receipt" for="receipt-file">
+          <input id="receipt-file" type="file" accept=".pdf,.png,.jpg,.jpeg,.webp">
+          <span class="drop-ic"><svg class="ic"><use href="#i-receipt"/></svg></span>
+          <span class="drop-text"><strong>Payment receipt</strong><small>UPI receipt as PDF or screenshot</small></span>
+          <span class="drop-state" id="receipt-state">Choose</span>
+        </label>
+        <p class="drop-note" id="receipt-note" hidden></p>
+
+        <div class="progress" id="progress" hidden>
+          <div class="progress-bar"><span id="progress-fill"></span></div>
+          <p id="progress-text">Reading…</p>
+        </div>
+
+        <div class="tally" id="tally">
+          <div><strong id="count-filled">0</strong><span>filled for you</span></div>
+          <div><strong id="count-left">15</strong><span>left to answer</span></div>
+        </div>
+        <ul class="legend">
+          <li><span class="dot ok"></span>Read from your file</li>
+          <li><span class="dot check"></span>Worth a second look</li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- the form -->
+    <form id="form" class="form" novalidate>
+      <p class="required-note"><span class="req">*</span> Required question</p>
+
+      <section class="card" aria-labelledby="s-contact">
+        <h2 id="s-contact"><span class="step">1</span>Contact</h2>
+        <div class="q" data-q="email">
+          <label for="email">Email <span class="req">*</span></label>
+          <input id="email" name="email" type="email" required autocomplete="email" placeholder="you@university.edu">
+          <p class="hint">We'll prefill the presenter's email from the paper. Change it if you're registering for someone else.</p>
+        </div>
+      </section>
+
+      <section class="card" aria-labelledby="s-paper">
+        <h2 id="s-paper"><span class="step">2</span>Paper</h2>
+        <div class="q" data-q="paper_id">
+          <label for="paper_id">Paper ID <span class="req">*</span></label>
+          <input id="paper_id" name="paper_id" type="text" required placeholder="e.g. 142">
+          <p class="hint">From your acceptance email. It isn't in the paper, so type it in.</p>
+        </div>
+        <div class="q" data-q="title">
+          <label for="title">Paper title <span class="req">*</span></label>
+          <textarea id="title" name="title" rows="2" required></textarea>
+        </div>
+        <div class="q" data-q="authors">
+          <label for="authors">All author names <span class="req">*</span></label>
+          <p class="sub">Same sequence and spelling as in the paper, separated by commas.</p>
+          <textarea id="authors" name="authors" rows="2" required></textarea>
+        </div>
+        <div class="q" data-q="institutes">
+          <label for="institutes">All author affiliating institutes <span class="req">*</span></label>
+          <p class="sub">Same sequence and spelling as in the paper, separated by commas.</p>
+          <textarea id="institutes" name="institutes" rows="2" required></textarea>
+        </div>
+      </section>
+
+      <section class="card" aria-labelledby="s-presenter">
+        <h2 id="s-presenter"><span class="step">3</span>Presenter</h2>
+        <div class="q" data-q="presenter">
+          <label for="presenter">Presenter of paper <span class="req">*</span></label>
+          <input id="presenter" name="presenter" type="text" required autocomplete="off">
+          <div class="chips" id="presenter-chips" hidden></div>
+        </div>
+        <div class="q" data-q="presenter_affiliation">
+          <label for="presenter_affiliation">Presenter affiliation <span class="req">*</span></label>
+          <input id="presenter_affiliation" name="presenter_affiliation" type="text" required>
+        </div>
+        <div class="q" data-q="presenter_email">
+          <label for="presenter_email">Presenter email <span class="req">*</span></label>
+          <input id="presenter_email" name="presenter_email" type="email" required>
+        </div>
+        <div class="grid2">
+          <div class="q" data-q="mobile">
+            <label for="mobile">Presenter mobile (WhatsApp) <span class="req">*</span></label>
+            <input id="mobile" name="mobile" type="tel" required autocomplete="tel" placeholder="+91 98765 43210">
+          </div>
+          <div class="q" data-q="nationality">
+            <label for="nationality">Nationality <span class="req">*</span></label>
+            <input id="nationality" name="nationality" type="text" required placeholder="e.g. Indian">
+          </div>
+        </div>
+      </section>
+
+      <section class="card" aria-labelledby="s-payment">
+        <h2 id="s-payment"><span class="step">4</span>Payment</h2>
+        <div class="grid2">
+          <div class="q" data-q="amount">
+            <label for="amount">Amount paid (₹) <span class="req">*</span></label>
+            <input id="amount" name="amount" type="text" inputmode="decimal" required>
+          </div>
+          <div class="q" data-q="date">
+            <label for="date">Date of payment <span class="req">*</span></label>
+            <input id="date" name="date" type="date" required>
+          </div>
+        </div>
+        <div class="q" data-q="transaction">
+          <label for="transaction">Transaction ID <span class="req">*</span></label>
+          <input id="transaction" name="transaction" type="text" required spellcheck="false">
+          <p class="hint">The UPI reference (UTR) from your receipt.</p>
+        </div>
+        <div class="q" data-q="proof">
+          <p class="label">Proof of payment <span class="req">*</span></p>
+          <div class="proof" id="proof">
+            <span class="proof-empty" id="proof-empty">Your receipt is attached here when you add it above.</span>
+            <span class="proof-file" id="proof-file" hidden><svg class="ic"><use href="#i-receipt"/></svg><span id="proof-name"></span>
+              <button type="button" class="icon-btn" id="proof-remove" aria-label="Remove the receipt"><svg class="ic"><use href="#i-x"/></svg></button></span>
+          </div>
+        </div>
+      </section>
+
+      <section class="card" aria-labelledby="s-confirm">
+        <h2 id="s-confirm"><span class="step">5</span>Confirm</h2>
+        <div class="q" data-q="whatsapp">
+          <p class="label">Have you joined the WhatsApp group for further communication? <span class="req">*</span></p>
+          <p class="sub"><a href="https://chat.whatsapp.com/Jxv6rg1BFL2C7TThfYubUc?mode=ems_qr_t" target="_blank" rel="noopener noreferrer">Join the TrustNet'26 WhatsApp group</a></p>
+          <label class="check"><input type="checkbox" id="whatsapp" name="whatsapp" required> Yes</label>
+        </div>
+      </section>
+
+      <p class="form-error" id="form-error" role="alert" hidden></p>
+      <div class="actions">
+        <button type="button" class="ghost" id="clear">Clear form</button>
+        <button type="submit" class="primary">Review registration</button>
+      </div>
+    </form>
+  </main>
+
+  <!-- review -->
+  <dialog id="review" class="review" aria-labelledby="review-title">
+    <div class="review-head">
+      <h2 id="review-title">Check your registration</h2>
+      <button type="button" class="icon-btn" id="review-close" aria-label="Close"><svg class="ic"><use href="#i-x"/></svg></button>
+    </div>
+    <p class="muted">This page doesn't send or store anything. Copy these answers into the official TrustNet'26 form, or keep a copy.</p>
+    <dl class="review-list" id="review-list"></dl>
+    <div class="actions">
+      <button type="button" class="ghost" id="review-download"><svg class="ic"><use href="#i-download"/></svg>Download a copy</button>
+      <button type="button" class="primary" id="review-copy"><svg class="ic"><use href="#i-copy"/></svg>Copy all answers</button>
+    </div>
+  </dialog>
+
+  <script src="config.js"></script>
+  <script src="trustnet.js"></script>
+</body>
+</html>

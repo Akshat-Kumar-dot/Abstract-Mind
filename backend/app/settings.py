@@ -44,6 +44,9 @@ class Settings:
     db_path: Path
     app_secret: bytes
     public_origin: Optional[str]
+    # Other websites (e.g. the TrustNet form on Cloudflare) allowed to use the
+    # reader: only /extract and /health, no cookies, nothing stored.
+    reader_origins: tuple[str, ...]
     session_days: int
     # uploads and extraction
     max_upload_bytes: int
@@ -54,13 +57,6 @@ class Settings:
     # encrypted library
     max_document_bytes: int
     max_documents_per_user: int
-    # optional LLM help (off unless the user ticks it for an upload)
-    llm_provider: Optional[str]
-    gemini_api_key: Optional[str]
-    gemini_model: str
-    groq_api_key: Optional[str]
-    groq_model: str
-    llm_timeout: float
     # "Continue with Google" (off unless both are set)
     google_client_id: Optional[str]
     google_client_secret: Optional[str]
@@ -83,18 +79,6 @@ class Settings:
         return "__Host-am_session" if self.cookie_secure else "am_session"
 
 
-def _llm_provider() -> Optional[str]:
-    choice = os.getenv("LLM_PROVIDER", "auto").strip().lower()
-    has_gemini, has_groq = bool(os.getenv("GEMINI_API_KEY")), bool(os.getenv("GROQ_API_KEY"))
-    if choice == "none":
-        return None
-    if choice == "gemini":
-        return "gemini" if has_gemini else None
-    if choice == "groq":
-        return "groq" if has_groq else None
-    return "gemini" if has_gemini else "groq" if has_groq else None
-
-
 def get_settings() -> Settings:
     """Read on every call: cheap, and lets tests change the environment."""
     env = os.getenv("APP_ENV", "development").strip().lower()
@@ -110,6 +94,7 @@ def get_settings() -> Settings:
         db_path=Path(os.getenv("DB_PATH") or ROOT / "data" / "abstract_mind.db"),
         app_secret=secret,
         public_origin=origin,
+        reader_origins=tuple(o.strip().rstrip("/") for o in os.getenv("READER_ALLOWED_ORIGINS", "").split(",") if o.strip()),
         session_days=_int("SESSION_DAYS", 30),
         max_upload_bytes=int(float(os.getenv("MAX_UPLOAD_MB", "20")) * 1024 * 1024),
         max_pdf_pages=_int("MAX_PDF_PAGES", 120),
@@ -118,12 +103,6 @@ def get_settings() -> Settings:
         max_concurrent_extractions=max(1, _int("MAX_CONCURRENT_EXTRACTIONS", 2)),
         max_document_bytes=_int("MAX_DOCUMENT_KB", 4096) * 1024,
         max_documents_per_user=_int("MAX_DOCUMENTS_PER_USER", 5000),
-        llm_provider=_llm_provider(),
-        gemini_api_key=os.getenv("GEMINI_API_KEY") or None,
-        gemini_model=os.getenv("GEMINI_MODEL", "gemini-2.5-flash"),
-        groq_api_key=os.getenv("GROQ_API_KEY") or None,
-        groq_model=os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile"),
-        llm_timeout=float(os.getenv("LLM_TIMEOUT", "30")),
         google_client_id=os.getenv("GOOGLE_CLIENT_ID", "").strip() or None,
         google_client_secret=os.getenv("GOOGLE_CLIENT_SECRET", "").strip() or None,
     )

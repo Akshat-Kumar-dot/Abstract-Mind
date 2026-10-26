@@ -94,7 +94,6 @@ function render() {
 
   const warns = (d.warnings || []).map((w) => `<li>${icon("i-alert")}<span>${escapeHtml(w)}</span></li>`);
   (d.notes || []).forEach((n) => warns.push(`<li class="info">${icon("i-info")}<span>${escapeHtml(n)}</span></li>`));
-  if (d.llm && d.llm.reason) warns.push(`<li class="info">${icon("i-info")}<span>${escapeHtml(d.llm.reason)}</span></li>`);
   $("warnings").innerHTML = warns.join("");
 
   const byKey = {};

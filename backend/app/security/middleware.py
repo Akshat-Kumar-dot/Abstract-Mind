@@ -10,11 +10,24 @@
 from __future__ import annotations
 
 import json
+import re
 from typing import Callable
 
 from ..settings import get_settings
 
 UNSAFE_METHODS = {"POST", "PUT", "PATCH", "DELETE"}
+
+# What another website may use: reading a file and the health check. Never
+# accounts, sessions or the library, and never with cookies.
+READER_PATHS = {"/api/v1/extract": "POST", "/api/v1/health": "GET"}
+_LOCAL = re.compile(r"^http://(localhost|127\.0\.0\.1)(:\d+)?$")
+
+
+def reader_origin_allowed(origin: str, path: str) -> bool:
+    if path not in READER_PATHS or not origin:
+        return False
+    s = get_settings()
+    return origin in s.reader_origins or (not s.production and bool(_LOCAL.match(origin)))
 
 WEB_CSP = (
     "default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; "
@@ -99,9 +112,42 @@ class SameOriginMiddleware:
         host = headers.get(b"host", b"").decode("latin-1")
         own = f"{scope.get('scheme', 'http')}://{host}"
         allowed = {own, get_settings().public_origin}
-        if origin in allowed or origin.startswith("chrome-extension://"):
+        if origin in allowed or origin.startswith("chrome-extension://") or reader_origin_allowed(origin, scope["path"]):
             return await self.app(scope, receive, send)
         return await _send_json(send, 403, "Cross-site request blocked.")
+
+
+class ReaderCorsMiddleware:
+    """Lets the websites in READER_ALLOWED_ORIGINS call the reader from the
+    browser (CORS), for READER_PATHS only. Credentials are never allowed, so
+    those sites can't act as a signed-in user. In development any localhost
+    origin is allowed, for trying such a site locally."""
+
+    def __init__(self, app):
+        self.app = app
+
+    async def __call__(self, scope, receive, send):
+        if scope["type"] != "http":
+            return await self.app(scope, receive, send)
+        origin = dict(scope["headers"]).get(b"origin", b"").decode("latin-1")
+        path = scope["path"]
+        if not reader_origin_allowed(origin, path):
+            return await self.app(scope, receive, send)
+        cors = [(b"access-control-allow-origin", origin.encode()), (b"vary", b"Origin")]
+        if scope["method"] == "OPTIONS":           # the browser's preflight
+            cors += [(b"access-control-allow-methods", READER_PATHS[path].encode()),
+                     (b"access-control-allow-headers", b"Content-Type, X-File-Name"),
+                     (b"access-control-max-age", b"600"), (b"content-length", b"0")]
+            await send({"type": "http.response.start", "status": 204, "headers": cors})
+            await send({"type": "http.response.body", "body": b""})
+            return
+
+        async def with_cors(message):
+            if message["type"] == "http.response.start":
+                message = {**message, "headers": list(message.get("headers", [])) + cors}
+            await send(message)
+
+        await self.app(scope, receive, with_cors)
 
 
 class SecurityHeadersMiddleware:

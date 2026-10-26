@@ -1,0 +1,702 @@
+[
+ {
+  "style": "plos",
+  "id": "PMC12755822",
+  "title": "Inside the world of non-suicidal self-injury e-communities: Language, identity and need for belonging."
+ },
+ {
+  "style": "plos",
+  "id": "PMC12755737",
+  "title": "Candidate orphan genes: Reassessing uniqueness."
+ },
+ {
+  "style": "plos",
+  "id": "PMC12755826",
+  "title": "In vivo and in vitro susceptibility and inflammatory response of postnatal mouse cortical neurons and glial cells to zik"
+ },
+ {
+  "style": "plos",
+  "id": "PMC12755762",
+  "title": "Biological studies on exogenous NO stress to improve the quality of Radix Scutellariae herbs."
+ },
+ {
+  "style": "plos",
+  "id": "PMC12755748",
+  "title": "Spoof detection with dynamic learnable sparse attention and tri-modal fusion in resource-constrained audio systems."
+ },
+ {
+  "style": "plos-compbio",
+  "id": "PMC12747392",
+  "title": "Ten simple rules for running a virtual program to introduce computational biology at the high school level."
+ },
+ {
+  "style": "plos-compbio",
+  "id": "PMC12779159",
+  "title": "Modeling tissue-scale ciliary transport and mixing in three-dimensional Newtonian flow."
+ },
+ {
+  "style": "plos-compbio",
+  "id": "PMC12707657",
+  "title": "Eleven quick tips for organizing a data cleaning challenge."
+ },
+ {
+  "style": "plos-compbio",
+  "id": "PMC12707676",
+  "title": "Probabilistic modeling of cell cycle dynamics in response to cell cycle targeting chemotherapy drugs to guide treatment "
+ },
+ {
+  "style": "plos-compbio",
+  "id": "PMC12711074",
+  "title": "A deep learning approach for time-consistent cell cycle phase prediction from microscopy data."
+ },
+ {
+  "style": "nature-scirep",
+  "id": "PMC12830661",
+  "title": "Dexmedetomidine administration may be beneficial in relation to ventilator-associated pneumonia."
+ },
+ {
+  "style": "nature-scirep",
+  "id": "PMC12852775",
+  "title": "Curvelet-enhanced transformer architecture for blurred action fine-grained detection."
+ },
+ {
+  "style": "nature-scirep",
+  "id": "PMC12815906",
+  "title": "New design of plate implant for bone healing assessment using frequency measurement: a biomechanical cadaveric study."
+ },
+ {
+  "style": "nature-scirep",
+  "id": "PMC12783103",
+  "title": "Evaluating the effect of minimal TIMP variants on protecting and transport across the rat brain microvascular cells (RBM"
+ },
+ {
+  "style": "nature-scirep",
+  "id": "PMC12858950",
+  "title": "Pluripotent epigenetic regulator OBP-801 attenuates fibrosis and maintains lower intraocular pressure in a rabbit PRESER"
+ },
+ {
+  "style": "nature-commun",
+  "id": "PMC12858907",
+  "title": "Potentiators empower synthetic microbiomes as silent guardians against co-contamination."
+ },
+ {
+  "style": "nature-commun",
+  "id": "PMC12872613",
+  "title": "Adaptation to cystine limitation stress confers a targetable lipid metabolism vulnerability in pancreatic ductal adenoca"
+ },
+ {
+  "style": "nature-commun",
+  "id": "PMC13039903",
+  "title": "Distinct diet-microbiome associations in autism spectrum disorder."
+ },
+ {
+  "style": "nature-commun",
+  "id": "PMC12881661",
+  "title": "SigmaR1 is an auxiliary translocon factor with lipid-binding activity that regulates protein and lipid droplet homeostas"
+ },
+ {
+  "style": "nature-commun",
+  "id": "PMC12864733",
+  "title": "Scalable photonic reservoir computing for parallel machine learning tasks."
+ },
+ {
+  "style": "bmc",
+  "id": "PMC12751917",
+  "title": "Prodigy protein: Python package for zero-shot protein engineering using protein language models."
+ },
+ {
+  "style": "bmc",
+  "id": "PMC12751882",
+  "title": "A directed weighted network-based method for drug combinations identification using drug-target and inter-target regulat"
+ },
+ {
+  "style": "bmc",
+  "id": "PMC12859900",
+  "title": "PG-SCUnK: measuring pangenome graph representativeness using single-copy and universal K-mers."
+ },
+ {
+  "style": "bmc",
+  "id": "PMC12751776",
+  "title": "DriverSub-SVM: a machine learning approach for cancer subtype classification by integrating patient-specific and global "
+ },
+ {
+  "style": "bmc",
+  "id": "PMC12866578",
+  "title": "DCPR: a deep learning framework for circadian phase reconstruction."
+ },
+ {
+  "style": "frontiers",
+  "id": "PMC13314633",
+  "title": "Post-traumatic stress status among emergency department nurses during the winter H1N1 influenza season and correlations "
+ },
+ {
+  "style": "frontiers",
+  "id": "PMC13230215",
+  "title": "VR preoperative education with sensory information alleviates perioperative anxiety and enhances delivery experience in "
+ },
+ {
+  "style": "frontiers",
+  "id": "PMC13223141",
+  "title": "The influence of mobile phone self-expansion on psychological richness: a moderated mediation model."
+ },
+ {
+  "style": "frontiers",
+  "id": "PMC13226118",
+  "title": "Empowering coaching in youth basketball: the balancing mechanism between coaching authority and athlete autonomy."
+ },
+ {
+  "style": "frontiers",
+  "id": "PMC13157673",
+  "title": "Techno-uncertainty and organizational counterproductive work behavior among Generation X employees in a South African st"
+ },
+ {
+  "style": "mdpi-sensors",
+  "id": "PMC12788303",
+  "title": "A Multi-Fish Tracking and Behavior Modeling Framework for High-Density Cage Aquaculture."
+ },
+ {
+  "style": "mdpi-sensors",
+  "id": "PMC12788205",
+  "title": "Self-Supervised Contrastive Learning and GAN-Based Denoising for High-Fidelity HumanNeRF Images."
+ },
+ {
+  "style": "mdpi-sensors",
+  "id": "PMC12788250",
+  "title": "Radar Multiple Bin Selection for Breathing and Heart Rate Monitoring in Acute Stroke Patients in a Clinical Setting."
+ },
+ {
+  "style": "mdpi-sensors",
+  "id": "PMC12788306",
+  "title": "Adaptive Dynamic Thresholds for Unsupervised Joint Anomaly Detection and Trend Prediction."
+ },
+ {
+  "style": "mdpi-sensors",
+  "id": "PMC12788340",
+  "title": "Quality Assessment of a Foot-Mounted Inertial Measurement Unit System to Measure On-Field Spatiotemporal Acceleration Me"
+ },
+ {
+  "style": "mdpi-ijerph",
+  "id": "PMC12841505",
+  "title": "Non-Pharmacological Management of Hypertension: Exploring Determinants for Optimizing Physical Activity Implementation i"
+ },
+ {
+  "style": "mdpi-ijerph",
+  "id": "PMC12841108",
+  "title": "Knowledge, Perceptions, and Practices of Traffic Police Officers Towards Air Pollution in Addis Ababa, Ethiopia: An Expl"
+ },
+ {
+  "style": "mdpi-ijerph",
+  "id": "PMC12840691",
+  "title": "Venous Thromboembolism Risk Assessment and Prophylaxis in Trauma Patients."
+ },
+ {
+  "style": "mdpi-ijerph",
+  "id": "PMC12841082",
+  "title": "Unprotected Sex and Its Association with Other Risky Behaviours Among European Students: A Multinational Study."
+ },
+ {
+  "style": "mdpi-ijerph",
+  "id": "PMC12841253",
+  "title": "Perceptions of Youth Substance Users on Substance Use Relapse Prevention: A Qualitative Study in Lobatse, Botswana."
+ },
+ {
+  "style": "elife",
+  "id": "PMC12755882",
+  "title": "Decision-making components and times revealed by the single-trial electroencephalogram."
+ },
+ {
+  "style": "elife",
+  "id": "PMC12755881",
+  "title": "Coordinated spinal locomotor network dynamics emerge from cell-type-specific connectivity patterns."
+ },
+ {
+  "style": "elife",
+  "id": "PMC12755883",
+  "title": "JAK-STAT pathway activation compromises nephrocyte function in a &lt;i&gt;Drosophila&lt;/i&gt; high-fat diet model of ch"
+ },
+ {
+  "style": "elife",
+  "id": "PMC12753105",
+  "title": "Evolution of a fuzzy ribonucleoprotein complex in viral assembly."
+ },
+ {
+  "style": "elife",
+  "id": "PMC12753104",
+  "title": "Epidermal resident memory T cell fitness requires antigen encounter in the skin."
+ },
+ {
+  "style": "peerj",
+  "id": "PMC12721125",
+  "title": "Identification of hypoxia- and mitochondria-related genes associated with recurrent spontaneous abortion: an integrative"
+ },
+ {
+  "style": "peerj",
+  "id": "PMC12721123",
+  "title": "Phosphorus fractionation and distribution in Nitisols of the central Ethiopian highlands affects soil nutrient managemen"
+ },
+ {
+  "style": "peerj",
+  "id": "PMC12716435",
+  "title": "Simpler predictive models provide higher accuracy for ovarian cancer detection."
+ },
+ {
+  "style": "peerj",
+  "id": "PMC12717851",
+  "title": "Bioinformatics-based identification and validation of mitochondria-related genes associated with neonatal sepsis."
+ },
+ {
+  "style": "peerj",
+  "id": "PMC12716145",
+  "title": "Diabetes and respiratory diseases as comorbid conditions in COVID-19 patients from Kazakhstan: a retrospective pilot stu"
+ },
+ {
+  "style": "elsevier-heliyon",
+  "id": "PMC11908580",
+  "title": "Green-based anti-biofilm nanoformulations against bacterial contaminations in nosocomial environments."
+ },
+ {
+  "style": "elsevier-heliyon",
+  "id": "PMC11903808",
+  "title": "Adsorption kinetics and mechanisms of nano chitosan coated cotton fiber for the removal of heavy metals from industrial "
+ },
+ {
+  "style": "elsevier-heliyon",
+  "id": "PMC11908552",
+  "title": "Structure controlled enhanced photocatalytic activity of polyaniline (PANI)."
+ },
+ {
+  "style": "elsevier-heliyon",
+  "id": "PMC11908583",
+  "title": "Analysis of blood migration components in rats treated with Shaoyao Gancao Decoction using UPLC-Q-TOF-MS/MS."
+ },
+ {
+  "style": "elsevier-heliyon",
+  "id": "PMC11908567",
+  "title": "Comparative analysis of four different solvent extracts of &lt;i&gt;Annona muricata&lt;/i&gt; bark based on bioactive co"
+ },
+ {
+  "style": "cell-reports",
+  "id": "PMC12831476",
+  "title": "MeCP2 regulates telencephalic development in human cerebral organoids."
+ },
+ {
+  "style": "cell-reports",
+  "id": "PMC12860407",
+  "title": "Age- and cell-type-specific effects of histone variant H2BE in the brain."
+ },
+ {
+  "style": "cell-reports",
+  "id": "PMC12840010",
+  "title": "The relevance of context in memory tasks influences the magnitude of hippocampal remapping."
+ },
+ {
+  "style": "cell-reports",
+  "id": "PMC12882823",
+  "title": "Airway immunometabolic responses during pulmonary bacterial and viral infections."
+ },
+ {
+  "style": "cell-reports",
+  "id": "PMC12825121",
+  "title": "Jub-induced phosphorylation of Warts inhibits its activity and recruitment into biomolecular condensates."
+ },
+ {
+  "style": "oxford-nar",
+  "id": "PMC7261179",
+  "title": "Regulation of alternative polyadenylation in the yeast Saccharomyces cerevisiae by histone H3K4 and H3K36 methyltransfer"
+ },
+ {
+  "style": "oxford-nar",
+  "id": "PMC12700100",
+  "title": "METTL3 and METTL14 determine human neural fate specifications."
+ },
+ {
+  "style": "oxford-nar",
+  "id": "PMC12700090",
+  "title": "Response to the commentary by Melidis et al. on \"Untargeted CUT&amp;Tag reads are enriched at accessible chromatin and r"
+ },
+ {
+  "style": "oxford-nar",
+  "id": "PMC12693644",
+  "title": "A spatially informed matrix normal model for gene co-expression analysis in spatial transcriptomics studies."
+ },
+ {
+  "style": "oxford-nar",
+  "id": "PMC12685370",
+  "title": "Loop-mediated regulation and base flipping drive RNA cleavage by human mitochondrial PNPase."
+ },
+ {
+  "style": "oxford-bioinformatics",
+  "id": "PMC12702140",
+  "title": "Morpheus: a fragment-based algorithm to predict fold-switching behaviour in proteins across proteomes."
+ },
+ {
+  "style": "oxford-bioinformatics",
+  "id": "PMC12684723",
+  "title": "Target and biomarker exploration portal for drug discovery."
+ },
+ {
+  "style": "oxford-bioinformatics",
+  "id": "PMC12696646",
+  "title": "Guided co-clustering transfer across unpaired and paired single-cell multi-omics data."
+ },
+ {
+  "style": "oxford-bioinformatics",
+  "id": "PMC12721381",
+  "title": "Bayesian reconstruction and differential testing of excised introns."
+ },
+ {
+  "style": "oxford-bioinformatics",
+  "id": "PMC12701802",
+  "title": "scRegulate: single-cell regulatory-embedded variational inference of transcription factor activity from gene expression."
+ },
+ {
+  "style": "wiley-ecolevol",
+  "id": "PMC12745909",
+  "title": "Global Suitability Areas of Two Rice Pests, &lt;i&gt;Nilaparvata lugens&lt;/i&gt; and &lt;i&gt;Sogatella furcifera&lt;/i"
+ },
+ {
+  "style": "wiley-ecolevol",
+  "id": "PMC12746053",
+  "title": "Moose Survival and Habitat-Associated Risk of Endoparasites."
+ },
+ {
+  "style": "wiley-ecolevol",
+  "id": "PMC12998265",
+  "title": "A Direct Observation of Infanticide by a Female Free-Ranging Dog (&lt;i&gt;Canis familiaris&lt;/i&gt;) Supports the Reso"
+ },
+ {
+  "style": "wiley-ecolevol",
+  "id": "PMC12744897",
+  "title": "Geometric-Mean Fitness Does Not Correspond to Long-Term Survival Probability."
+ },
+ {
+  "style": "wiley-ecolevol",
+  "id": "PMC12745924",
+  "title": "Demography Meets Climate Change: Life History Challenges for a Neotropical Viviparous Lizard."
+ },
+ {
+  "style": "wiley-advsci",
+  "id": "PMC13325503",
+  "title": "Overcoming the Trade-Off Between Magnetic Coupling and Electrical Insulation in Soft Magnetic Materials via Nanochain En"
+ },
+ {
+  "style": "wiley-advsci",
+  "id": "PMC13325517",
+  "title": "Microscale Mapping of Fiber Strain and Damage in Composite Wrinkled Laminates Using Computed Tomography Assisted Wide-An"
+ },
+ {
+  "style": "wiley-advsci",
+  "id": "PMC13325476",
+  "title": "Solid Harmonic Wavelet Bispectrum for Image Analysis."
+ },
+ {
+  "style": "wiley-advsci",
+  "id": "PMC12752583",
+  "title": "Robust Physics-Informed Neural Network Approach for Estimating Heterogeneous Elastic Properties from Noisy Displacement "
+ },
+ {
+  "style": "wiley-advsci",
+  "id": "PMC13325511",
+  "title": "Physical Origin of Temperature Induced Activation Energy Switching in Electrically Conductive Cement."
+ },
+ {
+  "style": "springer-scidata",
+  "id": "PMC12858903",
+  "title": "Scalable cyberinfrastructure for experimental NMR data."
+ },
+ {
+  "style": "springer-scidata",
+  "id": "PMC12816676",
+  "title": "Towards a FAIR metadata framework for drone and uncrewed aerial vehicle data."
+ },
+ {
+  "style": "springer-scidata",
+  "id": "PMC12800197",
+  "title": "How does academia recognize the contribution of scientific data? Evidence from data contributors' authorship."
+ },
+ {
+  "style": "springer-scidata",
+  "id": "PMC12727687",
+  "title": "Facilitating analysis of open neurophysiology data on the DANDI Archive using large language model tools."
+ },
+ {
+  "style": "springer-scidata",
+  "id": "PMC12635221",
+  "title": "The ICGC ARGO data dictionary for standardizing global cancer clinical data."
+ },
+ {
+  "style": "jmir",
+  "id": "PMC12755899",
+  "title": "Exploring Predictors of Counselors' Acceptance of Virtual Reality Exposure Therapy With Resistance and Job Contexts as M"
+ },
+ {
+  "style": "jmir",
+  "id": "PMC12805323",
+  "title": "Digital Health Literacy and Its Role in Awareness of and Access to Sexual Health Products and Services Among Displaced Y"
+ },
+ {
+  "style": "jmir",
+  "id": "PMC12755294",
+  "title": "Effectiveness of Digital Interventions for Low-Income, Food-Insecure Populations: Natural Language Processing Study of W"
+ },
+ {
+  "style": "jmir",
+  "id": "PMC12747503",
+  "title": "Acceptability and Use of Digital Health and Artificial Intelligence-Enabled Chatbots for Sexual and Reproductive Health "
+ },
+ {
+  "style": "jmir",
+  "id": "PMC12811037",
+  "title": "Assessing the Impact of the Quality of Textual Data on Feature Representation and Machine Learning Models: Quantitative "
+ },
+ {
+  "style": "royalsociety",
+  "id": "PMC12646803",
+  "title": "Environmental adversity, life-history traits and cognitive functioning in children and adolescents."
+ },
+ {
+  "style": "royalsociety",
+  "id": "PMC12646748",
+  "title": "Misinformation interventions and online sharing behaviour: lessons learned from two pre-registered field studies."
+ },
+ {
+  "style": "royalsociety",
+  "id": "PMC12646781",
+  "title": "Should elephants graze or browse? The nutritional and functional consequences of dietary variation in a mixed-feeding me"
+ },
+ {
+  "style": "royalsociety",
+  "id": "PMC12646745",
+  "title": "Multifaceted polarization and information reliability in climate change discussions on social media platforms."
+ },
+ {
+  "style": "royalsociety",
+  "id": "PMC12646797",
+  "title": "The 'seet' danger call: an active nest warning in superb fairy-wrens."
+ },
+ {
+  "style": "acs-omega",
+  "id": "PMC12756798",
+  "title": "The Influence of Polystyrene and Biodegradable Microplastics on &lt;i&gt;Phaseolus vulgaris L.&lt;/i&gt; Growth."
+ },
+ {
+  "style": "acs-omega",
+  "id": "PMC12756745",
+  "title": "Investigation of Solvent and Stirring-Assisted Morphologically Tuned CuO-ZnO-CeO&lt;sub&gt;2&lt;/sub&gt; Catalyst for CO"
+ },
+ {
+  "style": "acs-omega",
+  "id": "PMC12756801",
+  "title": "Free Energy Landscapes and Metastability in Methane Adsorption within a Representative Metal-Organic Framework."
+ },
+ {
+  "style": "acs-omega",
+  "id": "PMC12756766",
+  "title": "Unraveling the Molecular Inhibition and Conformational Changes of Hsp70 and Hsc70 Induced by VER-155008, a Competitive A"
+ },
+ {
+  "style": "acs-omega",
+  "id": "PMC12756721",
+  "title": "Influence of Grubbs Catalyst Concentration on the Rheokinetics, Mechanical, and Thermomechanical Properties of Dicyclope"
+ },
+ {
+  "style": "bmj-open",
+  "id": "PMC12766797",
+  "title": "Burden of anaemia in displaced women and children in refugee settings worldwide, update for 2017-2024: a cross-sectional"
+ },
+ {
+  "style": "bmj-open",
+  "id": "PMC12766776",
+  "title": "From international guidelines to practice: a multimethod evaluation of &lt;i&gt;BMJ&lt;/i&gt; Rapid Recommendations focu"
+ },
+ {
+  "style": "bmj-open",
+  "id": "PMC12766812",
+  "title": "CORE-ALI: protocol for a pan-European mixed-methods study to develop a core outcome set for acute lower limb ischaemia."
+ },
+ {
+  "style": "bmj-open",
+  "id": "PMC13059836",
+  "title": "Ethnological study of birth timing decisions: a scoping review protocol."
+ },
+ {
+  "style": "bmj-open",
+  "id": "PMC12766847",
+  "title": "Evaluating the impact of a national brain health education course for older adults with intellectual and developmental d"
+ },
+ {
+  "style": "wolters-medicine",
+  "id": "PMC11365645",
+  "title": "Path analysis of COVID-19 cognition, social support, and mental health of pregnant women with interventional prenatal di"
+ },
+ {
+  "style": "wolters-medicine",
+  "id": "PMC12746992",
+  "title": "Total caffeine intake is associated with lower serum α-Klotho and may impact its detection accuracy: Evidence from NHANE"
+ },
+ {
+  "style": "wolters-medicine",
+  "id": "PMC12747046",
+  "title": "Role of cathepsin in mediating the effect of oral flora on myocardial infarction: A multi-omics and mediation Mendelian "
+ },
+ {
+  "style": "wolters-medicine",
+  "id": "PMC12746921",
+  "title": "Causal effects of gut microbiota on IgG levels after Helicobacter pylori (H pylori) infection: Insights from genome-wide"
+ },
+ {
+  "style": "wolters-medicine",
+  "id": "PMC12746914",
+  "title": "Single-cell atlas of COVID-19 based on multiple sample integration."
+ },
+ {
+  "style": "pnas",
+  "id": "PMC12772204",
+  "title": "High-temperature anomalous Hall effect driven by frustrated spin fluctuations in the antiferromagnetic delafossite metal"
+ },
+ {
+  "style": "pnas",
+  "id": "PMC12772149",
+  "title": "Wild food portfolios: Access to diverse foods stabilizes harvest in wild food systems."
+ },
+ {
+  "style": "pnas",
+  "id": "PMC12772198",
+  "title": "Country-specific progress toward the Sustainable Development Goals: Past, present, and prospects."
+ },
+ {
+  "style": "pnas",
+  "id": "PMC12772174",
+  "title": "A complete spatial map of mouse retinal ganglion cells reveals density and gene expression specializations."
+ },
+ {
+  "style": "pnas",
+  "id": "PMC12772209",
+  "title": "Predicting the unseen: A diffusion-based debiasing framework for transcriptional response prediction at single-cell reso"
+ },
+ {
+  "style": "science-advances",
+  "id": "PMC12716424",
+  "title": "Photoredox-controlled chemo-divergent, regio-, and stereoselective difunctionalization of olefins via switchable SO&lt;s"
+ },
+ {
+  "style": "science-advances",
+  "id": "PMC12716384",
+  "title": "Observing momentum conservation at temporal interfaces in synthetic frequency dimension."
+ },
+ {
+  "style": "science-advances",
+  "id": "PMC12716387",
+  "title": "The evolution of cheaper workers facilitated larger societies and accelerated diversification in ants"
+ },
+ {
+  "style": "science-advances",
+  "id": "PMC12716402",
+  "title": "Asymmetries-induced nonlinear dynamic behaviors enable versatile modulation strategy for insect-scale robotics."
+ },
+ {
+  "style": "science-advances",
+  "id": "PMC12710701",
+  "title": "What if eye...? Computationally recreating vision evolution"
+ },
+ {
+  "style": "cureus",
+  "id": "PMC12856769",
+  "title": "Mechanical Effects of Implant Position on an Implant-Supported Removable Partial Denture Using Three-Dimensional Finite-"
+ },
+ {
+  "style": "cureus",
+  "id": "PMC12857585",
+  "title": "Occipito-Cervical Fusion Using Screw Rod Plate System in Craniocervical Pathologies: A Prospective Cohort Analysis of Lo"
+ },
+ {
+  "style": "cureus",
+  "id": "PMC12861489",
+  "title": "Fluorescence-Guided Surgery in a Latin American Population: Patient Experiences in a Private Academic Hospital in Panama"
+ },
+ {
+  "style": "cureus",
+  "id": "PMC12856506",
+  "title": "Assessment of the Cerebroplacental Ratio and Amniotic Fluid Index in Term Appropriate-for-Gestational-Age Pregnancies fo"
+ },
+ {
+  "style": "cureus",
+  "id": "PMC12856767",
+  "title": "Prevalence and Correlates of Depression Among Patients With Drug-Susceptible Tuberculosis Enrollees in Ogbomoso, Oyo Sta"
+ },
+ {
+  "style": "india-ophthalmology",
+  "id": "PMC12707403",
+  "title": "Cohort study of global, psychological, and visual quality of life one year after evisceration/enucleation surgery: QOLAE"
+ },
+ {
+  "style": "india-ophthalmology",
+  "id": "PMC12707411",
+  "title": "Eyebrow elevation using chemomodulation and myomodulation (Hyaluronic acid gel): A cohort analysis."
+ },
+ {
+  "style": "india-ophthalmology",
+  "id": "PMC12707382",
+  "title": "Safety and effectiveness of Eyecryl toric intraocular lenses in the correction of astigmatism post-phacoemulsification: "
+ },
+ {
+  "style": "india-ophthalmology",
+  "id": "PMC12707415",
+  "title": "Quality of life in the pediatric population wearing scleral lenses."
+ },
+ {
+  "style": "india-ophthalmology",
+  "id": "PMC12707404",
+  "title": "Safety of hydrodissection in low-risk posterior polar cataract assessed with preoperative swept-source optical coherence"
+ },
+ {
+  "style": "india-familymed",
+  "id": "PMC12858119",
+  "title": "Seroprevalence of SARS CoV 2 IgG in pandemic frontline healthcare workers."
+ },
+ {
+  "style": "india-familymed",
+  "id": "PMC12858138",
+  "title": "Sensitivity and resistance pattern of uropathogens causing urinary tract infections among adults at a teaching hospital "
+ },
+ {
+  "style": "india-familymed",
+  "id": "PMC12858127",
+  "title": "Etiological background of osteoporosis in Khamis Mushait general hospital: A descriptive study assessing risk factors, s"
+ },
+ {
+  "style": "india-familymed",
+  "id": "PMC12858157",
+  "title": "Palliative care consultations for non-malignant diseases: Experience from a public hospital in Western India."
+ },
+ {
+  "style": "india-familymed",
+  "id": "PMC12858158",
+  "title": "An epidemiological study of depression among geriatric population in Mehrauli area of South Delhi."
+ },
+ {
+  "style": "ieee-jtehm",
+  "id": "PMC12772985",
+  "title": "Optimized Active Noise Cancellation for Hearing Tests Using Auditory Masking Characteristics."
+ },
+ {
+  "style": "ieee-jtehm",
+  "id": "PMC12772982",
+  "title": "Detection of Cervical Intraepithelial Neoplasia Using Hyperspectral Tissue Signatures."
+ },
+ {
+  "style": "ieee-jtehm",
+  "id": "PMC12772984",
+  "title": "Translational Evaluation of a Machine Learning-Based Interactive Lab for Aphasia Rehabilitation in Post Stroke Patients."
+ },
+ {
+  "style": "ieee-jtehm",
+  "id": "PMC12772987",
+  "title": "An Explainable Deep-Learning Approach to Detect Pediatric Sleep Apnea From Single-Channel Airflow."
+ },
+ {
+  "style": "ieee-jtehm",
+  "id": "PMC12599896",
+  "title": "An Adaptable Phase-Tracking System for Parkinsonian Rest Tremor: Design and In-Clinic Feasibility."
+ }
+]
