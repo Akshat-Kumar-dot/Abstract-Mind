@@ -44,6 +44,10 @@ def create_app() -> FastAPI:
         api.include_router(module.router)
     app.include_router(api)
 
+    if not get_settings().production:
+        from .devtools import mount_extension_preview
+
+        mount_extension_preview(app)       # /_dev/extension/: try the popup locally
     app.mount("/", StaticFiles(directory=WEB_DIR, html=True), name="web")
 
     # Added last = runs first.

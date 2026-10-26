@@ -93,6 +93,8 @@ The extension carries exact copies of three of the site's modules: `vault.js` (e
 
 **Tests**: serve the project folder (`python -m http.server 8790 --bind 127.0.0.1`), then open `extension-tests/easychair.html`, `modern.html` and `upi.html`. Each fills a form copied from a real layout and shows PASS or FAIL for every field. Refresh `extension-tests/sample-*.json` after changing the extractor.
 
+**Try the popup without Chrome**: with the app running locally, open http://localhost:8765/_dev/extension/. It's the real popup, served by the local server, so uploading, unlocking and the library work against your local account; `extension-tests/chrome-stub.js` stands in for Chrome's extension APIs, so **Fill this page** does nothing there. This page exists only in development: it isn't served when `APP_ENV=production`, and the Docker image doesn't include the extension.
+
 ## Deploy on Render
 
 Render's free web service has no disk that survives a restart, so production keeps its data in Postgres.
