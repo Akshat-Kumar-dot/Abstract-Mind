@@ -204,7 +204,7 @@ def by_blocks(people: list[Person]) -> dict[str, str]:
     """name -> the non-email lines of its block, joined."""
     out = {}
     for p in people:
-        rows = [ln.text for ln in p.block if not EMAIL.search(ln.text) and not END_OF_LIST.match(ln.text)]
+        rows = [ln.text.strip(" ,;") for ln in p.block if not EMAIL.search(ln.text) and not END_OF_LIST.match(ln.text)]
         if rows:
             out[p.name] = _clean(", ".join(rows))
     return out

@@ -9,7 +9,7 @@ import fitz  # PyMuPDF
 from ..core.models import Block, Document
 from ..core.text import unicode_sup_to_marked
 from ..errors import UnsupportedFile
-from . import ocr
+from . import cover, ocr
 
 SUPERSCRIPT_FLAG = 1
 BOLD_FLAG = 16
@@ -28,10 +28,15 @@ def load_pdf(data: bytes, max_pages: int = 120, max_ocr_pages: int = 20, only_pa
         raise UnsupportedFile("This PDF is password-protected. Remove the password and upload it again.")
     if pdf.page_count > max_pages:
         raise UnsupportedFile(f"This PDF has {pdf.page_count} pages; the limit is {max_pages}. Upload the manuscript without supplements.")
-    doc = Document(source="pdf", blocks=[], pages=pdf.page_count)
+    # a repository's cover sheet in front of the paper is skipped, and pages are numbered from the paper's first
+    first = 1 if pdf.page_count > 1 and cover.is_cover(pdf[0].get_text()) else 0
+    count = pdf.page_count - first
+    doc = Document(source="pdf", blocks=[], pages=count)
+    if first:
+        doc.warnings.append("Page 1 is a repository cover sheet, not part of the paper, so it was skipped.")
     scanned = skipped = 0
-    wanted = only_pages(pdf.page_count) if only_pages else None
-    for pno, page in enumerate(pdf, start=1):
+    wanted = only_pages(count) if only_pages else None
+    for pno, page in enumerate(pdf.pages(first), start=1):
         doc.page_sizes[pno] = (page.rect.width, page.rect.height)
         if wanted is not None and pno not in wanted:
             continue
@@ -66,7 +71,7 @@ def load_pdf(data: bytes, max_pages: int = 120, max_ocr_pages: int = 20, only_pa
                 r = ln["from"]
                 doc.links.append({"page": pno, "uri": uri, "rect": (r.x0, r.y0, r.x1, r.y1)})
     if scanned:
-        doc.source = "ocr" if scanned == pdf.page_count else "pdf"
+        doc.source = "ocr" if scanned == count else "pdf"
         doc.warnings.append(f"{scanned} page(s) were scanned images and were read with OCR; check the results closely.")
     if skipped:
         doc.warnings.append(f"{skipped} more scanned page(s) were skipped: only the first {max_ocr_pages} are read with OCR.")

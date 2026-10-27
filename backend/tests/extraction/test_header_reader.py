@@ -63,3 +63,12 @@ def test_app_result_carries_the_links():
     assert [a["id"] for a in links["authors"]] == ["A1", "A2", "A3"]
     assert {f["id"] for f in links["affiliations"]} == {"F1", "F2"}
     assert any(c["name"] == "every email belongs to one author" for c in links["checks"])
+
+
+def test_repository_cover_sheet_is_recognised():
+    from app.extraction.ingest.cover import is_cover
+    sheet = ("UvA-DARE (Digital Academic Repository) Energy-aware scheduling Document Version Author accepted manuscript "
+             "Link to publication Citation for published version (APA): General rights It is not permitted to download "
+             "Disclaimer/Complaints regulations Download date: 27 Oct 2026")
+    assert is_cover(sheet)
+    assert not is_cover("Abstract. We study scheduling. 1 Introduction. Prior work in this repository of methods.")

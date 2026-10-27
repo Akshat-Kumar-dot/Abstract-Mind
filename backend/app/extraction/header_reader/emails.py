@@ -21,6 +21,8 @@ from .layout import Line
 EMAIL = re.compile(r"[\w.+-]+@[\w-]+(?:\.[\w-]+)+")
 GROUPED = re.compile(r"[{(\[]\s*([\w.+-]+(?:\s*[,;|]\s*[\w.+-]+)+)\s*[})\]]\s*@\s*([\w-]+(?:\.[\w-]+)+)")
 SYMBOLS = "*∗⁎✉†‡§¶#"
+ROLE = re.compile(r"^(permissions?|reprints?|editor(ial)?s?|office|info|support|contact|admin|copyright|help|"
+                  r"no-?reply|journals?|submissions?|customerservice)@", re.I)
 
 
 def find(lines: list[Line]) -> list[tuple[str, Line]]:
@@ -34,6 +36,8 @@ def find(lines: list[Line]) -> list[tuple[str, Line]]:
         out += [(e.lower().rstrip("."), ln) for e in EMAIL.findall(text)]
     seen, unique = set(), []
     for e, ln in out:
+        if ROLE.match(e):                   # permissions@acm.org, editor@…: not an author's
+            continue
         if e not in seen:
             seen.add(e)
             unique.append((e, ln))

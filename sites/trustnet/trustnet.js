@@ -104,6 +104,18 @@
     box.classList.add("flash");
   }
 
+  /** Like fill, for answers that belong to one author: when the newly chosen
+   *  author has no value, an answer the form filled for someone else is cleared
+   *  (what the person typed themselves is kept). */
+  function replace(id, value, opts) {
+    const box = q(id);
+    if (value) return fill(id, value, opts);
+    if (box && box.dataset.from) {
+      $(id).value = "";
+      unmark(box);
+    }
+  }
+
   function unmark(box) {
     delete box.dataset.from;
     box.classList.remove("needs-check", "flash");
@@ -134,13 +146,12 @@
     if (!a) return;
     state.presenter = i;
     fill("presenter", a.name, { from: "paper", sure: a.sure, force: true });
-    fill("presenter_affiliation", a.institute, { from: "paper", sure: a.sure && !!a.institute, force: true });
-    fill("presenter_email", a.email, { from: "paper", sure: a.sure, force: true });
-    fill("email", a.email, { from: "paper", sure: false });
+    replace("presenter_affiliation", a.institute, { from: "paper", sure: a.sure && !!a.institute, force: true });
+    replace("presenter_email", a.email, { from: "paper", sure: a.sure, force: true });
+    replace("email", a.email, { from: "paper", sure: false, force: !!q("email").dataset.from });
     if (q("email").dataset.from) mark(q("email"), "paper", false, "Same as presenter email");
     const nationality = NATIONALITY[(a.country || "").trim().toLowerCase()];
-    fill("nationality", nationality, { from: "paper", sure: false, force: !!q("nationality").dataset.from });
-    for (const id of ["presenter_affiliation", "presenter_email"]) if (!$(id).value) unmark(q(id));
+    replace("nationality", nationality, { from: "paper", sure: false, force: !!q("nationality").dataset.from });
     $("presenter-chips").querySelectorAll(".chip").forEach((c, j) => c.setAttribute("aria-pressed", String(j === i)));
     update();
   }

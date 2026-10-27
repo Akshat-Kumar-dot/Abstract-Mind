@@ -19,6 +19,8 @@ from .names import is_name, looks_like_author_line, split_people
 STOP = re.compile(r"^\s*(abstract|summary|a\s?b\s?s\s?t\s?r\s?a\s?c\s?t|keywords?|index terms|introduction|"
                   r"background|objectives?|purpose|highlights|article info|a r t i c l e|edited by|received|accepted|revised|published|"
                   r"citation|open access|significance)\b", re.I)
+HEADER_END = re.compile(r"^\s*(abstract|a\s?b\s?s\s?t\s?r\s?a\s?c\s?t|keywords?|index terms|ccs concepts|"
+                        r"(?:1\.?\s+)?introduction)\b", re.I)                # wherever it is printed
 DATES = re.compile(r"^\s*(received|accepted|revised|published)\b", re.I)    # a dates sidebar, never the end of the header
 MARKER_TEXT = re.compile(r"^(?:\^\{[^}]*\}|[\s,*†‡§¶∗⁎#✉\d])+$")
 
@@ -38,7 +40,7 @@ def find_title(lines: list[Line]) -> list[Line]:
     if not lines:
         return []
     page_bottom = max(ln.y1 for ln in lines)
-    upper = [ln for ln in lines if ln.y0 < 0.6 * page_bottom]
+    upper = [ln for ln in lines if ln.y0 < 0.6 * page_bottom and re.search(r"[^\W\d_]{2}", ln.text)]   # not a page number
     for size in sorted({round(ln.size * 2) / 2 for ln in upper}, reverse=True):
         rows = [ln for ln in upper if abs(ln.size - size) <= 0.6]
         # the title is one stack of lines (a big gap starts another: a journal name above it is a stack of its own)
@@ -50,7 +52,25 @@ def find_title(lines: list[Line]) -> list[Line]:
                 stacks.append([ln])
         for stack in stacks:
             if len(" ".join(ln.text for ln in stack).split()) >= 3:
-                return stack
+                return stack + _subtitle(stack, lines)
+    return []
+
+
+def _subtitle(title: list[Line], lines: list[Line]) -> list[Line]:
+    """"Make your own" / "The Potential of Chatbot Customization …": a title of a few
+    words with a smaller line right under it, centred the same, that isn't an author line."""
+    if len(" ".join(t.text for t in title).split()) >= 5:
+        return []
+    last = title[-1]
+    centre = (last.x0 + last.x1) / 2
+    for ln in lines:
+        if ln.page != last.page or ln.y0 <= last.y0:
+            continue
+        close = ln.y0 - last.y1 < 1.2 * last.height and abs((ln.x0 + ln.x1) / 2 - centre) < 30
+        if (close and len(ln.text.split()) >= 3 and "@" not in ln.text and not STOP.match(ln.text)
+                and not looks_like_author_line(ln.marked)):
+            return [ln]
+        return []
     return []
 
 
@@ -67,6 +87,8 @@ def region_under(title: list[Line], lines: list[Line]) -> list[Line]:
     for ln in lines:
         if ln.page != title[0].page or ln.y0 < bottom - 1 or ln in title:
             continue
+        if HEADER_END.match(ln.text) and out:
+            break
         # in the title's column, or the tail of a line already taken (markers printed past the title's edge)
         tail = out and abs(ln.y0 - out[-1].y0) < out[-1].height and 0 <= ln.x0 - out[-1].x1 < 60
         if not (_in_column(ln, left, right) or tail):
@@ -82,7 +104,24 @@ def region_under(title: list[Line], lines: list[Line]) -> list[Line]:
                 continue
             break
         out.append(ln)
-    return out
+    return _with_row_mates(out, lines, title)
+
+
+def _with_row_mates(out: list[Line], lines: list[Line], title: list[Line]) -> list[Line]:
+    """Author blocks can be wider than the title: "Rebecca Wald" left of the title's
+    column, on the same row as "Evelien Heyselaar". Same row, same size: same header."""
+    if not out:
+        return out
+    taken = {id(ln) for ln in out}
+    last = max(o.y1 for o in out)
+    for ln in lines:
+        if id(ln) in taken or ln in title or ln.page != out[0].page or ln.y0 > last:
+            continue
+        if DATES.match(ln.text) or STOP.match(ln.text):
+            continue
+        if any(abs(ln.y0 - o.y0) < 0.5 * o.height and abs(ln.size - o.size) < 0.6 for o in out):
+            taken.add(id(ln))
+    return [ln for ln in lines if id(ln) in taken]
 
 
 def _attach_loose_markers(lines: list[Line]) -> list[Line]:
@@ -104,7 +143,9 @@ def _attach_loose_markers(lines: list[Line]) -> list[Line]:
     return out
 
 
-INLINE = re.compile(r"^([A-Z][A-Z\-'’. ]+[A-Z])\s*,\s*(.+)$")    # "MICHAEL THOMPSON, University of Oxford, UK"
+CAPS_NAME = r"[A-Z][A-Z\-'’. ]+[A-Z]"
+# "MICHAEL THOMPSON, University of Oxford, UK" / "ZHUMIN CHEN and ZHAOCHUN REN, Shandong University, China"
+INLINE = re.compile(rf"^({CAPS_NAME}(?:(?:\s*,\s*|\s+and\s+){CAPS_NAME})*)\s*,\s*(.+)$")
 
 
 def find_authors(region: list[Line]) -> tuple[list[Person], str]:
@@ -113,11 +154,14 @@ def find_authors(region: list[Line]) -> tuple[list[Person], str]:
 
     # Inline layout (ACM journals): one author per line, name in capitals, then the place.
     inline = [(ln, INLINE.match(ln.text)) for ln in region]
-    inline = [(ln, m) for ln, m in inline if m and is_name(m.group(1)) and not is_name(m.group(2).split(",")[0])]
+    inline = [(ln, [n for n in re.split(r"\s*,\s*|\s+and\s+", m.group(1)) if n], m.group(2).strip())
+              for ln, m in inline if m and not is_name(m.group(2).split(",")[0])]
+    inline = [(ln, names, place) for ln, names, place in inline if all(is_name(n) for n in names)]
     if len(inline) >= 1 and inline[0][0] is region[0]:
-        people = [Person(m.group(1).title(), [], line=ln, block=[]) for ln, m in inline]
-        for p, (_, m) in zip(people, inline):
-            p.inline_place = m.group(2).strip()
+        people = []
+        for ln, names, place in inline:
+            for n in names:
+                people.append(Person(n.title(), [], line=ln, block=[], inline_place=place))
         return people, "inline"
 
     names = [ln for ln in region if "@" not in ln.text and looks_like_author_line(ln.marked)]
