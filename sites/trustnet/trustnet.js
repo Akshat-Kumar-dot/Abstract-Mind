@@ -42,11 +42,18 @@
         headers: { "Content-Type": "application/octet-stream", "X-File-Name": encodeURIComponent(file.name) },
       });
     } catch (_) {
-      throw new Error("The reader couldn't be reached. Check your connection and try again.");
+      throw readError("The reader couldn't be reached. Check your connection and try again.", false);
     }
     const data = await r.json().catch(() => ({}));
-    if (!r.ok) throw new Error(data.detail || `The reader answered ${r.status}.`);
+    // 4xx: the file itself was refused (damaged, too big, wrong type); 5xx: the reader failed
+    if (!r.ok) throw readError(data.detail || `The reader answered ${r.status}.`, r.status >= 400 && r.status < 500);
     return data;
+  }
+
+  function readError(message, refused) {
+    const err = new Error(message);
+    err.refused = refused;
+    return err;
   }
 
   function fieldsOf(fields) {
@@ -200,47 +207,75 @@
   }
 
   // ------------------------------------------------------------ the two drop zones
+  // Each new file for a zone gets a ticket; an answer for an older ticket (a file
+  // replaced while it was still being read, or a form cleared meanwhile) is dropped.
+  const tickets = { paper: 0, receipt: 0 };
+  const reading = new Set();         // zones still being read: the progress bar stays up until all are done
+
+  const WRONG_SLOT = {
+    paper: "looks like a payment receipt, not a paper. Add it under Payment receipt instead.",
+    receipt: "looks like a paper, not a payment receipt. Add it under Your paper instead.",
+  };
+
   function setupDrop(kind) {
     const input = $(`${kind}-file`), zone = $(`drop-${kind}`), stateEl = $(`${kind}-state`), note = $(`${kind}-note`);
     ["dragenter", "dragover"].forEach((t) => zone.addEventListener(t, () => zone.classList.add("over")));
     ["dragleave", "drop"].forEach((t) => zone.addEventListener(t, () => zone.classList.remove("over")));
+    const say = (text, error) => {
+      note.textContent = text;
+      note.classList.toggle("error", error);
+      note.hidden = false;
+    };
     input.addEventListener("change", async () => {
       const file = input.files[0];
       if (!file) return;
+      const ticket = ++tickets[kind];
       zone.classList.remove("done", "failed");
       zone.classList.add("busy");
       stateEl.textContent = "Reading…";
       note.hidden = true;
-      note.classList.remove("error");
-      showProgress(true, kind === "paper" ? `Reading ${file.name}: title, authors and affiliations…` : `Reading ${file.name}: amount, UTR and date…`);
-      const slow = setTimeout(() => showProgress(true, "Still working. The reader may be waking up after a quiet spell; this can take up to a minute."), 7000);
+      reading.add(kind);
+      showProgress(kind === "paper" ? `Reading ${file.name}: title, authors and affiliations…` : `Reading ${file.name}: amount, UTR and date…`);
+      const slow = setTimeout(() => showProgress("Still working. The reader may be waking up after a quiet spell; this can take up to a minute."), 7000);
+      let result = null, failure = null;
       try {
-        const result = await read(file, kind === "paper" ? "paper" : "upi");
-        const wrongKind = (result.warnings || []).find((w) => /looks more like/i.test(w));
+        result = await read(file, kind === "paper" ? "paper" : "upi");
+      } catch (err) {
+        failure = err;
+      }
+      clearTimeout(slow);
+      input.value = "";              // the same file can be chosen again
+      if (ticket !== tickets[kind]) return;      // a newer file (or Clear form) took over this zone
+      reading.delete(kind);
+      zone.classList.remove("busy");
+      showProgress();
+
+      const wrongKind = result && (result.warnings || []).some((w) => /looks more like/i.test(w));
+      if (failure || wrongKind) {
+        zone.classList.add("failed");
+        stateEl.textContent = "Try again";
+        if (wrongKind) {
+          say(`${file.name} ${WRONG_SLOT[kind]}`, true);          // nothing from it is typed into the form
+        } else if (kind === "receipt" && !failure.refused) {
+          // the reader is down, not the receipt: keep it as the proof, so the form can still be finished
+          attachProof(file, false);
+          say(`${failure.message} It's attached as your proof of payment; type the amount, date and transaction ID yourself.`, true);
+        } else {
+          say(failure.message, true);
+        }
+      } else {
         const summary = kind === "paper" ? fillFromPaper(result) : fillFromReceipt(result, file);
         zone.classList.add("done");
         stateEl.textContent = "Read";
-        note.textContent = wrongKind ? `${file.name}: ${wrongKind}` : `${file.name} · ${summary}`;
-        note.classList.toggle("error", !!wrongKind);
-        note.hidden = false;
-      } catch (err) {
-        zone.classList.add("failed");
-        stateEl.textContent = "Try again";
-        note.textContent = err.message;
-        note.classList.add("error");
-        note.hidden = false;
-      } finally {
-        clearTimeout(slow);
-        zone.classList.remove("busy");
-        showProgress(false);
-        input.value = "";            // the same file can be chosen again
-        update();
+        say(`${file.name} · ${summary}`, false);
       }
+      update();
     });
   }
 
-  function showProgress(on, text) {
-    $("progress").hidden = !on;
+  /** Shows the bar with this text, or hides it once no zone is still being read. */
+  function showProgress(text) {
+    $("progress").hidden = reading.size === 0;
     if (text) $("progress-text").textContent = text;
   }
 
@@ -342,10 +377,13 @@
     renderPresenterChips();
     attachProof(null, false);
     ["paper", "receipt"].forEach((k) => {
-      $(`drop-${k}`).classList.remove("done", "failed");
+      tickets[k] += 1;               // answers still on their way are dropped
+      reading.delete(k);
+      $(`drop-${k}`).classList.remove("done", "failed", "busy");
       $(`${k}-state`).textContent = "Choose";
       $(`${k}-note`).hidden = true;
     });
+    showProgress();
     $("form-error").hidden = true;
     update();
   });
